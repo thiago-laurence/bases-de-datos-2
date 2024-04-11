@@ -1,16 +1,22 @@
 package unlp.info.bd2.model;
 
 import java.util.List;
+import jakarta.persistence.*;
 
+@Entity
 public class Supplier {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String businessName;
 
+    @Column
     private String authorizationNumber;
-
-    private List<Service> services;
+    
+    //private List<Service> services;
 
     public Long getId() {
         return id;
@@ -36,12 +42,12 @@ public class Supplier {
         this.authorizationNumber = authorizationNumber;
     }
 
-    public List<Service> getServices() {
-        return services;
-    }
+    //public List<Service> getServices() {
+    //    return services;
+    //}
 
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
+    //public void setServices(List<Service> services) {
+    //    this.services = services;
+    //}
 
 }
