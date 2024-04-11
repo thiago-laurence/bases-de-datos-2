@@ -1,19 +1,26 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
 
     private String name;
 
+    @Column(unique = true)
     private String email;
 
     private Date birthdate;
@@ -22,8 +29,7 @@ public class User {
 
     private boolean active;
 
-    private List<Purchase> purchaseList;
-
+//    private List<Purchase> purchaseList;
 
     public Long getId() {
         return id;
@@ -81,13 +87,13 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Purchase> getPurchaseList() {
-        return purchaseList;
-    }
+//    public List<Purchase> getPurchaseList() {
+//        return purchaseList;
+//    }
 
-    public void setPurchaseList(List<Purchase> purchaseList) {
-        this.purchaseList = purchaseList;
-    }
+//    public void setPurchaseList(List<Purchase> purchaseList) {
+//        this.purchaseList = purchaseList;
+//    }
 
     public boolean isActive() {
         return active;
