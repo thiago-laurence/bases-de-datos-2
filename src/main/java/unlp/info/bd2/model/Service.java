@@ -3,20 +3,24 @@ package unlp.info.bd2.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Service {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private String name;
-
+    @Column(nullable = false)
     private float price;
-
+    @Column
     private String description;
 
-    private List<ItemService> itemServiceList;
+    //private List<ItemService> itemServiceList;
 
-    private Supplier supplier;
-
+    //private Supplier supplier;
 
     public Long getId() {
         return id;
@@ -50,19 +54,19 @@ public class Service {
         this.description = description;
     }
 
-    public List<ItemService> getItemServiceList() {
-        return itemServiceList;
-    }
+    //public List<ItemService> getItemServiceList() {
+    //    return itemServiceList;
+    //}
 
-    public void setItemServiceList(List<ItemService> itemServiceList) {
-        this.itemServiceList = itemServiceList;
-    }
+    //public void setItemServiceList(List<ItemService> itemServiceList) {
+    //    this.itemServiceList = itemServiceList;
+    //}
 
-    public Supplier getSupplier() {
-        return supplier;
-    }
+    //public Supplier getSupplier() {
+    //    return supplier;
+    //}
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
+    //public void setSupplier(Supplier supplier) {
+    //    this.supplier = supplier;
+    //}
 }
