@@ -15,8 +15,8 @@ public class ItemService {
     private Long id;
     @Column(nullable = false)
     private int quantity;
-    @ManyToOne
-    private Purchase purchase;
+    //@ManyToOne
+    //private Purchase purchase;
     @ManyToOne
     private Service service;
 
@@ -37,13 +37,13 @@ public class ItemService {
         this.quantity = quantity;
     }
 
-    public Purchase getPurchase() {
-        return purchase;
-    }
+    //public Purchase getPurchase() {
+    //    return purchase;
+    //}
 
-    public void setPurchase(Purchase purchase) {
-        this.purchase = purchase;
-    }
+    //public void setPurchase(Purchase purchase) {
+    //    this.purchase = purchase;
+    //}
 
     public Service getService() {
         return service;
