@@ -20,7 +20,8 @@ public class Service {
 
     //private List<ItemService> itemServiceList;
 
-    //private Supplier supplier;
+    @ManyToOne
+    private Supplier supplier;
 
     public Long getId() {
         return id;
@@ -62,11 +63,11 @@ public class Service {
     //    this.itemServiceList = itemServiceList;
     //}
 
-    //public Supplier getSupplier() {
-    //    return supplier;
-    //}
+    public Supplier getSupplier() {
+        return supplier;
+    }
 
-    //public void setSupplier(Supplier supplier) {
-    //    this.supplier = supplier;
-    //}
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
 }
