@@ -68,4 +68,10 @@ public class Service {
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
+
+    public Service(String name, float price, String description) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
 }

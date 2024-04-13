@@ -11,7 +11,7 @@ public class Supplier {
     private Long id;
     @Column
     private String businessName;
-    @Column
+    @Column(unique = true)
     private String authorizationNumber;
     @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Service> services;
@@ -47,6 +47,16 @@ public class Supplier {
 
     public void setServices(List<Service> services) {
         this.services = services;
+    }
+
+    public Supplier(String businessName, String authorizationNumber) {
+        this.businessName = businessName;
+        this.authorizationNumber = authorizationNumber;
+    }
+
+    public Service addService(Service service) {
+        this.services.add(service);
+        return service;
     }
 
 }

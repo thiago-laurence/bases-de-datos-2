@@ -49,4 +49,21 @@ public class ToursRepositoryImpl implements ToursRepository{
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(ItemService.class, id))
         );
     }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber) {
+        return (
+                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Supplier.class, authorizationNumber))
+        );
+    }
+
+    // TODO: Averiguar cómo buscar por 2 valores.
+    @Override
+    @Transactional(readOnly=true)
+    public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) {
+        return Optional.empty(); /*(
+                //Optional.ofNullable(this.sessionFactory.getCurrentSession().
+        );*/
+    }
 }

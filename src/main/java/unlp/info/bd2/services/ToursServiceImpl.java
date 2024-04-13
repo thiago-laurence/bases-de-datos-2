@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ToursServiceImpl implements ToursService{
 
+    @Autowired
     private final ToursRepository toursRepository;
 
     public ToursServiceImpl(ToursRepository repository) {
@@ -88,12 +91,12 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Supplier createSupplier(String businessName, String authorizationNumber) throws ToursException {
-        return null;
+        return new Supplier(businessName, authorizationNumber);
     }
 
     @Override
     public Service addServiceToSupplier(String name, float price, String description, Supplier supplier) throws ToursException {
-        return null;
+        return supplier.addService(new Service(name, price, description));
     }
 
     @Override
@@ -103,17 +106,17 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Optional<Supplier> getSupplierById(Long id) {
-        return Optional.empty();
+        return toursRepository.getSupplierById(id);
     }
 
     @Override
     public Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber) {
-        return Optional.empty();
+        return toursRepository.getSupplierByAuthorizationNumber(authorizationNumber);
     }
 
     @Override
     public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) throws ToursException {
-        return Optional.empty();
+        return toursRepository.getServiceByNameAndSupplierId(name, id);
     }
 
     @Override

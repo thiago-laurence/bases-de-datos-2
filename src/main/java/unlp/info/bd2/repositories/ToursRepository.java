@@ -12,4 +12,6 @@ public interface ToursRepository {
     Optional<Supplier> getSupplierById(Long id);
     Optional<Service> getServiceById(Long id);
     Optional<ItemService> getItemServiceById(Long id);
+    Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber);
+    Optional<Service> getServiceByNameAndSupplierId(String name, Long id);
 }
