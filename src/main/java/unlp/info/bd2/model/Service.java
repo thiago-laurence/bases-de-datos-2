@@ -1,8 +1,6 @@
 package unlp.info.bd2.model;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -17,11 +15,11 @@ public class Service {
     private float price;
     @Column
     private String description;
-
-    //private List<ItemService> itemServiceList;
-
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ItemService> itemServiceList;
     @ManyToOne
     private Supplier supplier;
+
 
     public Long getId() {
         return id;
@@ -55,13 +53,13 @@ public class Service {
         this.description = description;
     }
 
-    //public List<ItemService> getItemServiceList() {
-    //    return itemServiceList;
-    //}
+    public List<ItemService> getItemServiceList() {
+        return itemServiceList;
+    }
 
-    //public void setItemServiceList(List<ItemService> itemServiceList) {
-    //    this.itemServiceList = itemServiceList;
-    //}
+    public void setItemServiceList(List<ItemService> itemServiceList) {
+        this.itemServiceList = itemServiceList;
+    }
 
     public Supplier getSupplier() {
         return supplier;

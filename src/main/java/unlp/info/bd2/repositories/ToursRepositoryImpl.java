@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import unlp.info.bd2.model.ItemService;
 import unlp.info.bd2.model.Service;
 import unlp.info.bd2.model.Supplier;
 import unlp.info.bd2.model.User;
@@ -38,6 +39,14 @@ public class ToursRepositoryImpl implements ToursRepository{
     public Optional<Service> getServiceById(Long id) {
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Service.class, id))
+        );
+    }
+
+    @Override
+    @Transactional(readOnly=true)
+    public Optional<ItemService> getItemServiceById(Long id) {
+        return (
+                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(ItemService.class, id))
         );
     }
 }
