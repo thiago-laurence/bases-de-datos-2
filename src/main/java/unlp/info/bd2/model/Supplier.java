@@ -9,15 +9,13 @@ public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String businessName;
-
     @Column
     private String authorizationNumber;
-    
     @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Service> services;
+
 
     public Long getId() {
         return id;
