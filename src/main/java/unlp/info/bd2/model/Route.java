@@ -1,11 +1,18 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Route {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
     private float price;
@@ -14,11 +21,42 @@ public class Route {
 
     private int maxNumberUsers;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "route_stop",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "stop_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"route_id", "stop_id"})
+    )
     private List<Stop> stops;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "route_driver",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "driver_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"route_id", "driver_id"})
+    )
     private List<DriverUser> driverList;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "route_guideTour",
+            joinColumns = @JoinColumn(name = "route_id"),
+            inverseJoinColumns = @JoinColumn(name = "guideTour_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"route_id", "guideTour_id"})
+    )
     private List<TourGuideUser> tourGuideList;
+
+    public Route(){ }
+
+    public Route(String name, float price, float totalKm, int maxNumberUsers, List<Stop> stops) {
+        this.setName(name);
+        this.setPrice(price);
+        this.setTotalKm(totalKm);
+        this.setMaxNumberUsers(maxNumberUsers);
+        this.setStops(stops);
+    }
 
     public Long getId() {
         return id;

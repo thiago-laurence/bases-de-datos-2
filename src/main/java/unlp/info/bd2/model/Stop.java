@@ -1,14 +1,25 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
 
+@Entity
 public class Stop {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
     private String description;
 
+    public Stop(){ }
+
+    public Stop(String name, String description) {
+        this.setName(name);
+        this.setDescription(description);
+    }
 
     public Long getId() {
         return id;

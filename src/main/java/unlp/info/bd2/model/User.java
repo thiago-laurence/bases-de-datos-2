@@ -1,26 +1,27 @@
 package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
+//@SQLRestriction("ACTIVE = true")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     private String password;
 
     private String name;
 
-    @Column(unique = true)
     private String email;
 
     private Date birthdate;
@@ -29,7 +30,21 @@ public class User {
 
     private boolean active;
 
-//    private List<Purchase> purchaseList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Purchase> purchaseList;
+
+    public User(){ }
+
+    public User(String username, String password, String name, String email, Date birthdate, String phoneNumber) {
+        this.setActive(true);
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setName(name);
+        this.setEmail(email);
+        this.setBirthdate(birthdate);
+        this.setPhoneNumber(phoneNumber);
+        this.setPurchaseList(new ArrayList<Purchase>());
+    }
 
     public Long getId() {
         return id;
@@ -87,13 +102,13 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-//    public List<Purchase> getPurchaseList() {
-//        return purchaseList;
-//    }
+    public List<Purchase> getPurchaseList() {
+        return purchaseList;
+    }
 
-//    public void setPurchaseList(List<Purchase> purchaseList) {
-//        this.purchaseList = purchaseList;
-//    }
+    public void setPurchaseList(List<Purchase> purchaseList) {
+        this.purchaseList = purchaseList;
+    }
 
     public boolean isActive() {
         return active;

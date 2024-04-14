@@ -1,26 +1,44 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Purchase {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(unique = true, nullable = false)
     private String code;
 
     private float totalPrice;
 
     private Date date;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
 
-    private Review review;
+//    private Review review;
 
-    private List<ItemService> itemServiceList;
+//    private List<ItemService> itemServiceList;
 
+    public Purchase(){ }
+
+    public Purchase(String code, Date date, Route route, User user) {
+        this.setCode(code);
+        this.setDate(date);
+        this.setRoute(route);
+        this.setUser(user);
+    }
 
 
     public Long getId() {
@@ -71,19 +89,19 @@ public class Purchase {
         this.route = route;
     }
 
-    public Review getReview() {
-        return review;
-    }
+//    public Review getReview() {
+//        return review;
+//    }
 
-    public void setReview(Review review) {
-        this.review = review;
-    }
+//    public void setReview(Review review) {
+//        this.review = review;
+//    }
 
-    public List<ItemService> getItemServiceList() {
-        return itemServiceList;
-    }
+//    public List<ItemService> getItemServiceList() {
+//        return itemServiceList;
+//    }
 
-    public void setItemServiceList(List<ItemService> itemServiceList) {
-        this.itemServiceList = itemServiceList;
-    }
+//    public void setItemServiceList(List<ItemService> itemServiceList) {
+//        this.itemServiceList = itemServiceList;
+//    }
 }

@@ -1,5 +1,6 @@
 package unlp.info.bd2;
 
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
 @ExtendWith(SpringExtension.class)
 @Transactional
-@Rollback(true)
+@Rollback(false)
+//@Rollback(true)
 class ToursApplicationTests {
 
 	@Autowired
@@ -51,17 +53,19 @@ class ToursApplicationTests {
 
 	@Test
 	void createAndGetUserTest()  throws ToursException {
-		/*
+
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		assertNotNull(user1.getId());
 		assertEquals("user1", user1.getUsername());
 		assertEquals("Usuario Uno", user1.getName());
 		assertEquals("user1@gmail.com", user1.getEmail());
 		assertEquals(dob1, user1.getBirthdate());
+
 		DriverUser driverUser1 = this.toursService.createDriverUser("userD", "1234", "Usuario Driver", "userd@gmail.com", dob2, "000111222444", "exp...");
 		assertNotNull(driverUser1.getId());
 		TourGuideUser tourGuideUser1 = this.toursService.createTourGuideUser("userG", "1234", "Usuario TourGuide", "userg@gmail.com", dob2, "000111222555", "edu...");
 		assertNotNull(tourGuideUser1.getId());
+
 
 		Optional<User> opUserFromDB = this.toursService.getUserById(user1.getId());
 		assertTrue(opUserFromDB.isPresent());
@@ -71,7 +75,6 @@ class ToursApplicationTests {
 		assertEquals("Usuario Uno", user.getName());
 		assertEquals("user1@gmail.com", user.getEmail());
 		assertTrue(user.getPurchaseList().isEmpty());
-
 		Optional<User> opUserFromDB2 = this.toursService.getUserByUsername("userD");
 		assertTrue(opUserFromDB2.isPresent());
 		DriverUser driverUser = (DriverUser) opUserFromDB2.get();
@@ -79,12 +82,11 @@ class ToursApplicationTests {
 		assertEquals(driverUser.getExpedient(), "exp...");
 
 		assertThrows(ToursException.class, () -> this.toursService.createUser("userD", "1234", "Otro usuario", "otromail@gmail.com", dob1, "000111222999"), "Constraint Violation");
-		*/
 	}
 
 	@Test
 	void updateUserTest()  throws ToursException {
-		/*
+
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		DriverUser driverUser = this.toursService.createDriverUser("userD", "1234", "Usuario Driver", "userd@gmail.com", dob2, "000111222444", "exp...");
 
@@ -102,13 +104,12 @@ class ToursApplicationTests {
 
 		user1.setUsername("user2");
 		this.toursService.updateUser(user1);
-		Optional<User> opUserFromDB = this.toursService.getUserByUsername("user2");
+		Optional<User> opUserFromDB = this.toursService.getUserByUsername("user2"); // user1
 		assertTrue(opUserFromDB.isEmpty());
-		Optional<User> opUnmodifiedUserFromDB = this.toursService.getUserByUsername("user1");
+		Optional<User> opUnmodifiedUserFromDB = this.toursService.getUserByUsername("user1"); // user2
 		assertTrue(opUnmodifiedUserFromDB.isPresent());
 		User unmodifiedUserFromDB = opUnmodifiedUserFromDB.get();
 		assertEquals(unmodifiedUserFromDB.getId(), user1.getId());
-		 */
 	}
 
 	@Test
@@ -310,9 +311,8 @@ class ToursApplicationTests {
 
 	@Test
 	void deleteUserTest() throws ToursException {
-		/*
-		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 
+		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		assertTrue(user1.isActive());
 		this.toursService.deleteUser(user1);
 		assertTrue(this.toursService.getUserByUsername("user1").isEmpty());
@@ -324,6 +324,7 @@ class ToursApplicationTests {
 		List<Stop> stops1 = new ArrayList<Stop>(Arrays.asList(stop1, stop2, stop3));
 		Route route1 = this.toursService.createRoute("Estadios", 20000, 55.5f, 2, stops1);
 		Purchase purchase1 = this.toursService.createPurchase("100", dyes, route1, user2);
+
 		assertTrue(user2.isActive());
 		this.toursService.deleteUser(user2);
 		Optional<User> optionalUser2 = this.toursService.getUserByUsername("user2");
@@ -337,7 +338,6 @@ class ToursApplicationTests {
 		this.toursService.assignTourGuideByUsername(tourGuideUser.getUsername(), route1.getId());
 		assertTrue(tourGuideUser.isActive());
 		assertThrows(ToursException.class, () -> this.toursService.deleteUser(tourGuideUser), "El usuario no puede ser desactivado");
-		 */
 	}
 
 }

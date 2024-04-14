@@ -19,44 +19,92 @@ public class ToursServiceImpl implements ToursService{
         this.toursRepository = repository;
     }
 
+    private void existsUsername(String username) throws ToursException {
+        if (this.toursRepository.getUserByUsername(username).isPresent()){
+            throw new ToursException("El 'nombre de usuario' ya se encuentra registrado");
+        }
+    }
+
     @Override
     public User createUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber) throws ToursException {
-        return null;
+        this.existsUsername(username);
+        User user = new User(username, password, fullName, email, birthdate, phoneNumber);
+        this.toursRepository.createUser(user);
+
+        return user;
     }
 
     @Override
     public DriverUser createDriverUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String expedient) throws ToursException {
-        return null;
+        this.existsUsername(username);
+        DriverUser driver = new DriverUser(username, password, fullName, email, birthdate, phoneNumber, expedient);
+        this.toursRepository.createUser(driver);
+
+        return driver;
     }
 
     @Override
     public TourGuideUser createTourGuideUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String education) throws ToursException {
-        return null;
+        this.existsUsername(username);
+        TourGuideUser tourGuide = new TourGuideUser(username, password, fullName, email, birthdate, phoneNumber, education);
+        this.toursRepository.createUser(tourGuide);
+
+        return tourGuide;
     }
 
     @Override
     public Optional<User> getUserById(Long id) throws ToursException {
-        return Optional.empty();
+        return (
+                this.toursRepository.getUserById(id)
+        );
     }
 
     @Override
     public Optional<User> getUserByUsername(String username) throws ToursException {
-        return Optional.empty();
+        return (
+                this.toursRepository.getUserByUsername(username)
+        );
     }
 
     @Override
     public User updateUser(User user) throws ToursException {
-        return null;
+        Optional<User> otherUser = this.toursRepository.getUserByUsername(user.getUsername());
+        if (otherUser.isPresent() && !otherUser.get().getId().equals(user.getId())){
+            throw new ToursException("El 'nombre de usuario' ya se encuentra registrado");
+        }
+
+        return (
+                this.toursRepository.updateUser(user)
+        );
     }
 
     @Override
     public void deleteUser(User user) throws ToursException {
+        if (!user.isActive()){
+            throw new ToursException("El usuario se encuentra desactivado");
+        }
 
+        if (user.getPurchaseList().isEmpty()){
+            this.toursRepository.deleteUser(user);
+            return;
+        }
+
+        if (!((TourGuideUser) user).getRoutes().isEmpty()){
+            throw new ToursException("El usuario no puede ser desactivado");
+        }
+        user.setActive(false);
+        this.toursRepository.updateUser(user);
     }
 
     @Override
     public Stop createStop(String name, String description) throws ToursException {
-        return null;
+        if (this.toursRepository.getStopByName(name).isPresent()){
+            throw new ToursException("El 'nombre de la parada' ya se encuentra registrado");
+        }
+        Stop stop = new Stop(name, description);
+        this.toursRepository.createStop(stop);
+
+        return stop;
     }
 
     @Override
@@ -66,7 +114,13 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Route createRoute(String name, float price, float totalKm, int maxNumberOfUsers, List<Stop> stops) throws ToursException {
-        return null;
+        if (this.toursRepository.getRouteByName(name).isPresent()){
+            throw new ToursException("El 'nombre de la ruta' ya se encuentra registrado");
+        }
+        Route route = new Route(name, price, totalKm, maxNumberOfUsers, stops);
+        this.toursRepository.createRoute(route);
+
+        return route;
     }
 
     @Override
@@ -86,7 +140,20 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public void assignTourGuideByUsername(String username, Long idRoute) throws ToursException {
+        Optional<User> opUser = this.toursRepository.getUserByUsername(username);
+        Optional<Route> opRoute = this.toursRepository.getRouteById(idRoute);
+        if (opUser.isEmpty()){
+            throw new ToursException("El 'Usuario' no existe");
+        }
+        if (opRoute.isEmpty()){
+            throw new ToursException("La 'Ruta' no existe");
+        }
 
+        TourGuideUser tourGuide = (TourGuideUser) opUser.get();
+        Route route = opRoute.get();
+        tourGuide.getRoutes().add(route);
+        route.getTourGuideList().add(tourGuide);
+        this.toursRepository.updateUser(tourGuide);
     }
 
     @Override
@@ -126,7 +193,14 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException {
-        return null;
+        if (this.toursRepository.getPurchaseByCode(code).isPresent()){
+            throw new ToursException("El 'codigo' de la compra ya se encuentra registrado");
+        }
+        Purchase purchase = new Purchase(code, date, route, user);
+        user.getPurchaseList().add(purchase);
+        this.toursRepository.createPurchase(purchase);
+
+        return purchase;
     }
 
     @Override
