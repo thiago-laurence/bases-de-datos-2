@@ -2,7 +2,6 @@ package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,11 +13,11 @@ public class Route {
 
     @Column(unique = true, nullable = false)
     private String name;
-
+    @Column
     private float price;
-
+    @Column
     private float totalKm;
-
+    @Column(nullable = false)
     private int maxNumberUsers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
