@@ -259,7 +259,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<User> getTop5UsersMorePurchases() {
-        return List.of();
+        return toursRepository.findTop5UsersByNumberOfPurchases();
     }
 
     @Override

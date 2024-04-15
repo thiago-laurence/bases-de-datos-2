@@ -108,6 +108,21 @@ public class ToursRepositoryImpl implements ToursRepository{
     public void createPurchase(Purchase purchase){
         this.sessionFactory.getCurrentSession().persist(purchase);
     }
+    @Override @Transactional
+    public Purchase updatePurchase(Purchase purchase) {
+        return (Purchase) this.sessionFactory.getCurrentSession().merge(purchase);
+    }
+
+    @Override @Transactional
+    public void deletePurchase(Purchase purchase) {
+        this.sessionFactory.getCurrentSession().remove(purchase);
+    }
+
+    @Override @Transactional(readOnly = true)
+    public Optional<Purchase> getPurchaseById(Long id) {
+        return Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Purchase.class, id));
+    }
+
     @Override @Transactional(readOnly = true)
     public Optional<Purchase> getPurchaseByCode(String code){
         return (
@@ -116,6 +131,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                     .uniqueResult())
         );
     }
+
+
 
     // ************* SUPPLIER *************
     @Override @Transactional
@@ -192,5 +209,18 @@ public class ToursRepositoryImpl implements ToursRepository{
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(ItemService.class, id))
         );
     }
+
+    // ******** CONSULTAS *************
+    @Override @Transactional(readOnly = true)
+    public List<User> findTop5UsersByNumberOfPurchases() {
+        return this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT u FROM User u " +
+                                "JOIN u.purchaseList p " +
+                                "GROUP BY u " +
+                                "ORDER BY COUNT(p) DESC", User.class)
+                .setMaxResults(5)
+                .list();
+    }
+
 
 }
