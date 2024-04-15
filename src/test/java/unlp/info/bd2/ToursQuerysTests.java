@@ -103,11 +103,11 @@ public class ToursQuerysTests {
 
     @Test
     void getTop5UsersMorePurchasesTest() throws ToursException {
-        /*
+
         List<User> usersMorePurchases = this.service.getTop5UsersMorePurchases();
         assertEquals(5, usersMorePurchases.size());
         this.assertListEquality(usersMorePurchases.stream().map(User::getUsername).collect(Collectors.toList()), Arrays.asList("user1", "user2", "user6", "user7", "user10"));
-         */
+
     }
 
     @Test

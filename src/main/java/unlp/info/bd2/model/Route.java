@@ -2,6 +2,7 @@ package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -55,6 +56,9 @@ public class Route {
         this.setTotalKm(totalKm);
         this.setMaxNumberUsers(maxNumberUsers);
         this.setStops(stops);
+        driverList = new ArrayList<DriverUser>();
+        tourGuideList=new ArrayList<TourGuideUser>();
+
     }
 
     public Long getId() {
@@ -121,4 +125,11 @@ public class Route {
         this.tourGuideList = tourGuideList;
     }
 
+    public void addDriver(DriverUser driverUser) {
+        this.driverList.add(driverUser);
+    }
+
+    public void addTourGuide(TourGuideUser tourGuideUser) {
+        this.tourGuideList.add(tourGuideUser);
+    }
 }

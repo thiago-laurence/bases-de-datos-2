@@ -39,4 +39,7 @@ public interface ToursRepository {
 
     void createItemService(ItemService itemService);
     Optional<ItemService> getItemServiceById(Long id);
-}
+
+    public List<User> findTop5UsersByNumberOfPurchases();
+
+    }

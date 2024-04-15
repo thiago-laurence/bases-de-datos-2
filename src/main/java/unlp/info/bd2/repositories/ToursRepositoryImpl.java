@@ -185,4 +185,17 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
+    // ******** CONSULTAS *************
+    @Override @Transactional(readOnly = true)
+    public List<User> findTop5UsersByNumberOfPurchases() {
+        return this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT u FROM User u " +
+                                "JOIN u.purchaseList p " +
+                                "GROUP BY u " +
+                                "ORDER BY COUNT(p) DESC", User.class)
+                .setMaxResults(5)
+                .list();
+    }
+
+
 }
