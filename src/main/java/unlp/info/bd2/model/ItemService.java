@@ -15,8 +15,8 @@ public class ItemService {
     private Long id;
     @Column(nullable = false)
     private int quantity;
-    //@ManyToOne
-    //private Purchase purchase;
+    @ManyToOne
+    private Purchase purchase;
     @ManyToOne
     private Service service;
 

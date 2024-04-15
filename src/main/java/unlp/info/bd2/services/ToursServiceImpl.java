@@ -289,7 +289,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Service getMostDemandedService() {
-        return null;
+        return this.toursRepository.getMostDemandedService();
     }
 
     @Override
