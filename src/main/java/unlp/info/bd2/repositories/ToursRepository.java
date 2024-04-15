@@ -25,7 +25,11 @@ public interface ToursRepository {
     List<Route> getRoutesBelowPrice(float price);
 
     void createPurchase(Purchase purchase);
+    public Purchase updatePurchase(Purchase purchase);
+    public void deletePurchase(Purchase purchase);
+    public Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
+
 
     void createSupplier(Supplier supplier);
     Optional<Supplier> getSupplierById(Long id);
