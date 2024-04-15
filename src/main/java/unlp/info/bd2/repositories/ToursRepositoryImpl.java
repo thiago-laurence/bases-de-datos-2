@@ -190,7 +190,15 @@ public class ToursRepositoryImpl implements ToursRepository{
         this.sessionFactory.getCurrentSession().merge(service);
         return service;
     }
-
+    @Override @Transactional(readOnly=true)
+    public Service getMostDemandedService() {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT s FROM Service s JOIN s.itemService i GROUP BY s.id ORDER BY COUNT(i) DESC", Service.class)
+                        .setMaxResults(1)
+                        .uniqueResult()
+        );
+    }
 
     // ************* ITEM SERVICE *************
     @Override @Transactional
