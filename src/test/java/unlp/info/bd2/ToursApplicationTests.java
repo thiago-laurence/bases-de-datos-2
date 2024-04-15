@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.config.AppConfig;
 import unlp.info.bd2.config.HibernateConfiguration;
 import unlp.info.bd2.services.ToursService;
-import unlp.info.bd2.services.ToursServiceImpl;
 import unlp.info.bd2.utils.ToursException;
 import unlp.info.bd2.model.*;
 import java.util.*;
@@ -114,7 +113,7 @@ class ToursApplicationTests {
 
 	@Test
 	void createAndGetRoutesAndStopsTest() throws ToursException {
-		/*
+		
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		assertNotNull(stop1.getId());
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -145,7 +144,7 @@ class ToursApplicationTests {
 		assertEquals(1, listRoutes2.size());
 		Route routeFromList = listRoutes2.get(0);
 		assertEquals("Estadios 2", routeFromList.getName());
-		 */
+		
 	}
 
 	@Test

@@ -3,8 +3,8 @@ package unlp.info.bd2.repositories;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.utils.ToursException;
 
-import java.util.Date;
 import java.util.Optional;
+import java.util.List;
 
 public interface ToursRepository {
 
@@ -16,10 +16,13 @@ public interface ToursRepository {
 
     void createStop(Stop stop);
     Optional<Stop> getStopByName(String name);
+    Optional<Stop> getStopById(Long id);
+    List<Stop> getStopByNameStart(String name);
 
     void createRoute(Route route);
     Optional<Route> getRouteByName(String name);
     Optional<Route> getRouteById(Long id);
+    List<Route> getRoutesBelowPrice(float price);
 
     void createPurchase(Purchase purchase);
     Optional<Purchase> getPurchaseByCode(String code);

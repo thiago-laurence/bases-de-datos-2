@@ -114,7 +114,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Stop> getStopByNameStart(String name) {
-        return List.of();
+        return this.toursRepository.getStopByNameStart(name);
     }
 
     @Override
@@ -130,12 +130,12 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Optional<Route> getRouteById(Long id) {
-        return Optional.empty();
+        return this.toursRepository.getRouteById(id);
     }
 
     @Override
     public List<Route> getRoutesBelowPrice(float price) {
-        return List.of();
+        return this.toursRepository.getRoutesBelowPrice(price);
     }
 
     @Override

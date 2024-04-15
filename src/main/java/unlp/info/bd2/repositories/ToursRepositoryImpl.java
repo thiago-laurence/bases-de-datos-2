@@ -1,13 +1,13 @@
 package unlp.info.bd2.repositories;
 
 import org.hibernate.SessionFactory;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.utils.ToursException;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Repository
@@ -59,6 +59,29 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .uniqueResult())
         );
     }
+    @Override @Transactional(readOnly = true)
+    public Optional<Stop> getStopById(Long id){
+        return (
+                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Stop.class, id))
+        );
+    }
+    @Override @Transactional(readOnly = true)
+    public List<Stop> getStopByNameStart(String name){
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "FROM Stop WHERE name LIKE :name", Stop.class).setParameter("name", name + "%")
+                        .getResultList()
+        );
+    }
+    @Override @Transactional(readOnly = true)
+    public List<Route> getRoutesBelowPrice(float price) {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "FROM Route WHERE price < :price", Route.class).setParameter("price", price)
+                        .getResultList()
+        );
+    }
+
 
     // ************* ROUTE *************
     @Override @Transactional
