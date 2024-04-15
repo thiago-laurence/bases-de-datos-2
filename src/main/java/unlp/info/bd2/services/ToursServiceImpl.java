@@ -2,6 +2,7 @@ package unlp.info.bd2.services;
 
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.ToursRepository;
+import unlp.info.bd2.repositories.ToursRepositoryImpl;
 import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
@@ -17,6 +18,10 @@ public class ToursServiceImpl implements ToursService{
 
     public ToursServiceImpl(ToursRepository repository) {
         this.toursRepository = repository;
+    }
+
+    public ToursServiceImpl() {
+        this.toursRepository = new ToursRepositoryImpl();
     }
 
     private void existsUsername(String username) throws ToursException {
@@ -158,12 +163,21 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Supplier createSupplier(String businessName, String authorizationNumber) throws ToursException {
-        return new Supplier(businessName, authorizationNumber);
+        if (this.toursRepository.getSupplierByAuthorizationNumber(authorizationNumber).isPresent()){
+            throw new ToursException("El 'numero de autorizacion' ya se encuentra registrado");
+        }
+        Supplier supplier = new Supplier(businessName, authorizationNumber);
+        this.toursRepository.createSupplier(supplier);
+        return supplier;
     }
 
     @Override
     public Service addServiceToSupplier(String name, float price, String description, Supplier supplier) throws ToursException {
-        return supplier.addService(new Service(name, price, description));
+        Service service = new Service(name, price, description);
+        supplier.addService(service);
+        this.toursRepository.createService(service);
+        this.toursRepository.updateSupplier(supplier);
+        return service;
     }
 
     @Override

@@ -27,10 +27,11 @@ public interface ToursRepository {
     void createSupplier(Supplier supplier);
     Optional<Supplier> getSupplierById(Long id);
     Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber);
+    void updateSupplier(Supplier supplier);
 
     void createService(Service service);
     Optional<Service> getServiceById(Long id);
-    Optional<Service> getServiceByNameAndSupplierId(String name, Long id);
+    Optional<Service> getServiceByNameAndSupplierId(String name, Long supplier);
 
     void createItemService(ItemService itemService);
     Optional<ItemService> getItemServiceById(Long id);

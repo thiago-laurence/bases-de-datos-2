@@ -1,5 +1,6 @@
 package unlp.info.bd2.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -73,5 +74,6 @@ public class Service {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.itemServiceList = new ArrayList<ItemService>();
     }
 }

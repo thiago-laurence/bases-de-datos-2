@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.config.AppConfig;
 import unlp.info.bd2.config.HibernateConfiguration;
 import unlp.info.bd2.services.ToursService;
+import unlp.info.bd2.services.ToursServiceImpl;
 import unlp.info.bd2.utils.ToursException;
 import unlp.info.bd2.model.*;
 import java.util.*;
@@ -89,7 +90,6 @@ class ToursApplicationTests {
 
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		DriverUser driverUser = this.toursService.createDriverUser("userD", "1234", "Usuario Driver", "userd@gmail.com", dob2, "000111222444", "exp...");
-
 		assertEquals("000111222333", user1.getPhoneNumber());
 		user1.setPhoneNumber("000000000000");
 		user1 = this.toursService.updateUser(user1);
@@ -177,7 +177,7 @@ class ToursApplicationTests {
 
 	@Test
 	void createAndGetSupplierAndService() throws ToursException {
-		/*
+		
 		Supplier supplier1 = this.toursService.createSupplier("Supplier1", "000111");
 		assertNotNull(supplier1.getId());
 		assertEquals("Supplier1" , supplier1.getBusinessName());
@@ -208,7 +208,7 @@ class ToursApplicationTests {
 		assertFalse(optionalService2.isPresent());
 
 		assertThrows(ToursException.class, () -> this.toursService.createSupplier("Supplier2", "000111"), "Constraint Violation");
-		 */
+		
 	}
 
 	@Test

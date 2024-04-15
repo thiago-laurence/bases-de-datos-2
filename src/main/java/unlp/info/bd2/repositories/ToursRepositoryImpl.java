@@ -107,8 +107,14 @@ public class ToursRepositoryImpl implements ToursRepository{
     @Override @Transactional(readOnly=true)
     public Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber) {
         return (
-                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Supplier.class, authorizationNumber))
+                Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
+                    "FROM Supplier WHERE authorizationNumber = :authorizationNumber", Supplier.class).setParameter("authorizationNumber", authorizationNumber)
+            .uniqueResult())
         );
+    }
+    @Override @Transactional
+    public void updateSupplier(Supplier supplier){
+        this.sessionFactory.getCurrentSession().merge(supplier);
     }
 
     // ************* SERVICE *************
@@ -122,12 +128,16 @@ public class ToursRepositoryImpl implements ToursRepository{
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Service.class, id))
         );
     }
-    // TODO: Averiguar cómo buscar por 2 valores.
+    // IMplemente the getServiceByNameAndSupplierId method
     @Override @Transactional(readOnly=true)
     public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) {
-        return Optional.empty(); /*(
-                //Optional.ofNullable(this.sessionFactory.getCurrentSession().
-        );*/
+        return (
+                Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
+                    "FROM Service WHERE name = :name AND supplier.id = :supplierId", Service.class)
+                    .setParameter("name", name)
+                    .setParameter("supplierId", id)
+                    .uniqueResult())
+        );
     }
 
     // ************* ITEM SERVICE *************

@@ -1,5 +1,6 @@
 package unlp.info.bd2.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -52,10 +53,12 @@ public class Supplier {
     public Supplier(String businessName, String authorizationNumber) {
         this.businessName = businessName;
         this.authorizationNumber = authorizationNumber;
+        this.services = new ArrayList<Service>();
     }
 
     public Service addService(Service service) {
         this.services.add(service);
+        service.setSupplier(this);
         return service;
     }
 
