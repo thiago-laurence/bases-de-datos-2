@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
+import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
 import java.util.Optional;
@@ -128,7 +129,6 @@ public class ToursRepositoryImpl implements ToursRepository{
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Service.class, id))
         );
     }
-    // IMplemente the getServiceByNameAndSupplierId method
     @Override @Transactional(readOnly=true)
     public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) {
         return (
@@ -139,6 +139,16 @@ public class ToursRepositoryImpl implements ToursRepository{
                     .uniqueResult())
         );
     }
+    @Override @Transactional
+    public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
+        Service service = this.sessionFactory.getCurrentSession().find(Service.class, id);
+        if (service == null)
+            throw new ToursException("No existe el producto");
+        service.setPrice(newPrice);
+        this.sessionFactory.getCurrentSession().merge(service);
+        return service;
+    }
+
 
     // ************* ITEM SERVICE *************
     @Override @Transactional

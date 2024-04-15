@@ -182,7 +182,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
-        return null;
+        return this.toursRepository.updateServicePriceById(id, newPrice);
     }
 
     @Override

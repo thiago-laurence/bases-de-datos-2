@@ -32,6 +32,7 @@ public interface ToursRepository {
     void createService(Service service);
     Optional<Service> getServiceById(Long id);
     Optional<Service> getServiceByNameAndSupplierId(String name, Long supplier);
+    Service updateServicePriceById(Long id, float newPrice) throws ToursException;
 
     void createItemService(ItemService itemService);
     Optional<ItemService> getItemServiceById(Long id);
