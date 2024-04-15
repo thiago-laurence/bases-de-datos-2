@@ -1,16 +1,24 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
+@Entity
 public class Review {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private int rating;
-
+    @Column
     private String comment;
-
+    @ManyToOne
     private Purchase purchase;
-
 
     public Long getId() {
         return id;
