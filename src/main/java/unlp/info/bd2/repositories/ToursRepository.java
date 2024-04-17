@@ -28,6 +28,7 @@ public interface ToursRepository {
     Optional<Route> getRouteByName(String name);
     Optional<Route> getRouteById(Long id);
     List<Route> getRoutesBelowPrice(float price);
+    List<Route> getRoutesWithStop(Stop stop);
 
     void createPurchase(Purchase purchase);
     Purchase updatePurchase(Purchase purchase);
@@ -39,6 +40,7 @@ public interface ToursRepository {
     Optional<Supplier> getSupplierById(Long id);
     Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber);
     void updateSupplier(Supplier supplier);
+    List<Supplier> getTopNSuppliersInPurchases(int n);
 
     void createService(Service service);
     Optional<Service> getServiceById(Long id);

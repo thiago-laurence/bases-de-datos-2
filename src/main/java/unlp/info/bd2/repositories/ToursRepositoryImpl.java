@@ -126,6 +126,14 @@ public class ToursRepositoryImpl implements ToursRepository{
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Route.class, id))
         );
     }
+    @Override @Transactional(readOnly = true)
+    public List<Route> getRoutesWithStop(Stop stop){
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT r FROM Route r JOIN r.stops s WHERE s = :stop", Route.class).setParameter("stop", stop)
+                        .getResultList()
+        );
+    }
 
     // ************* PURCHASE *************
     @Override @Transactional
@@ -180,6 +188,17 @@ public class ToursRepositoryImpl implements ToursRepository{
     @Override @Transactional
     public void updateSupplier(Supplier supplier){
         this.sessionFactory.getCurrentSession().merge(supplier);
+    }
+    @Override @Transactional(readOnly=true)
+    public List<Supplier> getTopNSuppliersInPurchases(int n) {
+        // return the top N suppliers that appear in the most purchases
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT s FROM Supplier s JOIN s.services se JOIN se.items "
+                        + " i JOIN i.purchase p GROUP BY s ORDER BY COUNT(p) DESC", Supplier.class)
+                        .setMaxResults(n)
+                        .list()
+        );
     }
 
     // ************* SERVICE *************
