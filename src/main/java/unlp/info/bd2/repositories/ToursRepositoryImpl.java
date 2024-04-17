@@ -283,6 +283,18 @@ public class ToursRepositoryImpl implements ToursRepository{
                 .setParameter("endDate", endDate)
                 .getSingleResult();
     }
+    @Override @Transactional(readOnly = true)
+    public List<Purchase> findTop10MostExpensivePurchasesInServices() {
+        return this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT p FROM Purchase p JOIN p.itemServiceList isl GROUP BY p " +
+                                "ORDER BY SUM(isl.quantity * isl.service.price) DESC", Purchase.class)
+                .setMaxResults(10)
+                .getResultList();
+    }
+
+
+
+
 
 
 

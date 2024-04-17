@@ -15,8 +15,6 @@ public interface ToursRepository {
     Optional<User> getUserById(Long id);
     Optional<User> getUserByUsername(String username);
 
-    List<TourGuideUser> getTourGuidesWithRating1();
-
     void createStop(Stop stop);
     Optional<Stop> getStopByName(String name);
     Optional<Stop> getStopById(Long id);
@@ -24,16 +22,15 @@ public interface ToursRepository {
     Long getMaxStopOfRoutes();
 
     void createRoute(Route route);
-    void updateRoute(Route route);
     Optional<Route> getRouteByName(String name);
     Optional<Route> getRouteById(Long id);
     List<Route> getRoutesBelowPrice(float price);
     List<Route> getRoutesWithStop(Stop stop);
 
     void createPurchase(Purchase purchase);
-    Purchase updatePurchase(Purchase purchase);
-    void deletePurchase(Purchase purchase);
-    Optional<Purchase> getPurchaseById(Long id);
+    public Purchase updatePurchase(Purchase purchase);
+    public void deletePurchase(Purchase purchase);
+    public Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
 
     void createSupplier(Supplier supplier);
@@ -47,12 +44,13 @@ public interface ToursRepository {
     Optional<Service> getServiceByNameAndSupplierId(String name, Long supplier);
     Service updateServicePriceById(Long id, float newPrice) throws ToursException;
     Service getMostDemandedService();
-    List<Service> getServiceNoAddedToPurchases();
 
     void createItemService(ItemService itemService);
     Optional<ItemService> getItemServiceById(Long id);
 
-    List<User> findTop5UsersByNumberOfPurchases();
-    long countPurchasesBetweenDates(Date startDate, Date endDate);
+    public List<User> findTop5UsersByNumberOfPurchases();
+    public long countPurchasesBetweenDates(Date startDate, Date endDate);
+    public List<Purchase> findTop10MostExpensivePurchasesInServices();
+
 
     }
