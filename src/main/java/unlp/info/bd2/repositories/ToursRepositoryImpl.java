@@ -98,7 +98,8 @@ public class ToursRepositoryImpl implements ToursRepository{
     @Override @Transactional(readOnly = true)
     public Long getMaxStopOfRoutes() {
         return sessionFactory.getCurrentSession()
-        .createQuery("select max(size(r.stops)) from Route r", Long.class)
+        .createQuery("select count(s) from Route r join r.stops s group by r order by count(s) desc", Long.class)
+        .setMaxResults(1)
         .uniqueResult();
     }
 
