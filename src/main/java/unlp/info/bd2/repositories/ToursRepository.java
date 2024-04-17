@@ -15,6 +15,8 @@ public interface ToursRepository {
     Optional<User> getUserById(Long id);
     Optional<User> getUserByUsername(String username);
 
+    List<TourGuideUser> getTourGuidesWithRating1();
+
     void createStop(Stop stop);
     Optional<Stop> getStopByName(String name);
     Optional<Stop> getStopById(Long id);
@@ -22,6 +24,7 @@ public interface ToursRepository {
     Long getMaxStopOfRoutes();
 
     void createRoute(Route route);
+    void updateRoute(Route route);
     Optional<Route> getRouteByName(String name);
     Optional<Route> getRouteById(Long id);
     List<Route> getRoutesBelowPrice(float price);
@@ -44,6 +47,7 @@ public interface ToursRepository {
     Optional<Service> getServiceByNameAndSupplierId(String name, Long supplier);
     Service updateServicePriceById(Long id, float newPrice) throws ToursException;
     Service getMostDemandedService();
+    List<Service> getServiceNoAddedToPurchases();
 
     void createItemService(ItemService itemService);
     Optional<ItemService> getItemServiceById(Long id);
