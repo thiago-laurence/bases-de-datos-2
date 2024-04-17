@@ -56,6 +56,10 @@ public class Supplier {
         this.services = new ArrayList<Service>();
     }
 
+    public Supplier(){
+        this.services = new ArrayList<Service>();
+    }
+
     public Service addService(Service service) {
         this.services.add(service);
         service.setSupplier(this);
