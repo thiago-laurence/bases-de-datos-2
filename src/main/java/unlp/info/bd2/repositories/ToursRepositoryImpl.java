@@ -235,7 +235,7 @@ public class ToursRepositoryImpl implements ToursRepository{
     public Service getMostDemandedService() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT s FROM Service s JOIN s.itemServiceList i GROUP BY s ORDER BY COUNT(i) DESC", Service.class)
+                        "SELECT s FROM Service s JOIN s.items i GROUP BY s ORDER BY COUNT(i) DESC", Service.class)
                         .setMaxResults(1)
                         .uniqueResult()
         );

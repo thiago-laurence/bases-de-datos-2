@@ -140,7 +140,20 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public void assignDriverByUsername(String username, Long idRoute) throws ToursException {
+        Optional<User> opUser = this.toursRepository.getUserByUsername(username);
+        Optional<Route> opRoute = this.toursRepository.getRouteById(idRoute);
+        if (opUser.isEmpty()){
+            throw new ToursException("El 'Usuario' no existe");
+        }
+        if (opRoute.isEmpty()){
+            throw new ToursException("La 'Ruta' no existe");
+        }
 
+        DriverUser driver = (DriverUser) opUser.get();
+        Route route = opRoute.get();
+        route.addDriver(driver);
+        this.toursRepository.updateUser(driver);
+        this.toursRepository.updateRoute(route);
     }
 
     @Override
@@ -156,7 +169,6 @@ public class ToursServiceImpl implements ToursService{
 
         TourGuideUser tourGuide = (TourGuideUser) opUser.get();
         Route route = opRoute.get();
-        tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
         this.toursRepository.updateUser(tourGuide);
         this.toursRepository.updateRoute(route);
