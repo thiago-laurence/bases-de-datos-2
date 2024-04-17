@@ -218,8 +218,12 @@ public class ToursServiceImpl implements ToursService{
     }
 
     @Override
-    public ItemService addItemToPurchase(Service service, int quantity, Purchase purchase) throws ToursException {
-        return null;
+    public ItemService addItemToPurchase(Service service, int quantity, Purchase purchase) throws ToursException { //ver si ponemos validaciones en los metodos para los parametros
+        ItemService itemService = new ItemService(quantity,purchase,service);
+        this.toursRepository.createItemService(itemService);
+        purchase.addItemService(itemService);
+
+        return itemService;
     }
 
     @Override
@@ -254,7 +258,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return List.of();
+        return this.toursRepository.findTop10MostExpensivePurchasesInServices();
     }
 
     @Override

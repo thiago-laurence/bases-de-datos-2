@@ -94,11 +94,11 @@ public class ToursQuerysTests {
 
     @Test
     void getTop10MoreExpensivePurchasesInServicesTest() throws ToursException {
-        /*
+
         List<Purchase> purchases = this.service.getTop10MoreExpensivePurchasesInServices();
         assertEquals(10, purchases.size());
         this.assertListEquality(purchases.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P004", "P007", "P008", "P010", "P012", "P013", "P014", "P017", "P018", "P020"));
-        */
+
     }
 
     @Test

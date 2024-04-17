@@ -22,8 +22,8 @@ public class ItemService {
 
     public ItemService() {}
 
-    public ItemService(Long id, int quantity, Purchase purchase, Service service) {
-        this.id = id;
+    public ItemService(int quantity, Purchase purchase, Service service) {
+
         this.quantity = quantity;
         this.purchase = purchase;
         this.service = service;
