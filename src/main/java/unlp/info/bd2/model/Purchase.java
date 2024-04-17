@@ -108,13 +108,14 @@ public class Purchase {
         itemService.setPurchase(this);
     }
 
-//    public Review getReview() {
-//        return review;
-//    }
+    public Review getReview() {
+        return review;
+    }
 
-//    public void setReview(Review review) {
-//        this.review = review;
-//    }
-
-//
+    public void setReview(Review review) {
+        this.review = review;
+        if (review != null) {
+            review.setPurchase(this);
+        }
+    }
 }
