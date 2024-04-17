@@ -2,6 +2,7 @@ package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,9 +28,12 @@ public class Purchase {
     @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
 
-//    private Review review;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Review review;
 
-//    private List<ItemService> itemServiceList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
+    private List<ItemService> itemServiceList;
 
     public Purchase(){ }
 
@@ -38,6 +42,8 @@ public class Purchase {
         this.setDate(date);
         this.setRoute(route);
         this.setUser(user);
+        this.itemServiceList = new ArrayList<>();
+
     }
 
 
@@ -89,6 +95,19 @@ public class Purchase {
         this.route = route;
     }
 
+    public List<ItemService> getItemServiceList() {
+        return itemServiceList;
+    }
+
+    public void setItemServiceList(List<ItemService> itemServiceList) {
+        this.itemServiceList = itemServiceList;
+    }
+
+    public void addItemService(ItemService itemService) {
+        this.itemServiceList.add(itemService);
+        itemService.setPurchase(this);
+    }
+
 //    public Review getReview() {
 //        return review;
 //    }
@@ -97,11 +116,5 @@ public class Purchase {
 //        this.review = review;
 //    }
 
-//    public List<ItemService> getItemServiceList() {
-//        return itemServiceList;
-//    }
-
-//    public void setItemServiceList(List<ItemService> itemServiceList) {
-//        this.itemServiceList = itemServiceList;
-//    }
+//
 }

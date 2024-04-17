@@ -1,11 +1,6 @@
 package unlp.info.bd2.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class ItemService {
@@ -13,14 +8,27 @@ public class ItemService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private int quantity;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "purchase_id", referencedColumnName = "id", nullable = false)
     private Purchase purchase;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", referencedColumnName = "id", nullable = false)
     private Service service;
 
-    
+    public ItemService() {}
+
+    public ItemService(Long id, int quantity, Purchase purchase, Service service) {
+        this.id = id;
+        this.quantity = quantity;
+        this.purchase = purchase;
+        this.service = service;
+    }
+
     public Long getId() {
         return id;
     }
@@ -37,13 +45,13 @@ public class ItemService {
         this.quantity = quantity;
     }
 
-    //public Purchase getPurchase() {
-    //    return purchase;
-    //}
+    public Purchase getPurchase() {
+        return purchase;
+    }
 
-    //public void setPurchase(Purchase purchase) {
-    //    this.purchase = purchase;
-    //}
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
+    }
 
     public Service getService() {
         return service;
@@ -52,4 +60,5 @@ public class ItemService {
     public void setService(Service service) {
         this.service = service;
     }
+
 }

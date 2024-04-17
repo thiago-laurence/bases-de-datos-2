@@ -1,11 +1,6 @@
 package unlp.info.bd2.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 public class Review {
@@ -17,7 +12,9 @@ public class Review {
     private int rating;
     @Column
     private String comment;
-    @ManyToOne
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "purchase_id", referencedColumnName = "id", nullable = false)
     private Purchase purchase;
 
     public Long getId() {
