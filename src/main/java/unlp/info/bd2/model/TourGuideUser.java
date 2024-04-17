@@ -41,7 +41,10 @@ public class TourGuideUser extends User {
     }
 
     public void addRoute(Route route) {
-        this.routes.add(route);
+        if (!this.routes.contains(route)) {
+            this.routes.add(route);
+            route.addTourGuide(this);
+        }
     }
 
 }

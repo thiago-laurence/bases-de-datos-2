@@ -5,13 +5,11 @@ import jakarta.persistence.*;
 @Entity
 public class Stop {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true)
     private String name;
-
+    @Column
     private String description;
 
     public Stop(){ }
