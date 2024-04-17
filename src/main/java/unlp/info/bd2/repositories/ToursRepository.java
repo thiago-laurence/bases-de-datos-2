@@ -18,6 +18,7 @@ public interface ToursRepository {
     Optional<Stop> getStopByName(String name);
     Optional<Stop> getStopById(Long id);
     List<Stop> getStopByNameStart(String name);
+    Long getMaxStopOfRoutes();
 
     void createRoute(Route route);
     Optional<Route> getRouteByName(String name);
@@ -29,7 +30,6 @@ public interface ToursRepository {
     public void deletePurchase(Purchase purchase);
     public Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
-
 
     void createSupplier(Supplier supplier);
     Optional<Supplier> getSupplierById(Long id);

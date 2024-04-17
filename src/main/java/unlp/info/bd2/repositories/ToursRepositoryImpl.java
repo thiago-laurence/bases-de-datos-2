@@ -81,6 +81,12 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
+    @Override @Transactional(readOnly = true)
+    public Long getMaxStopOfRoutes() {
+        return sessionFactory.getCurrentSession()
+        .createQuery("select max(size(r.stops)) from Route r", Long.class)
+        .uniqueResult();
+    }
 
 
     // ************* ROUTE *************
@@ -192,7 +198,7 @@ public class ToursRepositoryImpl implements ToursRepository{
     public Service getMostDemandedService() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT s FROM Service s JOIN s.itemService i GROUP BY s.id ORDER BY COUNT(i) DESC", Service.class)
+                        "SELECT s FROM Service s JOIN s.itemServiceList i GROUP BY s ORDER BY COUNT(i) DESC", Service.class)
                         .setMaxResults(1)
                         .uniqueResult()
         );

@@ -274,7 +274,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Long getMaxStopOfRoutes() {
-        return 0L;
+        return this.toursRepository.getMaxStopOfRoutes();
     }
 
     @Override

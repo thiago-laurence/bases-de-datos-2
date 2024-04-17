@@ -58,7 +58,6 @@ public class Route {
         this.setStops(stops);
         driverList = new ArrayList<DriverUser>();
         tourGuideList=new ArrayList<TourGuideUser>();
-
     }
 
     public Long getId() {
