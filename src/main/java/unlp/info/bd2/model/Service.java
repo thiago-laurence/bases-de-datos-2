@@ -70,6 +70,10 @@ public class Service {
         this.supplier = supplier;
     }
 
+    public Service(){
+        this.itemServiceList = new ArrayList<ItemService>();
+    }
+
     public Service(String name, float price, String description) {
         this.name = name;
         this.price = price;
