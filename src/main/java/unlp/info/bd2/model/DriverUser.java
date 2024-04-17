@@ -1,8 +1,8 @@
 package unlp.info.bd2.model;
 
-
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class DriverUser extends User {
     public DriverUser(String username, String password, String name, String email, Date birthdate, String phoneNumber, String expedient){
         super(username, password, name, email, birthdate, phoneNumber);
         this.expedient = expedient;
+        this.routes = new ArrayList<>();
     }
 
     public String getExpedient() {

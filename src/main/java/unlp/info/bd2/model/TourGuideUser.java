@@ -21,6 +21,7 @@ public class TourGuideUser extends User {
     public TourGuideUser(String username, String password, String name, String email, Date birthdate, String phoneNumber, String education) {
         super(username, password, name, email, birthdate, phoneNumber);
         this.education = education;
+        this.routes = new ArrayList<>();
     }
 
     public String getEducation() {
@@ -37,6 +38,10 @@ public class TourGuideUser extends User {
 
     public void setRoutes(List<Route> routes) {
         this.routes = routes;
+    }
+
+    public void addRoute(Route route) {
+        this.routes.add(route);
     }
 
 }
