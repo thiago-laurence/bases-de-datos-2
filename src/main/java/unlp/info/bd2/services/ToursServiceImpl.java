@@ -156,9 +156,10 @@ public class ToursServiceImpl implements ToursService{
 
         TourGuideUser tourGuide = (TourGuideUser) opUser.get();
         Route route = opRoute.get();
-        tourGuide.getRoutes().add(route);
-        route.getTourGuideList().add(tourGuide);
+        tourGuide.addRoute(route);
+        route.addTourGuide(tourGuide);
         this.toursRepository.updateUser(tourGuide);
+        this.toursRepository.updateRoute(route);
     }
 
     @Override
@@ -294,11 +295,11 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Service> getServiceNoAddedToPurchases() {
-        return List.of();
+        return this.toursRepository.getServiceNoAddedToPurchases();
     }
 
     @Override
     public List<TourGuideUser> getTourGuidesWithRating1() {
-        return List.of();
+        return this.toursRepository.getTourGuidesWithRating1();
     }
 }
