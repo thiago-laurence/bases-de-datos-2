@@ -82,7 +82,7 @@ public class ToursQuerysTests {
 
     @Test
     void getTopNSuppliersInPurchasesTest() throws ToursException {
-        /*
+        /* 
         List<Supplier> suppliers1 = this.service.getTopNSuppliersInPurchases(3);
         assertEquals(3, suppliers1.size());
         this.assertListEquality(suppliers1.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345", "54321", "67890"));
@@ -125,7 +125,7 @@ public class ToursQuerysTests {
 
     @Test
     void getRoutesWithStopTest() throws ToursException {
-        /*
+        
         Stop stop1 = this.service.getStopByNameStart("Diagonal Norte").get(0);
         Stop stop2 = this.service.getStopByNameStart("Teatro Colón").get(0);
         Stop stop3 = this.service.getStopByNameStart("La Boca").get(0);
@@ -138,7 +138,7 @@ public class ToursQuerysTests {
         this.assertListEquality(routes2.stream().map(Route::getName).collect(Collectors.toList()), List.of("Historical Adventure", "Architectural Expedition"));
         List<Route> routes3 = this.service.getRoutesWithStop(stop3);
         assertEquals(0, routes3.size());
-         */
+        
     }
 
     @Test
@@ -177,20 +177,20 @@ public class ToursQuerysTests {
 
     @Test
     void getServiceNoAddedToPurchasesTest() throws ToursException {
-        /*
+        
         List<Service> serviceNoAddedToPurchases = this.service.getServiceNoAddedToPurchases();
         assertEquals(2, serviceNoAddedToPurchases.size());
         this.assertListEquality(serviceNoAddedToPurchases.stream().map(Service::getName).collect(Collectors.toList()), List.of("Architectural Expedition Book", "souvenir retrato"));
-        */
+        
     }
 
     @Test
     void getTourGuidesWithRating1Test() throws ToursException {
-        /*
+        
         List<TourGuideUser> tourGuidesWithRating1 = this.service.getTourGuidesWithRating1();
         assertEquals(3, tourGuidesWithRating1.size());
         this.assertListEquality(tourGuidesWithRating1.stream().map(TourGuideUser::getUsername).collect(Collectors.toList()), List.of("userG1", "userG3", "userG4"));
-        */
+        
     }
 
     private <T> void assertListEquality(List<T> list1, List<T> list2) {

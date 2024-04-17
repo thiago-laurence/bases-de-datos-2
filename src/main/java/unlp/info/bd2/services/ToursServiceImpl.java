@@ -254,7 +254,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Supplier> getTopNSuppliersInPurchases(int n) {
-        return List.of();
+        return this.toursRepository.getTopNSuppliersInPurchases(n);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Route> getRoutesWithStop(Stop stop) {
-        return List.of();
+        return this.toursRepository.getRoutesWithStop(stop);
     }
 
     @Override
