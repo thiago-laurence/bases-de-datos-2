@@ -47,6 +47,18 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .uniqueResult())
         );
     }
+
+
+    // ************* TOUR GUIDE *************
+    @Override @Transactional(readOnly = true)
+    public List<TourGuideUser> getTourGuidesWithRating1() {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT t FROM TourGuideUser t JOIN t.reviews r WHERE r.rating = 1", TourGuideUser.class)
+                        .getResultList()
+        );
+         
+    }
     
     // ************* STOP *************
     @Override @Transactional
@@ -95,6 +107,10 @@ public class ToursRepositoryImpl implements ToursRepository{
     @Override @Transactional
     public void createRoute(Route route){
         this.sessionFactory.getCurrentSession().persist(route);
+    }
+    @Override @Transactional
+    public void updateRoute(Route route){
+        this.sessionFactory.getCurrentSession().merge(route);
     }
     @Override @Transactional(readOnly = true)
     public Optional<Route> getRouteByName(String name){
@@ -205,6 +221,16 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .uniqueResult()
         );
     }
+    @Override @Transactional(readOnly=true)
+    public List<Service> getServiceNoAddedToPurchases() {
+        return (
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "SELECT s FROM Service s WHERE NOT EXISTS " +
+                    "(SELECT i FROM ItemService i WHERE i.service = s AND i.purchase IS NOT NULL)", Service.class)
+                    .getResultList()
+        );
+    }
+
 
     // ************* ITEM SERVICE *************
     @Override @Transactional
