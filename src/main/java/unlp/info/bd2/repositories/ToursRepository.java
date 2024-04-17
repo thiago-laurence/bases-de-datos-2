@@ -31,9 +31,9 @@ public interface ToursRepository {
     List<Route> getRoutesWithStop(Stop stop);
 
     void createPurchase(Purchase purchase);
-    public Purchase updatePurchase(Purchase purchase);
-    public void deletePurchase(Purchase purchase);
-    public Optional<Purchase> getPurchaseById(Long id);
+    Purchase updatePurchase(Purchase purchase);
+    void deletePurchase(Purchase purchase);
+    Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
 
     void createSupplier(Supplier supplier);
@@ -54,7 +54,7 @@ public interface ToursRepository {
 
     public List<User> findTop5UsersByNumberOfPurchases();
     public long countPurchasesBetweenDates(Date startDate, Date endDate);
-    public List<Purchase> findTop10MostExpensivePurchasesInServices();
+    public List<Purchase> findTop10MoreExpensivePurchasesInServices();
 
 
     }

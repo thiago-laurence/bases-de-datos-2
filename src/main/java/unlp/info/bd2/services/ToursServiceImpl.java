@@ -270,9 +270,10 @@ public class ToursServiceImpl implements ToursService{
     }
 
     @Override
-    public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return this.toursRepository.findTop10MostExpensivePurchasesInServices();
+    public List<Purchase> getTop10MoreExpensivePurchasesInServices()  {
+        return toursRepository.findTop10MoreExpensivePurchasesInServices();
     }
+
 
     @Override
     public List<User> getTop5UsersMorePurchases() {
