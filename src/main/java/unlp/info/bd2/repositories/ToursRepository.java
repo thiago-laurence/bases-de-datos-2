@@ -3,6 +3,7 @@ package unlp.info.bd2.repositories;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.utils.ToursException;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.List;
 
@@ -46,5 +47,6 @@ public interface ToursRepository {
     Optional<ItemService> getItemServiceById(Long id);
 
     public List<User> findTop5UsersByNumberOfPurchases();
+    public long countPurchasesBetweenDates(Date startDate, Date endDate);
 
     }

@@ -1,6 +1,8 @@
 package unlp.info.bd2.repositories;
 
 import org.hibernate.SessionFactory;
+
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -227,6 +229,19 @@ public class ToursRepositoryImpl implements ToursRepository{
                 .setMaxResults(5)
                 .list();
     }
+
+    @Override @Transactional(readOnly = true)
+    public long countPurchasesBetweenDates(Date startDate, Date endDate) {
+        return this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT COUNT(p) FROM Purchase p WHERE p.date >= :startDate AND p.date <= :endDate", Long.class) // Agregar el tipo Long.class aquí
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
+                .getSingleResult();
+    }
+
+
+
+
 
 
 }

@@ -264,7 +264,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
-        return 0;
+        return toursRepository.countPurchasesBetweenDates(start,end);
     }
 
     @Override
