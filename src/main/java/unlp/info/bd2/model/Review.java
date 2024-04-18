@@ -48,4 +48,11 @@ public class Review {
     public void setPurchase(Purchase purchase) {
         this.purchase = purchase;
     }
+
+    public Review(int rating, String comment, Purchase purchase) {
+        this.rating = rating;
+        this.comment = comment;
+        this.purchase = purchase;
+        purchase.setReview(this);
+    }
 }
