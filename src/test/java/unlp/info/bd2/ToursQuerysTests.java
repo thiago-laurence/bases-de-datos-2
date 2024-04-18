@@ -54,7 +54,6 @@ public class ToursQuerysTests {
 
     @Test
     void getAllPurchasesOfUsernameTest() throws ToursException {
-        /*
         List<Purchase> purchases1 = this.service.getAllPurchasesOfUsername("user1");
         assertEquals(6, purchases1.size());
         this.assertListEquality(purchases1.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P001", "P005","P009", "P011", "P015", "P019"));
@@ -63,12 +62,10 @@ public class ToursQuerysTests {
         this.assertListEquality(purchases2.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P003"));
         List<Purchase> purchases3 = this.service.getAllPurchasesOfUsername("user5");
         assertEquals(0, purchases3.size());
-        */
     }
 
     @Test
     void getUserSpendingMoreThanTest() throws ToursException {
-        /*
         List<User> users1 = this.service.getUserSpendingMoreThan(500);
         assertEquals(6, users1.size());
         this.assertListEquality(users1.stream().map(User::getUsername).collect(Collectors.toList()), Arrays.asList("user3", "user4", "user6", "user7", "user9", "user10"));
@@ -77,7 +74,6 @@ public class ToursQuerysTests {
         this.assertListEquality(users2.stream().map(User::getUsername).collect(Collectors.toList()), Arrays.asList("user4", "user7", "user10"));
         List<User> users3 = this.service.getUserSpendingMoreThan(1000);
         assertEquals(0, users3.size());
-        */
     }
 
     @Test

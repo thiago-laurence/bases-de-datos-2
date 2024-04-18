@@ -170,6 +170,14 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
+    @Override @Transactional(readOnly = true)
+    public List<Purchase> getAllPurchasesOfUsername(String username){
+        return (
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "FROM Purchase p JOIN p.user u WHERE u.username =: username", Purchase.class)
+                    .setParameter("username", username).getResultList()
+        );
+    }
 
 
     // ************* SUPPLIER *************
