@@ -179,6 +179,15 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
+    @Override @Transactional(readOnly = true)
+    public List<User> getUserSpendingMoreThan(float mount){
+        return (
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "FROM User u JOIN u.purchaseList p WHERE p.totalPrice >= :mount", User.class)
+                    .setParameter("mount", mount).getResultList()
+        );
+    }
+
 
     // ************* SUPPLIER *************
     @Override @Transactional
