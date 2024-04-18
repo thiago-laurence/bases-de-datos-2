@@ -192,10 +192,9 @@ public class ToursRepositoryImpl implements ToursRepository{
 
     @Override @Transactional(readOnly = true)
     public Optional<Purchase> getPurchaseByCode(String code){
-        return (
-            Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
-                            "FROM Purchase WHERE code = :code", Purchase.class).setParameter("code", code)
-                    .uniqueResult())
+        return Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
+                "FROM Purchase p WHERE p.code = :code", Purchase.class).setParameter("code", code)
+                .uniqueResult()
         );
     }
 

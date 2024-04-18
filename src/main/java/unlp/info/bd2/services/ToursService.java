@@ -28,6 +28,7 @@ public interface ToursService {
     Optional<Supplier> getSupplierById(Long id);
     Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber);
     Optional<Service> getServiceByNameAndSupplierId(String name, Long id) throws ToursException;
+    boolean existsPurchaseWithCode(String code);
     Purchase createPurchase(String code, Route route, User user) throws ToursException;
     Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException;
     ItemService addItemToPurchase(Service service, int quantity, Purchase purchase) throws ToursException;

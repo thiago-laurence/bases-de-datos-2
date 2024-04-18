@@ -208,19 +208,29 @@ public class ToursServiceImpl implements ToursService{
     }
 
     @Override
+    public boolean existsPurchaseWithCode(String code) {
+        return this.toursRepository.getPurchaseByCode(code).isPresent();
+    }
+
+    @Override
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        return null;
+        if (existsPurchaseWithCode(code)){
+            throw new ToursException("No puede realizarse la compra");
+        }
+        Purchase purchase = new Purchase(code, route, user);
+        user.addPurchase(purchase);
+        this.toursRepository.createPurchase(purchase);
+        return purchase;
     }
 
     @Override
     public Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException {
-        if (this.toursRepository.getPurchaseByCode(code).isPresent()){
-            throw new ToursException("El 'codigo' de la compra ya se encuentra registrado");
+        if (existsPurchaseWithCode(code)){
+            throw new ToursException("No puede realizarse la compra");
         }
         Purchase purchase = new Purchase(code, date, route, user);
         user.addPurchase(purchase);
         this.toursRepository.createPurchase(purchase);
-
         return purchase;
     }
 

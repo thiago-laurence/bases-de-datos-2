@@ -41,11 +41,18 @@ public class Purchase {
         this.setCode(code);
         this.setDate(date);
         this.setRoute(route);
-        this.setTotalPrice(route.getPrice());
         this.setUser(user);
+        this.setTotalPrice(route.getPrice());
         this.setItemServiceList(new ArrayList<ItemService>());
     }
 
+    public Purchase(String code, Route route, User user) {
+        this.setCode(code);
+        this.setRoute(route);
+        this.setUser(user);
+        this.setTotalPrice(route.getPrice());
+        this.setItemServiceList(new ArrayList<ItemService>());
+    }       
 
     public Long getId() {
         return id;
