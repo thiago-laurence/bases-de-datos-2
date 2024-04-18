@@ -102,8 +102,10 @@ public class Purchase {
     }
 
     public void addItemService(ItemService itemService) {
-        this.itemServiceList.add(itemService);
-        this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
+        if (!this.itemServiceList.contains(itemService)){
+            this.itemServiceList.add(itemService);
+            this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
+        }
     }
 
     public Review getReview() {

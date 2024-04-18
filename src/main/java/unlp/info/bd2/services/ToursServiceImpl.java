@@ -229,9 +229,7 @@ public class ToursServiceImpl implements ToursService{
         ItemService itemService = new ItemService(quantity,purchase,service);
         this.toursRepository.createItemService(itemService);
         purchase.addItemService(itemService);
-        itemService.setPurchase(purchase);
         this.toursRepository.updatePurchase(purchase);
-
         return itemService;
     }
 

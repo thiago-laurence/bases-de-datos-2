@@ -26,6 +26,7 @@ public class ItemService {
         this.setQuantity(quantity);
         this.setPurchase(purchase);
         this.setService(service);
+        service.addItemService(this);
     }
 
     public Long getId() {

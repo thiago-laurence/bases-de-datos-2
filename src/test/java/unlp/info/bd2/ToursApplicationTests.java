@@ -266,7 +266,7 @@ class ToursApplicationTests {
 
 	@Test
 	void removePurchaseAndItems() throws ToursException {
-		/*
+		
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -279,12 +279,12 @@ class ToursApplicationTests {
 		Purchase purchase1 = this.toursService.createPurchase("100", dyes, route1, user1);
 		ItemService itemService1 = this.toursService.addItemToPurchase(service1, 1, purchase1);
 		ItemService itemService2 = this.toursService.addItemToPurchase(service2, 2, purchase1);
-		assertEquals(1, service1.getItemServiceList().size());
+		assertEquals(1, service1.getItems().size());
 
 		this.toursService.deletePurchase(purchase1);
 		Optional<Purchase> purchase = this.toursService.getPurchaseByCode("100");
 		assertFalse(purchase.isPresent());
-		 */
+		
 	}
 
 	@Test

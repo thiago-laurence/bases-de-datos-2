@@ -70,6 +70,11 @@ public class Service {
         this.items = itemServiceList;
     }
 
+    public void addItemService(ItemService itemService) {
+        if (!this.items.contains(itemService))
+            this.items.add(itemService);
+    }
+
     public Supplier getSupplier() {
         return supplier;
     }
