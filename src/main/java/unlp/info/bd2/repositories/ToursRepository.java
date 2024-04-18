@@ -56,5 +56,5 @@ public interface ToursRepository {
     public long countPurchasesBetweenDates(Date startDate, Date endDate);
     public List<Purchase> findTop10MoreExpensivePurchasesInServices();
     List<Purchase> getAllPurchasesOfUsername(String username);
-
+    List<User> getUserSpendingMoreThan(float mount);
     }

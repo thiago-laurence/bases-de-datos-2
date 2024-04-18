@@ -229,6 +229,8 @@ public class ToursServiceImpl implements ToursService{
         ItemService itemService = new ItemService(quantity,purchase,service);
         this.toursRepository.createItemService(itemService);
         purchase.addItemService(itemService);
+        itemService.setPurchase(purchase);
+        this.toursRepository.updatePurchase(purchase);
 
         return itemService;
     }
@@ -255,7 +257,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<User> getUserSpendingMoreThan(float mount) {
-        return List.of();
+        return this.toursRepository.getUserSpendingMoreThan(mount);
     }
 
     @Override
@@ -267,6 +269,7 @@ public class ToursServiceImpl implements ToursService{
     public List<Purchase> getTop10MoreExpensivePurchasesInServices()  {
         return toursRepository.findTop10MoreExpensivePurchasesInServices();
     }
+
 
 
     @Override

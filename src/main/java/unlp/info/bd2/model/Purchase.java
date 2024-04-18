@@ -41,9 +41,9 @@ public class Purchase {
         this.setCode(code);
         this.setDate(date);
         this.setRoute(route);
+        this.setTotalPrice(route.getPrice());
         this.setUser(user);
-        this.itemServiceList = new ArrayList<>();
-
+        this.setItemServiceList(new ArrayList<ItemService>());
     }
 
 
@@ -67,9 +67,7 @@ public class Purchase {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    public void setTotalPrice(float totalPrice) { this.totalPrice = totalPrice; }
 
     public Date getDate() {
         return date;
@@ -105,17 +103,12 @@ public class Purchase {
 
     public void addItemService(ItemService itemService) {
         this.itemServiceList.add(itemService);
-        itemService.setPurchase(this);
+        this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
     }
 
     public Review getReview() {
         return review;
     }
 
-    public void setReview(Review review) {
-        this.review = review;
-        if (review != null) {
-            review.setPurchase(this);
-        }
-    }
+    public void setReview(Review review) { this.review = review; }
 }
