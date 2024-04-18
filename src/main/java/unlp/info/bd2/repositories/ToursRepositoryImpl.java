@@ -1,16 +1,17 @@
 package unlp.info.bd2.repositories;
 
-import org.hibernate.SessionFactory;
-
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.utils.ToursException;
-
-import java.util.Optional;
 
 @Repository
 public class ToursRepositoryImpl implements ToursRepository{
@@ -20,8 +21,12 @@ public class ToursRepositoryImpl implements ToursRepository{
 
     // *********** USER *************
     @Override @Transactional
-    public void createUser(User user){
-        this.sessionFactory.getCurrentSession().persist(user);
+    public void createUser(User user) throws ToursException {
+        try{
+            this.sessionFactory.getCurrentSession().persist(user);
+        }catch (ConstraintViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
     }
     @Override @Transactional
     public User updateUser(User user){

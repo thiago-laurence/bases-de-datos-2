@@ -14,10 +14,11 @@ public class Route {
 
     @Column(unique = true, nullable = false)
     private String name;
-    @Column
+
     private float price;
-    @Column
+
     private float totalKm;
+
     @Column(nullable = false)
     private int maxNumberUsers;
 
@@ -56,8 +57,8 @@ public class Route {
         this.setTotalKm(totalKm);
         this.setMaxNumberUsers(maxNumberUsers);
         this.setStops(stops);
-        driverList = new ArrayList<DriverUser>();
-        tourGuideList=new ArrayList<TourGuideUser>();
+        this.setTourGuideList(new ArrayList<TourGuideUser>());
+        this.setDriverList(new ArrayList<DriverUser>());
     }
 
     public Long getId() {
@@ -127,14 +128,12 @@ public class Route {
     public void addDriver(DriverUser driverUser) {
         if (!this.driverList.contains(driverUser)) {
             this.driverList.add(driverUser);
-            driverUser.addRoute(this);
         }
     }
 
     public void addTourGuide(TourGuideUser tourGuideUser) {
         if (!this.tourGuideList.contains(tourGuideUser)) {
             this.tourGuideList.add(tourGuideUser);
-            tourGuideUser.addRoute(this);
         }
     }
 }

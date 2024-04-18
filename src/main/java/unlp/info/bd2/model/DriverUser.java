@@ -18,8 +18,8 @@ public class DriverUser extends User {
 
     public DriverUser(String username, String password, String name, String email, Date birthdate, String phoneNumber, String expedient){
         super(username, password, name, email, birthdate, phoneNumber);
-        this.expedient = expedient;
-        this.routes = new ArrayList<>();
+        this.setExpedient(expedient);
+        this.setRouts(new ArrayList<Route>());
     }
 
     public String getExpedient() {
@@ -41,7 +41,6 @@ public class DriverUser extends User {
     public void addRoute(Route route){
         if (!this.routes.contains(route)){
             this.routes.add(route);
-            route.addDriver(this);
         }
     }
 }

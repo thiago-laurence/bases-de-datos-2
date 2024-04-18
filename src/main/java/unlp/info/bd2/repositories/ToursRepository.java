@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ToursRepository {
 
-    void createUser(User user);
-    User updateUser(User user);
-    void deleteUser(User user);
     Optional<User> getUserById(Long id);
     Optional<User> getUserByUsername(String username);
+    void createUser(User user) throws ToursException;
+    User updateUser(User user);
+    void deleteUser(User user);
 
     List<TourGuideUser> getTourGuidesWithRating1();
 
@@ -55,6 +55,5 @@ public interface ToursRepository {
     public List<User> findTop5UsersByNumberOfPurchases();
     public long countPurchasesBetweenDates(Date startDate, Date endDate);
     public List<Purchase> findTop10MoreExpensivePurchasesInServices();
-
 
     }

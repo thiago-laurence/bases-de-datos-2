@@ -8,14 +8,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-//@SQLRestriction("ACTIVE = true")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, updatable = false)
     private String username;
 
     private String password;
@@ -116,5 +115,17 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isDeleteable(){
+        return (this.getPurchaseList().isEmpty() && this.isActive());
+    }
+
+    public boolean isBaneable(){
+        return (!this.getPurchaseList().isEmpty());
+    }
+
+    public void addPurchase(Purchase purchase){
+        this.getPurchaseList().add(purchase);
     }
 }

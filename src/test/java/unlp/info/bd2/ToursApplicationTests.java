@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
 @ExtendWith(SpringExtension.class)
 @Transactional
-@Rollback(false)
-//@Rollback(true)
+//@Rollback(false)
+@Rollback(true)
 class ToursApplicationTests {
 
 	@Autowired
@@ -103,9 +103,9 @@ class ToursApplicationTests {
 
 		user1.setUsername("user2");
 		this.toursService.updateUser(user1);
-		Optional<User> opUserFromDB = this.toursService.getUserByUsername("user2"); // user1
+		Optional<User> opUserFromDB = this.toursService.getUserByUsername("user2");
 		assertTrue(opUserFromDB.isEmpty());
-		Optional<User> opUnmodifiedUserFromDB = this.toursService.getUserByUsername("user1"); // user2
+		Optional<User> opUnmodifiedUserFromDB = this.toursService.getUserByUsername("user1");
 		assertTrue(opUnmodifiedUserFromDB.isPresent());
 		User unmodifiedUserFromDB = opUnmodifiedUserFromDB.get();
 		assertEquals(unmodifiedUserFromDB.getId(), user1.getId());
