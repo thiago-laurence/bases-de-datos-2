@@ -29,12 +29,15 @@ public interface ToursRepository {
     Optional<Route> getRouteById(Long id);
     List<Route> getRoutesBelowPrice(float price);
     List<Route> getRoutesWithStop(Stop stop);
+    List<Route> getTop3RoutesWithMaxRating();
 
     void createPurchase(Purchase purchase);
     Purchase updatePurchase(Purchase purchase);
     void deletePurchase(Purchase purchase);
     Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
+
+    void createReview(Review review, Purchase purchase);
 
     void createSupplier(Supplier supplier);
     Optional<Supplier> getSupplierById(Long id);

@@ -251,7 +251,9 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
-        return null;
+        Review review = new Review(rating, comment, purchase);
+        this.toursRepository.createReview(review, purchase);
+        return review;
     }
 
     @Override
@@ -302,7 +304,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Route> getTop3RoutesWithMaxRating() {
-        return List.of();
+        return this.toursRepository.getTop3RoutesWithMaxRating();
     }
 
     @Override

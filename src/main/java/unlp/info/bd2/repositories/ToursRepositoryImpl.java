@@ -52,12 +52,13 @@ public class ToursRepositoryImpl implements ToursRepository{
     // ************* TOUR GUIDE *************
     @Override @Transactional(readOnly = true)
     public List<TourGuideUser> getTourGuidesWithRating1() {
-        return (
-                this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT t FROM TourGuideUser t JOIN t.reviews r WHERE r.rating = 1", TourGuideUser.class)
+        List<TourGuideUser> guias = (this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT t FROM Purchase p JOIN p.review rv "
+                        + "JOIN p.route.tourGuideList t "
+                        + "WHERE rv.rating = 1", TourGuideUser.class)
                         .getResultList()
         );
-         
+        return guias;
     }
     
     // ************* STOP *************
@@ -135,6 +136,17 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
+    @Override @Transactional(readOnly = true)
+    public List<Route> getTop3RoutesWithMaxRating() {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT r FROM Purchase p JOIN p.route p"
+                        + "JOIN p.review rv GROUP BY p.route "
+                        + "ORDER BY AVG(rv.rating) DESC", Route.class)
+                        .setMaxResults(3)
+                        .getResultList()
+        );
+    }
 
     // ************* PURCHASE *************
     @Override @Transactional
@@ -165,7 +177,13 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
+    // ************* REVIEW *************
 
+    @Override @Transactional
+    public void createReview(Review review, Purchase purchase){
+        this.sessionFactory.getCurrentSession().persist(review);
+        this.sessionFactory.getCurrentSession().refresh(purchase);
+    }
 
     // ************* SUPPLIER *************
     @Override @Transactional
