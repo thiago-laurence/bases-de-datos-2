@@ -250,7 +250,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Purchase> getAllPurchasesOfUsername(String username) {
-        return List.of();
+        return this.toursRepository.getAllPurchasesOfUsername(username);
     }
 
     @Override
