@@ -169,11 +169,11 @@ public class ToursQuerysTests {
 
     @Test
     void getMostDemandedServiceTest() throws ToursException {
-        /*
+        
         Service mostDemandedService = this.service.getMostDemandedService();
         assertEquals("souvenir t-shirt", mostDemandedService.getName());
         assertEquals("I love Buenos Aires t-shirt", mostDemandedService.getDescription());
-        */
+        
     }
 
     @Test
