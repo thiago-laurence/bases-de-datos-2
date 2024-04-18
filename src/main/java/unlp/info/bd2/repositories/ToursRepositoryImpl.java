@@ -192,11 +192,10 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
     @Override @Transactional(readOnly=true)
     public List<Supplier> getTopNSuppliersInPurchases(int n) {
-        // return the top N suppliers that appear in the most purchases
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT s FROM Supplier s JOIN s.services se JOIN se.items "
-                        + " i JOIN i.purchase p GROUP BY s ORDER BY COUNT(p) DESC", Supplier.class)
+                        "SELECT s FROM Supplier s JOIN s.services se JOIN se.items i "
+                        + "GROUP BY s ORDER BY COUNT(i) DESC", Supplier.class)
                         .setMaxResults(n)
                         .list()
         );
