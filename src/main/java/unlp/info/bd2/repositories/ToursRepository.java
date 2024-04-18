@@ -30,6 +30,7 @@ public interface ToursRepository {
     List<Route> getRoutesBelowPrice(float price);
     List<Route> getRoutesWithStop(Stop stop);
     List<Route> getTop3RoutesWithMaxRating();
+    List<Route> getRoutsNotSell();
 
     void createPurchase(Purchase purchase);
     Purchase updatePurchase(Purchase purchase);

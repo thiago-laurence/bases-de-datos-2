@@ -160,6 +160,15 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
+    @Override @Transactional(readOnly = true)
+    public List<Route> getRoutsNotSell() {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT r FROM Route r WHERE NOT EXISTS "
+                        + "(SELECT p FROM Purchase p WHERE p.route = r)", Route.class)
+                        .getResultList()
+        );
+    }
 
     // ************* PURCHASE *************
     @Override @Transactional
@@ -333,16 +342,5 @@ public class ToursRepositoryImpl implements ToursRepository{
                 .setMaxResults(10)
                 .list();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

@@ -296,7 +296,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Route> getRoutsNotSell() {
-        return List.of();
+        return this.toursRepository.getRoutsNotSell();
     }
 
     @Override
