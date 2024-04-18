@@ -235,7 +235,7 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Optional<Purchase> getPurchaseByCode(String code) {
-        return Optional.empty();
+        return this.toursRepository.getPurchaseByCode(code);
     }
 
     @Override
