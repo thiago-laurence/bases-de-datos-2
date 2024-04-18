@@ -1,16 +1,17 @@
 package unlp.info.bd2.repositories;
 
-import org.hibernate.SessionFactory;
-
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.utils.ToursException;
-
-import java.util.Optional;
 
 @Repository
 public class ToursRepositoryImpl implements ToursRepository{
@@ -20,8 +21,12 @@ public class ToursRepositoryImpl implements ToursRepository{
 
     // *********** USER *************
     @Override @Transactional
-    public void createUser(User user){
-        this.sessionFactory.getCurrentSession().persist(user);
+    public void createUser(User user) throws ToursException {
+        try{
+            this.sessionFactory.getCurrentSession().persist(user);
+        }catch (ConstraintViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
     }
     @Override @Transactional
     public User updateUser(User user){
@@ -45,6 +50,14 @@ public class ToursRepositoryImpl implements ToursRepository{
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
                                 "FROM User WHERE username = :username", User.class).setParameter("username", username)
                         .uniqueResult())
+        );
+    }
+    @Override @Transactional(readOnly = true)
+    public List<User> getUserSpendingMoreThan(float mount){
+        return (
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "FROM User u JOIN u.purchaseList p WHERE p.totalPrice >= :mount", User.class)
+                    .setParameter("mount", mount).getResultList()
         );
     }
 
@@ -177,8 +190,16 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
-    // ************* REVIEW *************
+    @Override @Transactional(readOnly = true)
+    public List<Purchase> getAllPurchasesOfUsername(String username){
+        return (
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "FROM Purchase p JOIN p.user u WHERE u.username =: username", Purchase.class)
+                    .setParameter("username", username).getResultList()
+        );
+    }
 
+    // ************* REVIEW *************
     @Override @Transactional
     public void createReview(Review review, Purchase purchase){
         this.sessionFactory.getCurrentSession().persist(review);

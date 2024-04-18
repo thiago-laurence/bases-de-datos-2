@@ -21,6 +21,14 @@ public class Service {
     @ManyToOne
     private Supplier supplier;
 
+    public Service(){ }
+
+    public Service(String name, float price, String description) {
+        this.setName(name);
+        this.setPrice(price);
+        this.setDescription(description);
+        this.setItems(new ArrayList<ItemService>());
+    }
 
     public Long getId() {
         return id;
@@ -70,14 +78,4 @@ public class Service {
         this.supplier = supplier;
     }
 
-    public Service(){
-        this.items = new ArrayList<ItemService>();
-    }
-
-    public Service(String name, float price, String description) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.items = new ArrayList<ItemService>();
-    }
 }

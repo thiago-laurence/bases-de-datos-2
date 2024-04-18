@@ -23,10 +23,9 @@ public class ItemService {
     public ItemService() {}
 
     public ItemService(int quantity, Purchase purchase, Service service) {
-
-        this.quantity = quantity;
-        this.purchase = purchase;
-        this.service = service;
+        this.setQuantity(quantity);
+        this.setPurchase(purchase);
+        this.setService(service);
     }
 
     public Long getId() {
@@ -61,4 +60,7 @@ public class ItemService {
         this.service = service;
     }
 
+    public float getTotalPrice(){
+        return this.getService().getPrice() * this.getQuantity();
+    }
 }

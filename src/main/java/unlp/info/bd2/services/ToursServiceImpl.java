@@ -16,7 +16,7 @@ public class ToursServiceImpl implements ToursService{
     @Autowired
     private final ToursRepository toursRepository;
 
-    public ToursServiceImpl(ToursRepository repository) {
+    public ToursServiceImpl(ToursRepository repository) throws ToursException {
         this.toursRepository = repository;
     }
 
@@ -32,7 +32,6 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public User createUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber) throws ToursException {
-        this.existsUsername(username);
         User user = new User(username, password, fullName, email, birthdate, phoneNumber);
         this.toursRepository.createUser(user);
 
@@ -41,7 +40,6 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public DriverUser createDriverUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String expedient) throws ToursException {
-        this.existsUsername(username);
         DriverUser driver = new DriverUser(username, password, fullName, email, birthdate, phoneNumber, expedient);
         this.toursRepository.createUser(driver);
 
@@ -50,7 +48,6 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public TourGuideUser createTourGuideUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String education) throws ToursException {
-        this.existsUsername(username);
         TourGuideUser tourGuide = new TourGuideUser(username, password, fullName, email, birthdate, phoneNumber, education);
         this.toursRepository.createUser(tourGuide);
 
@@ -73,11 +70,6 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public User updateUser(User user) throws ToursException {
-        Optional<User> otherUser = this.toursRepository.getUserByUsername(user.getUsername());
-        if (otherUser.isPresent() && !otherUser.get().getId().equals(user.getId())){
-            throw new ToursException("El 'nombre de usuario' ya se encuentra registrado");
-        }
-
         return (
                 this.toursRepository.updateUser(user)
         );
@@ -89,16 +81,16 @@ public class ToursServiceImpl implements ToursService{
             throw new ToursException("El usuario se encuentra desactivado");
         }
 
-        if (user.getPurchaseList().isEmpty()){
+        if (user.isDeleteable()){
             this.toursRepository.deleteUser(user);
             return;
         }
 
-        if (!((TourGuideUser) user).getRoutes().isEmpty()){
+        if (!user.isBaneable()){
             throw new ToursException("El usuario no puede ser desactivado");
         }
         user.setActive(false);
-        this.toursRepository.updateUser(user);
+        this.updateUser(user);
     }
 
     @Override
@@ -152,6 +144,7 @@ public class ToursServiceImpl implements ToursService{
         DriverUser driver = (DriverUser) opUser.get();
         Route route = opRoute.get();
         route.addDriver(driver);
+        driver.addRoute(route);
         this.toursRepository.updateUser(driver);
         this.toursRepository.updateRoute(route);
     }
@@ -169,6 +162,7 @@ public class ToursServiceImpl implements ToursService{
 
         TourGuideUser tourGuide = (TourGuideUser) opUser.get();
         Route route = opRoute.get();
+        tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
         this.toursRepository.updateUser(tourGuide);
         this.toursRepository.updateRoute(route);
@@ -224,7 +218,7 @@ public class ToursServiceImpl implements ToursService{
             throw new ToursException("El 'codigo' de la compra ya se encuentra registrado");
         }
         Purchase purchase = new Purchase(code, date, route, user);
-        user.getPurchaseList().add(purchase);
+        user.addPurchase(purchase);
         this.toursRepository.createPurchase(purchase);
 
         return purchase;
@@ -235,6 +229,8 @@ public class ToursServiceImpl implements ToursService{
         ItemService itemService = new ItemService(quantity,purchase,service);
         this.toursRepository.createItemService(itemService);
         purchase.addItemService(itemService);
+        itemService.setPurchase(purchase);
+        this.toursRepository.updatePurchase(purchase);
 
         return itemService;
     }
@@ -258,12 +254,12 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public List<Purchase> getAllPurchasesOfUsername(String username) {
-        return List.of();
+        return this.toursRepository.getAllPurchasesOfUsername(username);
     }
 
     @Override
     public List<User> getUserSpendingMoreThan(float mount) {
-        return List.of();
+        return this.toursRepository.getUserSpendingMoreThan(mount);
     }
 
     @Override
@@ -275,6 +271,7 @@ public class ToursServiceImpl implements ToursService{
     public List<Purchase> getTop10MoreExpensivePurchasesInServices()  {
         return toursRepository.findTop10MoreExpensivePurchasesInServices();
     }
+
 
 
     @Override
