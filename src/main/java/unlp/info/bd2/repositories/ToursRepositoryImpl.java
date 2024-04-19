@@ -207,6 +207,16 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
+    @Override @Transactional(readOnly = true)
+    public boolean routeIsAvailable(Route route){
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT COUNT(p) FROM Purchase p WHERE p.route = :route", Long.class)
+                        .setParameter("route", route)
+                        .getSingleResult() < route.getMaxNumberUsers()
+        );
+    }
+
     // ************* REVIEW *************
     @Override @Transactional
     public void createReview(Review review, Purchase purchase){

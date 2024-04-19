@@ -37,6 +37,7 @@ public interface ToursRepository {
     void deletePurchase(Purchase purchase);
     Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
+    boolean routeIsAvailable(Route route);
 
     void createReview(Review review, Purchase purchase);
 

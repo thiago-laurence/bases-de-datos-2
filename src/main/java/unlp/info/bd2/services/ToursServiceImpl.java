@@ -207,30 +207,32 @@ public class ToursServiceImpl implements ToursService{
         return toursRepository.getServiceByNameAndSupplierId(name, id);
     }
 
-    @Override
-    public boolean existsPurchaseWithCode(String code) {
-        return this.toursRepository.getPurchaseByCode(code).isPresent();
+    private void checkLegalPurchase(String code, Route route) throws ToursException {
+        if (this.toursRepository.getPurchaseByCode(code).isPresent())
+            throw new ToursException("Constraint Violation");
+        if (this.toursRepository.routeIsAvailable(route))
+            throw new ToursException("No puede realizarse la compra");
     }
 
-    @Override
-    public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        if (existsPurchaseWithCode(code)){
-            throw new ToursException("No puede realizarse la compra");
-        }
-        Purchase purchase = new Purchase(code, route, user);
+    private void persistUserAndPurchase(User user, Purchase purchase) throws ToursException {
         user.addPurchase(purchase);
         this.toursRepository.createPurchase(purchase);
+        this.toursRepository.updateUser(user);
+    }
+     
+    @Override
+    public Purchase createPurchase(String code, Route route, User user) throws ToursException {
+        checkLegalPurchase(code, route);
+        Purchase purchase = new Purchase(code, route, user);
+        persistUserAndPurchase(user, purchase);
         return purchase;
     }
 
     @Override
     public Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException {
-        if (existsPurchaseWithCode(code)){
-            throw new ToursException("No puede realizarse la compra");
-        }
+        checkLegalPurchase(code, route);
         Purchase purchase = new Purchase(code, date, route, user);
-        user.addPurchase(purchase);
-        this.toursRepository.createPurchase(purchase);
+        persistUserAndPurchase(user, purchase);
         return purchase;
     }
 
