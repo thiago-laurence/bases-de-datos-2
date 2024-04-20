@@ -172,12 +172,17 @@ public class ToursRepositoryImpl implements ToursRepository{
 
     // ************* PURCHASE *************
     @Override @Transactional
-    public void createPurchase(Purchase purchase){
-        this.sessionFactory.getCurrentSession().persist(purchase);
+    public void createPurchase(Purchase purchase) throws ToursException {
+        try{
+            this.sessionFactory.getCurrentSession().persist(purchase);
+        }catch (ConstraintViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
     }
+
     @Override @Transactional
     public Purchase updatePurchase(Purchase purchase) {
-        return (Purchase) this.sessionFactory.getCurrentSession().merge(purchase);
+        return this.sessionFactory.getCurrentSession().merge(purchase);
     }
 
     @Override @Transactional
@@ -208,12 +213,11 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     @Override @Transactional(readOnly = true)
-    public boolean routeIsAvailable(Route route){
+    public long countUsersRouteInDate(Date date, Route route){
         return (
-                this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT COUNT(p) FROM Purchase p WHERE p.route = :route", Long.class)
-                        .setParameter("route", route)
-                        .getSingleResult() < route.getMaxNumberUsers()
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "SELECT COUNT(p) FROM Purchase p JOIN p.route r WHERE p.date =: date AND r.id =: route_id", Long.class)
+                    .setParameter("route_id", route.getId()).setParameter("date", date).getSingleResult()
         );
     }
 
