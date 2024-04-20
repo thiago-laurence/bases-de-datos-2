@@ -214,12 +214,10 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        if (existsPurchaseWithCode(code)){
-            throw new ToursException("No puede realizarse la compra");
-        }
         Purchase purchase = new Purchase(code, route, user);
         user.addPurchase(purchase);
         this.toursRepository.createPurchase(purchase);
+
         return purchase;
     }
 
@@ -237,10 +235,11 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public ItemService addItemToPurchase(Service service, int quantity, Purchase purchase) throws ToursException { //ver si ponemos validaciones en los metodos para los parametros
-        ItemService itemService = new ItemService(quantity,purchase,service);
+        ItemService itemService = new ItemService(quantity, purchase, service);
         this.toursRepository.createItemService(itemService);
         purchase.addItemService(itemService);
         this.toursRepository.updatePurchase(purchase);
+
         return itemService;
     }
 
@@ -258,6 +257,8 @@ public class ToursServiceImpl implements ToursService{
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
         Review review = new Review(rating, comment, purchase);
         this.toursRepository.createReview(review, purchase);
+        purchase.setReview(review);
+
         return review;
     }
 

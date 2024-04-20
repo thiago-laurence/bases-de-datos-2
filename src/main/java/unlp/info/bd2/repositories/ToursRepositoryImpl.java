@@ -346,12 +346,11 @@ public class ToursRepositoryImpl implements ToursRepository{
     @Override @Transactional(readOnly = true)
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
         return this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT p FROM Purchase p " +
-                                "JOIN p.itemServiceList i " +
-                                "GROUP BY p " +
-                                "ORDER BY SUM(i.quantity * i.service.price) DESC", Purchase.class)
+                        "SELECT p FROM Purchase p WHERE p IN " +
+                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
+                                "ORDER BY p.totalPrice, p.code DESC", Purchase.class)
                 .setMaxResults(10)
-                .list();
+                .getResultList();
     }
 
 }
