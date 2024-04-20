@@ -225,12 +225,13 @@ public class ToursServiceImpl implements ToursService{
 
     @Override
     public Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException {
-        if (existsPurchaseWithCode(code)){
+        if (this.toursRepository.countUsersRouteInDate(date, route) == route.getMaxNumberUsers()){
             throw new ToursException("No puede realizarse la compra");
         }
         Purchase purchase = new Purchase(code, date, route, user);
         user.addPurchase(purchase);
         this.toursRepository.createPurchase(purchase);
+
         return purchase;
     }
 

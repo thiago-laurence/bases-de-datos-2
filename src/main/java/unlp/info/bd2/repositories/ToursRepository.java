@@ -32,11 +32,12 @@ public interface ToursRepository {
     List<Route> getTop3RoutesWithMaxRating();
     List<Route> getRoutsNotSell();
 
-    void createPurchase(Purchase purchase);
+    void createPurchase(Purchase purchase) throws ToursException;
     Purchase updatePurchase(Purchase purchase);
     void deletePurchase(Purchase purchase);
     Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
+    long countUsersRouteInDate(Date date, Route route);
 
     void createReview(Review review, Purchase purchase);
 
