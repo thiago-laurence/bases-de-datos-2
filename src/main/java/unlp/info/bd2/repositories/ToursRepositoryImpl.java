@@ -65,13 +65,13 @@ public class ToursRepositoryImpl implements ToursRepository{
     // ************* TOUR GUIDE *************
     @Override @Transactional(readOnly = true)
     public List<TourGuideUser> getTourGuidesWithRating1() {
-        List<TourGuideUser> guias = (this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT t FROM Purchase p JOIN p.review rv "
-                        + "JOIN p.route.tourGuideList t "
-                        + "WHERE rv.rating = 1", TourGuideUser.class)
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                                "SELECT t FROM Purchase p JOIN p.review rv "
+                                        + "JOIN p.route.tourGuideList t "
+                                        + "WHERE rv.rating = 1", TourGuideUser.class)
                         .getResultList()
         );
-        return guias;
     }
     
     // ************* STOP *************
@@ -179,13 +179,8 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     @Override @Transactional
-    public Purchase updatePurchase(Purchase purchase) {
-        return this.sessionFactory.getCurrentSession().merge(purchase);
-    }
-
-    @Override @Transactional
-    public void deletePurchase(Purchase purchase) {
-        this.sessionFactory.getCurrentSession().remove(purchase);
+    public void updatePurchase(Purchase purchase) {
+        this.sessionFactory.getCurrentSession().merge(purchase);
     }
 
     @Override @Transactional(readOnly = true)

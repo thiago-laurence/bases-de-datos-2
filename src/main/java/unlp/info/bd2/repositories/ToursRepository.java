@@ -33,8 +33,7 @@ public interface ToursRepository {
     List<Route> getRoutsNotSell();
 
     void createPurchase(Purchase purchase) throws ToursException;
-    Purchase updatePurchase(Purchase purchase);
-    void deletePurchase(Purchase purchase);
+    void  updatePurchase(Purchase purchase);
     Optional<Purchase> getPurchaseById(Long id);
     Optional<Purchase> getPurchaseByCode(String code);
     long countUsersRouteInDate(Date date, Route route);
@@ -57,9 +56,9 @@ public interface ToursRepository {
     void createItemService(ItemService itemService);
     Optional<ItemService> getItemServiceById(Long id);
 
-    public List<User> findTop5UsersByNumberOfPurchases();
-    public long countPurchasesBetweenDates(Date startDate, Date endDate);
-    public List<Purchase> getTop10MoreExpensivePurchasesInServices();
+    List<User> findTop5UsersByNumberOfPurchases();
+    long countPurchasesBetweenDates(Date startDate, Date endDate);
+    List<Purchase> getTop10MoreExpensivePurchasesInServices();
     List<Purchase> getAllPurchasesOfUsername(String username);
     List<User> getUserSpendingMoreThan(float mount);
     }
