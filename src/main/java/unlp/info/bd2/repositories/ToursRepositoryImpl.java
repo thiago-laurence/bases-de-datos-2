@@ -153,9 +153,7 @@ public class ToursRepositoryImpl implements ToursRepository{
     public List<Route> getTop3RoutesWithMaxRating() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT r FROM Purchase p JOIN p.route p"
-                        + "JOIN p.review rv GROUP BY p.route "
-                        + "ORDER BY AVG(rv.rating) DESC", Route.class)
+                        "SELECT r FROM Purchase p JOIN p.route r JOIN p.review rv GROUP BY p.route  ORDER BY AVG(rv.rating) DESC", Route.class)
                         .setMaxResults(3)
                         .getResultList()
         );
@@ -346,7 +344,7 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     @Override @Transactional(readOnly = true)
-    public List<Purchase> findTop10MoreExpensivePurchasesInServices() {
+    public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
         return this.sessionFactory.getCurrentSession().createQuery(
                         "SELECT p FROM Purchase p " +
                                 "JOIN p.itemServiceList i " +

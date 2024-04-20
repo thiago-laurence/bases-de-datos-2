@@ -90,11 +90,9 @@ public class ToursQuerysTests {
 
     @Test
     void getTop10MoreExpensivePurchasesInServicesTest() throws ToursException {
-        /*
         List<Purchase> purchases = this.service.getTop10MoreExpensivePurchasesInServices();
         assertEquals(10, purchases.size());
         this.assertListEquality(purchases.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P004", "P007", "P008", "P010", "P012", "P013", "P014", "P017", "P018", "P020"));
-        */
     }
 
     @Test
@@ -156,11 +154,9 @@ public class ToursQuerysTests {
 
     @Test
     void getTop3RoutesWithMaxRatingTest() throws ToursException {
-        /*
         List<Route> routesWithMaxRating = this.service.getTop3RoutesWithMaxRating();
         assertEquals(3, routesWithMaxRating.size());
         this.assertListEquality(routesWithMaxRating.stream().map(Route::getName).collect(Collectors.toList()), List.of("City Tour", "Historical Adventure", "Architectural Expedition"));
-        */
     }
 
     @Test
@@ -183,11 +179,9 @@ public class ToursQuerysTests {
 
     @Test
     void getTourGuidesWithRating1Test() throws ToursException {
-        /*
         List<TourGuideUser> tourGuidesWithRating1 = this.service.getTourGuidesWithRating1();
         assertEquals(3, tourGuidesWithRating1.size());
         this.assertListEquality(tourGuidesWithRating1.stream().map(TourGuideUser::getUsername).collect(Collectors.toList()), List.of("userG1", "userG3", "userG4"));
-        */
     }
 
     private <T> void assertListEquality(List<T> list1, List<T> list2) {
