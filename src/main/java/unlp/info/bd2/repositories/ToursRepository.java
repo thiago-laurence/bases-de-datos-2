@@ -59,7 +59,7 @@ public interface ToursRepository {
 
     public List<User> findTop5UsersByNumberOfPurchases();
     public long countPurchasesBetweenDates(Date startDate, Date endDate);
-    public List<Purchase> findTop10MoreExpensivePurchasesInServices();
+    public List<Purchase> getTop10MoreExpensivePurchasesInServices();
     List<Purchase> getAllPurchasesOfUsername(String username);
     List<User> getUserSpendingMoreThan(float mount);
     }

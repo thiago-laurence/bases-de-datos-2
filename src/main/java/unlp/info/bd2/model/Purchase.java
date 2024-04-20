@@ -44,6 +44,7 @@ public class Purchase {
         this.setUser(user);
         this.setTotalPrice(route.getPrice());
         this.setItemServiceList(new ArrayList<ItemService>());
+        this.setReview(null);
     }
 
     public Purchase(String code, Route route, User user) {
@@ -52,6 +53,7 @@ public class Purchase {
         this.setUser(user);
         this.setTotalPrice(route.getPrice());
         this.setItemServiceList(new ArrayList<ItemService>());
+        this.setReview(null);
     }       
 
     public Long getId() {
