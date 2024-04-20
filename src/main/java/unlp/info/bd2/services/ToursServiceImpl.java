@@ -208,11 +208,6 @@ public class ToursServiceImpl implements ToursService{
     }
 
     @Override
-    public boolean existsPurchaseWithCode(String code) {
-        return this.toursRepository.getPurchaseByCode(code).isPresent();
-    }
-
-    @Override
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
         Purchase purchase = new Purchase(code, route, user);
         user.addPurchase(purchase);
