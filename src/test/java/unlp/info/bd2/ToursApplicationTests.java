@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
 @ExtendWith(SpringExtension.class)
 @Transactional
-//@Rollback(false)
 @Rollback(true)
 class ToursApplicationTests {
 
