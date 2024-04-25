@@ -285,17 +285,12 @@ public class ToursRepositoryImpl implements ToursRepository{
 
     @Override
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return (
-            this.sessionFactory.getCurrentSession().createQuery(
-                    "SELECT p FROM ItemService i JOIN i.purchase p GROUP BY p ORDER BY p.totalPrice DESC", Purchase.class)
-                    .setMaxResults(10).getResultList()
-        );
-//        return this.sessionFactory.getCurrentSession().createQuery(
-//                        "SELECT p FROM Purchase p WHERE p IN " +
-//                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
-//                                "ORDER BY p.totalPrice DESC", Purchase.class)
-//                .setMaxResults(10)
-//                .getResultList();
+        return this.sessionFactory.getCurrentSession().createQuery(
+                        "SELECT p FROM Purchase p WHERE p IN " +
+                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
+                                "ORDER BY p.totalPrice DESC", Purchase.class)
+                .setMaxResults(10)
+                .getResultList();
     }
 
 }
