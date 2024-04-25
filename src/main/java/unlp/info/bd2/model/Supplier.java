@@ -10,13 +10,15 @@ public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private String businessName;
+
     @Column(unique = true)
     private String authorizationNumber;
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Service> services;
 
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    private List<Service> services;
 
     public Long getId() {
         return id;
@@ -51,19 +53,17 @@ public class Supplier {
     }
 
     public Supplier(String businessName, String authorizationNumber) {
-        this.businessName = businessName;
-        this.authorizationNumber = authorizationNumber;
-        this.services = new ArrayList<Service>();
+        this.setBusinessName(businessName);
+        this.setAuthorizationNumber(authorizationNumber);
+        this.setServices(new ArrayList<Service>());
     }
 
     public Supplier(){
         this.services = new ArrayList<Service>();
     }
 
-    public Service addService(Service service) {
-        this.services.add(service);
-        service.setSupplier(this);
-        return service;
+    public void addService(Service service) {
+        this.getServices().add(service);
     }
 
 }

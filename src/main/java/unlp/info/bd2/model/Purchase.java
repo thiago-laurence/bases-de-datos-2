@@ -2,6 +2,7 @@ package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,26 +14,25 @@ public class Purchase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(unique = true, nullable = false, length = 12)
     private String code;
 
     private float totalPrice;
 
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH })
     private Review review;
 
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }
@@ -51,6 +51,7 @@ public class Purchase {
         this.setCode(code);
         this.setRoute(route);
         this.setUser(user);
+        this.setDate(new Date());
         this.setTotalPrice(route.getPrice());
         this.setItemServiceList(new ArrayList<ItemService>());
         this.setReview(null);
@@ -111,8 +112,10 @@ public class Purchase {
     }
 
     public void addItemService(ItemService itemService) {
-        this.getItemServiceList().add(itemService);
-        this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
+        if (!this.getItemServiceList().contains(itemService)) {
+            this.getItemServiceList().add(itemService);
+            this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
+        }
     }
 
     public Review getReview() {

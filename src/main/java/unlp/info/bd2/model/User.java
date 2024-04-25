@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "USER_TYPE")
+@Table(indexes = @Index(name = "user_type_index", columnList = "USER_TYPE"))
 public class User {
 
     @Id
@@ -29,7 +32,7 @@ public class User {
 
     private boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Purchase> purchaseList;
 
     public User(){ }
