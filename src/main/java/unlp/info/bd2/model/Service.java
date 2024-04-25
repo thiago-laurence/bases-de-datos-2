@@ -10,15 +10,21 @@ public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private float price;
+
     @Column
     private String description;
-    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ItemService> items;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Supplier supplier;
 
     public Service(){ }

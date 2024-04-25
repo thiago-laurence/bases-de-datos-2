@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.utils.ToursException;
@@ -19,32 +18,36 @@ public class ToursRepositoryImpl implements ToursRepository{
     @Autowired
     private SessionFactory sessionFactory;
 
-    // *********** USER *************
-    @Override @Transactional
-    public void createUser(User user) throws ToursException {
+
+    // *********** OPERATIONS *************
+    @Override
+    public void save(Object object) throws ToursException {
         try{
-            this.sessionFactory.getCurrentSession().persist(user);
+            this.sessionFactory.getCurrentSession().persist(object);
         }catch (ConstraintViolationException e){
             throw new ToursException("Constraint Violation");
         }
     }
-    @Override @Transactional
-    public User updateUser(User user){
-        return (
-                this.sessionFactory.getCurrentSession().merge(user)
-        );
+
+    @Override
+    public void remove(Object object) {
+        this.sessionFactory.getCurrentSession().remove(object);
     }
-    @Override @Transactional
-    public void deleteUser(User user){
-        this.sessionFactory.getCurrentSession().remove(user);
+
+    @Override
+    public Object merge(Object object) {
+        return (this.sessionFactory.getCurrentSession().merge(object));
     }
-    @Override @Transactional(readOnly=true)
+
+    // *********** USER *************
+    @Override
     public Optional<User> getUserById(Long id) {
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(User.class, id))
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public Optional<User> getUserByUsername(String username) {
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
@@ -52,7 +55,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .uniqueResult())
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public List<User> getUserSpendingMoreThan(float mount){
         return (
             this.sessionFactory.getCurrentSession().createQuery(
@@ -61,9 +65,8 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
-
     // ************* TOUR GUIDE *************
-    @Override @Transactional(readOnly = true)
+    @Override
     public List<TourGuideUser> getTourGuidesWithRating1() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -75,25 +78,7 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
     
     // ************* STOP *************
-    @Override @Transactional
-    public void createStop(Stop stop){
-        this.sessionFactory.getCurrentSession().persist(stop);
-    }
-    @Override @Transactional(readOnly = true)
-    public Optional<Stop> getStopByName(String name){
-        return (
-                Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
-                                "FROM Stop WHERE name = :stop", Stop.class).setParameter("stop", name)
-                        .uniqueResult())
-        );
-    }
-    @Override @Transactional(readOnly = true)
-    public Optional<Stop> getStopById(Long id){
-        return (
-                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Stop.class, id))
-        );
-    }
-    @Override @Transactional(readOnly = true)
+    @Override
     public List<Stop> getStopByNameStart(String name){
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -101,7 +86,17 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
+    public Optional<Stop> getStopByName(String name){
+        return (
+                Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
+                                "FROM Stop WHERE name = :stop", Stop.class).setParameter("stop", name)
+                        .uniqueResult())
+        );
+    }
+
+    @Override
     public List<Route> getRoutesBelowPrice(float price) {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -109,7 +104,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public Long getMaxStopOfRoutes() {
         return sessionFactory.getCurrentSession()
         .createQuery("select count(s) from Route r join r.stops s group by r order by count(s) desc", Long.class)
@@ -117,17 +113,8 @@ public class ToursRepositoryImpl implements ToursRepository{
         .uniqueResult();
     }
 
-
     // ************* ROUTE *************
-    @Override @Transactional
-    public void createRoute(Route route){
-        this.sessionFactory.getCurrentSession().persist(route);
-    }
-    @Override @Transactional
-    public void updateRoute(Route route){
-        this.sessionFactory.getCurrentSession().merge(route);
-    }
-    @Override @Transactional(readOnly = true)
+    @Override
     public Optional<Route> getRouteByName(String name){
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
@@ -135,13 +122,15 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .uniqueResult())
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public Optional<Route> getRouteById(Long id){
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Route.class, id))
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public List<Route> getRoutesWithStop(Stop stop){
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -149,7 +138,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public List<Route> getTop3RoutesWithMaxRating() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -158,7 +148,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .getResultList()
         );
     }
-    @Override @Transactional(readOnly = true)
+
+    @Override
     public List<Route> getRoutsNotSell() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -169,34 +160,15 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     // ************* PURCHASE *************
-    @Override @Transactional
-    public void createPurchase(Purchase purchase) throws ToursException {
-        try{
-            this.sessionFactory.getCurrentSession().persist(purchase);
-        }catch (ConstraintViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
-    }
-
-    @Override @Transactional
-    public void updatePurchase(Purchase purchase) {
-        this.sessionFactory.getCurrentSession().merge(purchase);
-    }
-
-    @Override @Transactional(readOnly = true)
-    public Optional<Purchase> getPurchaseById(Long id) {
-        return Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Purchase.class, id));
-    }
-
-    @Override @Transactional(readOnly = true)
+    @Override
     public Optional<Purchase> getPurchaseByCode(String code){
-        return Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
+        return this.sessionFactory.getCurrentSession().createSelectionQuery(
                 "FROM Purchase p WHERE p.code = :code", Purchase.class).setParameter("code", code)
-                .uniqueResult()
-        );
+                .uniqueResultOptional()
+        ;
     }
 
-    @Override @Transactional(readOnly = true)
+    @Override
     public List<Purchase> getAllPurchasesOfUsername(String username){
         return (
             this.sessionFactory.getCurrentSession().createQuery(
@@ -205,7 +177,7 @@ public class ToursRepositoryImpl implements ToursRepository{
         );
     }
 
-    @Override @Transactional(readOnly = true)
+    @Override
     public long countUsersRouteInDate(Date date, Route route){
         return (
             this.sessionFactory.getCurrentSession().createQuery(
@@ -215,24 +187,17 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     // ************* REVIEW *************
-    @Override @Transactional
-    public void createReview(Review review, Purchase purchase){
-        this.sessionFactory.getCurrentSession().persist(review);
-        this.sessionFactory.getCurrentSession().refresh(purchase);
-    }
+
 
     // ************* SUPPLIER *************
-    @Override @Transactional
-    public void createSupplier(Supplier supplier){
-        this.sessionFactory.getCurrentSession().persist(supplier);
-    }
-    @Override @Transactional(readOnly=true)
+    @Override
     public Optional<Supplier> getSupplierById(Long id) {
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Supplier.class, id))
         );
     }
-    @Override @Transactional(readOnly=true)
+
+    @Override
     public Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber) {
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
@@ -240,11 +205,8 @@ public class ToursRepositoryImpl implements ToursRepository{
             .uniqueResult())
         );
     }
-    @Override @Transactional
-    public void updateSupplier(Supplier supplier){
-        this.sessionFactory.getCurrentSession().merge(supplier);
-    }
-    @Override @Transactional(readOnly=true)
+
+    @Override
     public List<Supplier> getTopNSuppliersInPurchases(int n) {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -256,17 +218,7 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     // ************* SERVICE *************
-    @Override @Transactional
-    public void createService(Service service){
-        this.sessionFactory.getCurrentSession().persist(service);
-    }
-    @Override @Transactional(readOnly=true)
-    public Optional<Service> getServiceById(Long id) {
-        return (
-                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(Service.class, id))
-        );
-    }
-    @Override @Transactional(readOnly=true)
+    @Override
     public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) {
         return (
                 Optional.ofNullable(this.sessionFactory.getCurrentSession().createQuery(
@@ -276,7 +228,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                     .uniqueResult())
         );
     }
-    @Override @Transactional
+
+    @Override
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
         Service service = this.sessionFactory.getCurrentSession().find(Service.class, id);
         if (service == null)
@@ -285,7 +238,8 @@ public class ToursRepositoryImpl implements ToursRepository{
         this.sessionFactory.getCurrentSession().merge(service);
         return service;
     }
-    @Override @Transactional(readOnly=true)
+
+    @Override
     public Service getMostDemandedService() {
         return (
                 this.sessionFactory.getCurrentSession().createQuery(
@@ -294,7 +248,8 @@ public class ToursRepositoryImpl implements ToursRepository{
                         .uniqueResult()
         );
     }
-    @Override @Transactional(readOnly=true)
+
+    @Override
     public List<Service> getServiceNoAddedToPurchases() {
         return (
             this.sessionFactory.getCurrentSession().createQuery(
@@ -306,19 +261,9 @@ public class ToursRepositoryImpl implements ToursRepository{
 
 
     // ************* ITEM SERVICE *************
-    @Override @Transactional
-    public void createItemService(ItemService itemService){
-        this.sessionFactory.getCurrentSession().persist(itemService);
-    }
-    @Override @Transactional(readOnly=true)
-    public Optional<ItemService> getItemServiceById(Long id) {
-        return (
-                Optional.ofNullable(this.sessionFactory.getCurrentSession().find(ItemService.class, id))
-        );
-    }
 
     // ******** CONSULTAS *************
-    @Override @Transactional(readOnly = true)
+    @Override
     public List<User> findTop5UsersByNumberOfPurchases() {
         return this.sessionFactory.getCurrentSession().createQuery(
                         "SELECT u FROM User u " +
@@ -329,7 +274,7 @@ public class ToursRepositoryImpl implements ToursRepository{
                 .list();
     }
 
-    @Override @Transactional(readOnly = true)
+    @Override
     public long countPurchasesBetweenDates(Date startDate, Date endDate) {
         return this.sessionFactory.getCurrentSession().createQuery(
                         "SELECT COUNT(p) FROM Purchase p WHERE p.date >= :startDate AND p.date <= :endDate", Long.class) // Agregar el tipo Long.class aquí
@@ -338,14 +283,19 @@ public class ToursRepositoryImpl implements ToursRepository{
                 .getSingleResult();
     }
 
-    @Override @Transactional(readOnly = true)
+    @Override
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return this.sessionFactory.getCurrentSession().createQuery(
-                        "SELECT p FROM Purchase p WHERE p IN " +
-                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
-                                "ORDER BY p.totalPrice, p.code DESC", Purchase.class)
-                .setMaxResults(10)
-                .getResultList();
+        return (
+            this.sessionFactory.getCurrentSession().createQuery(
+                    "SELECT p FROM ItemService i JOIN i.purchase p GROUP BY p ORDER BY p.totalPrice DESC", Purchase.class)
+                    .setMaxResults(10).getResultList()
+        );
+//        return this.sessionFactory.getCurrentSession().createQuery(
+//                        "SELECT p FROM Purchase p WHERE p IN " +
+//                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
+//                                "ORDER BY p.totalPrice DESC", Purchase.class)
+//                .setMaxResults(10)
+//                .getResultList();
     }
 
 }

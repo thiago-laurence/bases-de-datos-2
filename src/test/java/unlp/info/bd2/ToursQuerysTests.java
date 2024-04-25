@@ -78,14 +78,12 @@ public class ToursQuerysTests {
 
     @Test
     void getTopNSuppliersInPurchasesTest() throws ToursException {
-        
         List<Supplier> suppliers1 = this.service.getTopNSuppliersInPurchases(3);
         assertEquals(3, suppliers1.size());
         this.assertListEquality(suppliers1.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345", "54321", "67890"));
         List<Supplier> suppliers2 = this.service.getTopNSuppliersInPurchases(1);
         assertEquals(1, suppliers2.size());
         this.assertListEquality(suppliers2.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345"));
-        
     }
 
     @Test
@@ -97,16 +95,13 @@ public class ToursQuerysTests {
 
     @Test
     void getTop5UsersMorePurchasesTest() throws ToursException {
-
         List<User> usersMorePurchases = this.service.getTop5UsersMorePurchases();
         assertEquals(5, usersMorePurchases.size());
         this.assertListEquality(usersMorePurchases.stream().map(User::getUsername).collect(Collectors.toList()), Arrays.asList("user1", "user2", "user6", "user7", "user10"));
-
     }
 
     @Test
     void getCountOfPurchasesBetweenDatesTest() throws ToursException {
-
         LocalDate today = LocalDate.now();
         long countOfPurchasesBetweenDates1 = this.service.getCountOfPurchasesBetweenDates(Date.valueOf(today.minusDays(25)), Date.valueOf(today.minusDays(15)));
         assertEquals(7, countOfPurchasesBetweenDates1);
@@ -114,12 +109,10 @@ public class ToursQuerysTests {
         assertEquals(7, countOfPurchasesBetweenDates2);
         long countOfPurchasesBetweenDates3 = this.service.getCountOfPurchasesBetweenDates(Date.valueOf(today.minusDays(26)), Date.valueOf(today.minusDays(22)));
         assertEquals(0, countOfPurchasesBetweenDates3);
-
     }
 
     @Test
     void getRoutesWithStopTest() throws ToursException {
-        
         Stop stop1 = this.service.getStopByNameStart("Diagonal Norte").get(0);
         Stop stop2 = this.service.getStopByNameStart("Teatro Colón").get(0);
         Stop stop3 = this.service.getStopByNameStart("La Boca").get(0);
@@ -132,24 +125,19 @@ public class ToursQuerysTests {
         this.assertListEquality(routes2.stream().map(Route::getName).collect(Collectors.toList()), List.of("Historical Adventure", "Architectural Expedition"));
         List<Route> routes3 = this.service.getRoutesWithStop(stop3);
         assertEquals(0, routes3.size());
-        
     }
 
     @Test
     void getMaxStopOfRoutesTest() throws ToursException {
-        
         Long maxStopOfRoutes = this.service.getMaxStopOfRoutes();
         assertEquals(9, maxStopOfRoutes);
-         
     }
 
     @Test
     void getRoutsNotSellTest() throws ToursException {
-        
         List<Route> routsNotSell = this.service.getRoutsNotSell();
         assertEquals(1, routsNotSell.size());
         this.assertListEquality(routsNotSell.stream().map(Route::getName).collect(Collectors.toList()), List.of("Ruta vacia"));
-         
     }
 
     @Test
@@ -161,20 +149,16 @@ public class ToursQuerysTests {
 
     @Test
     void getMostDemandedServiceTest() throws ToursException {
-        
         Service mostDemandedService = this.service.getMostDemandedService();
         assertEquals("souvenir t-shirt", mostDemandedService.getName());
         assertEquals("I love Buenos Aires t-shirt", mostDemandedService.getDescription());
-        
     }
 
     @Test
     void getServiceNoAddedToPurchasesTest() throws ToursException {
-        
         List<Service> serviceNoAddedToPurchases = this.service.getServiceNoAddedToPurchases();
         assertEquals(2, serviceNoAddedToPurchases.size());
         this.assertListEquality(serviceNoAddedToPurchases.stream().map(Service::getName).collect(Collectors.toList()), List.of("Architectural Expedition Book", "souvenir retrato"));
-        
     }
 
     @Test
