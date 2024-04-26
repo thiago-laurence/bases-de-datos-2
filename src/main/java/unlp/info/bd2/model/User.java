@@ -1,13 +1,23 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.SQLRestriction;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "USER_TYPE")
+@Table(indexes = @Index(name = "user_type_index", columnList = "USER_TYPE"))
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false, updatable = false)
     private String username;
 
     private String password;
@@ -22,8 +32,21 @@ public class User {
 
     private boolean active;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Purchase> purchaseList;
 
+    public User(){ }
+
+    public User(String username, String password, String name, String email, Date birthdate, String phoneNumber) {
+        this.setActive(true);
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setName(name);
+        this.setEmail(email);
+        this.setBirthdate(birthdate);
+        this.setPhoneNumber(phoneNumber);
+        this.setPurchaseList(new ArrayList<Purchase>());
+    }
 
     public Long getId() {
         return id;
@@ -95,5 +118,17 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isDeleteable(){
+        return (this.getPurchaseList().isEmpty() && this.isActive());
+    }
+
+    public boolean isBaneable(){
+        return (!this.getPurchaseList().isEmpty());
+    }
+
+    public void addPurchase(Purchase purchase){
+        this.getPurchaseList().add(purchase);
     }
 }

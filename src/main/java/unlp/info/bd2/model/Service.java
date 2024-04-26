@@ -2,21 +2,39 @@ package unlp.info.bd2.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.*;
 
+@Entity
 public class Service {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private float price;
 
+    @Column
     private String description;
 
-    private List<ItemService> itemServiceList;
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    private List<ItemService> items;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false, updatable = false)
     private Supplier supplier;
 
+    public Service(){ }
+
+    public Service(String name, float price, String description) {
+        this.setName(name);
+        this.setPrice(price);
+        this.setDescription(description);
+        this.setItems(new ArrayList<ItemService>());
+    }
 
     public Long getId() {
         return id;
@@ -50,12 +68,17 @@ public class Service {
         this.description = description;
     }
 
-    public List<ItemService> getItemServiceList() {
-        return itemServiceList;
+    public List<ItemService> getItems() {
+        return items;
     }
 
-    public void setItemServiceList(List<ItemService> itemServiceList) {
-        this.itemServiceList = itemServiceList;
+    public void setItems(List<ItemService> itemServiceList) {
+        this.items = itemServiceList;
+    }
+
+    public void addItemService(ItemService itemService) {
+        if (!this.items.contains(itemService))
+            this.items.add(itemService);
     }
 
     public Supplier getSupplier() {
@@ -65,4 +88,5 @@ public class Service {
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
+
 }

@@ -1,16 +1,31 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
 
+@Entity
 public class Review {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private int rating;
 
+    @Column
     private String comment;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name= "purchase_id", referencedColumnName = "id", nullable = false)
     private Purchase purchase;
 
+    public Review() { }
+
+    public Review(int rating, String comment, Purchase purchase) {
+        this.setRating(rating);
+        this.setComment(comment);
+        this.setPurchase(purchase);
+    }
 
     public Long getId() {
         return id;
@@ -43,4 +58,5 @@ public class Review {
     public void setPurchase(Purchase purchase) {
         this.purchase = purchase;
     }
+
 }

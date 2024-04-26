@@ -1,27 +1,61 @@
 package unlp.info.bd2.model;
 
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Purchase {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(unique = true, nullable = false, length = 12)
     private String code;
 
     private float totalPrice;
 
     private Date date;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH })
     private Review review;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
+    public Purchase(){ }
 
+    public Purchase(String code, Date date, Route route, User user) {
+        this.setCode(code);
+        this.setDate(date);
+        this.setRoute(route);
+        this.setUser(user);
+        this.setTotalPrice(route.getPrice());
+        this.setItemServiceList(new ArrayList<ItemService>());
+        this.setReview(null);
+    }
+
+    public Purchase(String code, Route route, User user) {
+        this.setCode(code);
+        this.setRoute(route);
+        this.setUser(user);
+        this.setDate(new Date());
+        this.setTotalPrice(route.getPrice());
+        this.setItemServiceList(new ArrayList<ItemService>());
+        this.setReview(null);
+    }       
 
     public Long getId() {
         return id;
@@ -43,9 +77,7 @@ public class Purchase {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    public void setTotalPrice(float totalPrice) { this.totalPrice = totalPrice; }
 
     public Date getDate() {
         return date;
@@ -71,14 +103,6 @@ public class Purchase {
         this.route = route;
     }
 
-    public Review getReview() {
-        return review;
-    }
-
-    public void setReview(Review review) {
-        this.review = review;
-    }
-
     public List<ItemService> getItemServiceList() {
         return itemServiceList;
     }
@@ -86,4 +110,17 @@ public class Purchase {
     public void setItemServiceList(List<ItemService> itemServiceList) {
         this.itemServiceList = itemServiceList;
     }
+
+    public void addItemService(ItemService itemService) {
+        if (!this.getItemServiceList().contains(itemService)) {
+            this.getItemServiceList().add(itemService);
+            this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
+        }
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) { this.review = review; }
 }

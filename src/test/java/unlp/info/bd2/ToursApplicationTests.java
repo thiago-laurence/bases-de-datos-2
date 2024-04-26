@@ -1,5 +1,6 @@
 package unlp.info.bd2;
 
+import org.hibernate.Hibernate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -57,10 +58,12 @@ class ToursApplicationTests {
 		assertEquals("Usuario Uno", user1.getName());
 		assertEquals("user1@gmail.com", user1.getEmail());
 		assertEquals(dob1, user1.getBirthdate());
+
 		DriverUser driverUser1 = this.toursService.createDriverUser("userD", "1234", "Usuario Driver", "userd@gmail.com", dob2, "000111222444", "exp...");
 		assertNotNull(driverUser1.getId());
 		TourGuideUser tourGuideUser1 = this.toursService.createTourGuideUser("userG", "1234", "Usuario TourGuide", "userg@gmail.com", dob2, "000111222555", "edu...");
 		assertNotNull(tourGuideUser1.getId());
+
 
 		Optional<User> opUserFromDB = this.toursService.getUserById(user1.getId());
 		assertTrue(opUserFromDB.isPresent());
@@ -70,7 +73,6 @@ class ToursApplicationTests {
 		assertEquals("Usuario Uno", user.getName());
 		assertEquals("user1@gmail.com", user.getEmail());
 		assertTrue(user.getPurchaseList().isEmpty());
-
 		Optional<User> opUserFromDB2 = this.toursService.getUserByUsername("userD");
 		assertTrue(opUserFromDB2.isPresent());
 		DriverUser driverUser = (DriverUser) opUserFromDB2.get();
@@ -84,7 +86,6 @@ class ToursApplicationTests {
 	void updateUserTest()  throws ToursException {
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		DriverUser driverUser = this.toursService.createDriverUser("userD", "1234", "Usuario Driver", "userd@gmail.com", dob2, "000111222444", "exp...");
-
 		assertEquals("000111222333", user1.getPhoneNumber());
 		user1.setPhoneNumber("000000000000");
 		user1 = this.toursService.updateUser(user1);
@@ -264,7 +265,7 @@ class ToursApplicationTests {
 		Purchase purchase1 = this.toursService.createPurchase("100", dyes, route1, user1);
 		ItemService itemService1 = this.toursService.addItemToPurchase(service1, 1, purchase1);
 		ItemService itemService2 = this.toursService.addItemToPurchase(service2, 2, purchase1);
-		assertEquals(1, service1.getItemServiceList().size());
+		assertEquals(1, service1.getItems().size());
 
 		this.toursService.deletePurchase(purchase1);
 		Optional<Purchase> purchase = this.toursService.getPurchaseByCode("100");
@@ -293,7 +294,6 @@ class ToursApplicationTests {
 	@Test
 	void deleteUserTest() throws ToursException {
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
-
 		assertTrue(user1.isActive());
 		this.toursService.deleteUser(user1);
 		assertTrue(this.toursService.getUserByUsername("user1").isEmpty());
@@ -305,6 +305,7 @@ class ToursApplicationTests {
 		List<Stop> stops1 = new ArrayList<Stop>(Arrays.asList(stop1, stop2, stop3));
 		Route route1 = this.toursService.createRoute("Estadios", 20000, 55.5f, 2, stops1);
 		Purchase purchase1 = this.toursService.createPurchase("100", dyes, route1, user2);
+
 		assertTrue(user2.isActive());
 		this.toursService.deleteUser(user2);
 		Optional<User> optionalUser2 = this.toursService.getUserByUsername("user2");
