@@ -11,10 +11,10 @@ import java.util.Date;
 
 @Repository
 public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
-    Purchase save(Purchase Purchase);
-    void delete(Purchase Purchase);
+    Purchase save(Purchase purchase);
+    void delete(Purchase purchase);
     Optional<Purchase> findByCode(String code);
 
-    @Query("SELECT COUNT(p) FROM Purchase p JOIN p.route r WHERE p.date = ?1 AND r.id = ?2")
+    @Query("SELECT COUNT(p) FROM Purchase p JOIN p.route r WHERE p.date = ?1 AND r = ?2")
     long countUsersRouteInDate(Date date, Route route);
 }

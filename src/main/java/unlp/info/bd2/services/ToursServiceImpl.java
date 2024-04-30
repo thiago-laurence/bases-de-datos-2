@@ -174,7 +174,7 @@ public class ToursServiceImpl implements ToursService{
         Route route = opRoute.get();
         tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
-//        this.toursRepository.merge(tourGuide);
+
         this.toursRepository.merge(route);
     }
 
