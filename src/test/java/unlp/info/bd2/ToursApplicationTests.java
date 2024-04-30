@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.config.AppConfig;
+import unlp.info.bd2.config.SpringDataConfiguration;
 import unlp.info.bd2.services.ToursService;
 import unlp.info.bd2.utils.ToursException;
 import unlp.info.bd2.model.*;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
-@ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {SpringDataConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
 @ExtendWith(SpringExtension.class)
 @Transactional
 @Rollback(true)

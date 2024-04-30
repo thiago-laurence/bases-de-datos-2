@@ -1,46 +1,93 @@
 package unlp.info.bd2.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
+import unlp.info.bd2.repositories.*;
 import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@org.springframework.stereotype.Service
 public class SpringDataToursServiceImpl implements ToursService {
+
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private DriverUserRepository driverUserRepository;
+    @Autowired
+    private TourGuideUserRepository tourGuideUserRepository;
+    @Autowired
+    private PurchaseRepository purchaseRepository;
+
     @Override
+    @Transactional
     public User createUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber) throws ToursException {
-        return null;
+        User newUser = new User(username, password, fullName, email, birthdate, phoneNumber);
+        try{
+            newUser = this.userRepository.save(newUser);
+        }catch (DataIntegrityViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
+
+        return newUser;
     }
 
     @Override
+    @Transactional
     public DriverUser createDriverUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String expedient) throws ToursException {
-        return null;
+        DriverUser newDriverUser = new DriverUser(username, password, fullName, email, birthdate, phoneNumber, expedient);
+
+        return (DriverUser) this.driverUserRepository.save(newDriverUser);
     }
 
     @Override
+    @Transactional
     public TourGuideUser createTourGuideUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String education) throws ToursException {
-        return null;
+        TourGuideUser newTourGuide = new TourGuideUser(username, password, fullName, email, birthdate, phoneNumber, education);
+
+        return (TourGuideUser) this.tourGuideUserRepository.save(newTourGuide);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> getUserById(Long id) throws ToursException {
-        return Optional.empty();
+        return this.userRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> getUserByUsername(String username) throws ToursException {
-        return Optional.empty();
+        return this.userRepository.findByUsername(username);
     }
 
     @Override
+    @Transactional
     public User updateUser(User user) throws ToursException {
-        return null;
+        return this.userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public void deleteUser(User user) throws ToursException {
+        if (!user.isActive()){
+            throw new ToursException("El usuario se encuentra desactivado");
+        }
 
+        if (user.isDeleteable()){
+            this.userRepository.delete(user);
+            return;
+        }
+
+        if (!user.isBaneable()){
+            throw new ToursException("El usuario no puede ser desactivado");
+        }
+
+        user.setActive(false);
+        this.userRepository.save(user);
     }
 
     @Override
@@ -110,12 +157,26 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        return null;
+        Purchase purchase = new Purchase(code, route, user);
+        if (this.purchaseRepository.countUsersRouteInDate(new Date(), route) == route.getMaxNumberUsers()){
+            throw new ToursException("No puede realizarse la compra");
+        }
+        user.addPurchase(purchase);
+        this.purchaseRepository.save(purchase);
+
+        return purchase;
     }
 
     @Override
     public Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException {
-        return null;
+        if (this.purchaseRepository.countUsersRouteInDate(date, route) == route.getMaxNumberUsers()){
+            throw new ToursException("No puede realizarse la compra");
+        }
+        Purchase purchase = new Purchase(code, date, route, user);
+        user.addPurchase(purchase);
+        this.purchaseRepository.save(purchase);
+
+        return purchase;
     }
 
     @Override
@@ -125,7 +186,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Optional<Purchase> getPurchaseByCode(String code) {
-        return Optional.empty();
+        return this.purchaseRepository.findByCode(code);
     }
 
     @Override
