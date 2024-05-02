@@ -150,11 +150,11 @@ public class ToursQuerysTests {
 
     @Test
     void getRoutsNotSellTest() throws ToursException {
-        /*
+        
         List<Route> routsNotSell = this.service.getRoutsNotSell();
         assertEquals(1, routsNotSell.size());
         this.assertListEquality(routsNotSell.stream().map(Route::getName).collect(Collectors.toList()), List.of("Ruta vacia"));
-		*/
+		
     }
 
     @Test

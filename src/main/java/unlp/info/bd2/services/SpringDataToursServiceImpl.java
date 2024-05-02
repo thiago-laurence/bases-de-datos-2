@@ -328,7 +328,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Route> getRoutsNotSell() {
-        return List.of();
+        return routeRepository.findRoutsNotSell();
     }
 
     @Override
