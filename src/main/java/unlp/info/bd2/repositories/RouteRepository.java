@@ -16,7 +16,8 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
     Optional<Route> findById(long id);
     List<Route> findByPriceLessThan(float price);
     List<Route> findByStops(Stop stop);
-    // Make a @Query to find all the routes that are not sold (no Purchase references to it))
     @Query("SELECT r FROM Route r WHERE r.id NOT IN (SELECT p.route.id FROM Purchase p)")
     List<Route> findRoutsNotSell();
+    @Query("SELECT r FROM Route r WHERE r.stops.size = (SELECT MAX(r2.stops.size) FROM Route r2)")
+    Long getMaxStopOfRoutes();
 }

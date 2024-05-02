@@ -323,7 +323,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Long getMaxStopOfRoutes() {
-        return 0L;
+        return routeRepository.getMaxStopOfRoutes();
     }
 
     @Override

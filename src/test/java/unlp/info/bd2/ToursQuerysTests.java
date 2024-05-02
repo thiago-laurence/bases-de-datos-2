@@ -142,10 +142,10 @@ public class ToursQuerysTests {
 
     @Test
     void getMaxStopOfRoutesTest() throws ToursException {
-        /*
+        
         Long maxStopOfRoutes = this.service.getMaxStopOfRoutes();
         assertEquals(9, maxStopOfRoutes);
-		*/
+		
     }
 
     @Test
