@@ -127,7 +127,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Stop> getStopByNameStart(String name) {
-        return List.of();
+        return stopRepository.findByNameStartsWith(name);
     }
 
     @Override
@@ -151,7 +151,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Route> getRoutesBelowPrice(float price) {
-        return List.of();
+        return this.routeRepository.findByPriceLessThan(price);
     }
 
     @Override

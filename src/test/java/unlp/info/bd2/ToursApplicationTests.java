@@ -114,7 +114,7 @@ class ToursApplicationTests {
 
 	@Test
 	void createAndGetRoutesAndStopsTest() throws ToursException {
-		/* 
+		
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		assertNotNull(stop1.getId());
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -145,7 +145,7 @@ class ToursApplicationTests {
 		assertEquals(1, listRoutes2.size());
 		Route routeFromList = listRoutes2.get(0);
 		assertEquals("Estadios 2", routeFromList.getName());
-		*/
+		
 	}
 
 	@Test
