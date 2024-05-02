@@ -318,7 +318,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Route> getRoutesWithStop(Stop stop) {
-        return List.of();
+        return routeRepository.findByStops(stop);
     }
 
     @Override

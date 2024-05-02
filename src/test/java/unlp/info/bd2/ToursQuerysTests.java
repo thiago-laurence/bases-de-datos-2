@@ -124,7 +124,7 @@ public class ToursQuerysTests {
 
     @Test
     void getRoutesWithStopTest() throws ToursException {
-        /*
+        
         Stop stop1 = this.service.getStopByNameStart("Diagonal Norte").get(0);
         Stop stop2 = this.service.getStopByNameStart("Teatro Colón").get(0);
         Stop stop3 = this.service.getStopByNameStart("La Boca").get(0);
@@ -137,7 +137,7 @@ public class ToursQuerysTests {
         this.assertListEquality(routes2.stream().map(Route::getName).collect(Collectors.toList()), List.of("Historical Adventure", "Architectural Expedition"));
         List<Route> routes3 = this.service.getRoutesWithStop(stop3);
         assertEquals(0, routes3.size());
-		*/
+		
     }
 
     @Test
