@@ -359,7 +359,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Service> getServiceNoAddedToPurchases() {
-        return List.of();
+        return this.serviceRepository.findServiceNoAddedToPurchases();
     }
 
     @Override
