@@ -225,17 +225,17 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Optional<Supplier> getSupplierById(Long id) {
-        return Optional.empty();
+        return this.supplierRepository.findById(id);
     }
 
     @Override
     public Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber) {
-        return Optional.empty();
+        return this.supplierRepository.findByAuthorizationNumber(authorizationNumber);
     }
 
     @Override
     public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) throws ToursException {
-        return Optional.empty();
+        return this.serviceRepository.findByNameAndSupplierId(name, id);
     }
 
     @Override

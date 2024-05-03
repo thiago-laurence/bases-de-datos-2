@@ -177,7 +177,7 @@ class ToursApplicationTests {
 
 	@Test
 	void createAndGetSupplierAndService() throws ToursException {
-		/* 
+		
 		Supplier supplier1 = this.toursService.createSupplier("Supplier1", "000111");
 		assertNotNull(supplier1.getId());
 		assertEquals("Supplier1" , supplier1.getBusinessName());
@@ -208,7 +208,7 @@ class ToursApplicationTests {
 		assertFalse(optionalService2.isPresent());
 
 		assertThrows(ToursException.class, () -> this.toursService.createSupplier("Supplier2", "000111"), "Constraint Violation");
-		*/
+		
 	}
 
 	@Test
