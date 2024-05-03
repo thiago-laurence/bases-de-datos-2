@@ -150,7 +150,7 @@ class ToursApplicationTests {
 
 	@Test
 	void assignWorkersToRoutesTest() throws ToursException {
-		/* 
+		
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
 		Stop stop3 = this.toursService.createStop("Estadio Libertadores de America", "Estadio de Independiente");
@@ -172,7 +172,7 @@ class ToursApplicationTests {
 
 		assertThrows(ToursException.class, () -> this.toursService.assignTourGuideByUsername("user_no_existente", tourGuideUser1.getId()) , "No pudo realizarse la asignación");
 		assertThrows(ToursException.class, () -> this.toursService.assignDriverByUsername(driverUser1.getUsername(), 1000000L) , "No pudo realizarse la asignación");
-		*/
+		
 	}
 
 	@Test

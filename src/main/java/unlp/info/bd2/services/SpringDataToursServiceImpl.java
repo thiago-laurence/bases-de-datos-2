@@ -159,7 +159,19 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public void assignDriverByUsername(String username, Long idRoute) throws ToursException {
+        Optional<User> opUser = this.userRepository.findByUsername(username);
+        Optional<Route> opRoute = this.routeRepository.findById(idRoute);
+        if (opUser.isEmpty()){
+            throw new ToursException("El 'Usuario' no existe");
+        }
+        if (opRoute.isEmpty()){
+            throw new ToursException("La 'Ruta' no existe");
+        }
 
+        DriverUser driver = (DriverUser) opUser.get();
+        Route route = opRoute.get();
+        driver.addRoute(route);
+        route.addDriver(driver);
     }
 
     @Override
