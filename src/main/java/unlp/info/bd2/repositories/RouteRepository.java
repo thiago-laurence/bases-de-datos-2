@@ -18,6 +18,6 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
     List<Route> findByStops(Stop stop);
     @Query("SELECT r FROM Route r WHERE r.id NOT IN (SELECT p.route.id FROM Purchase p)")
     List<Route> findRoutsNotSell();
-    @Query("SELECT r FROM Route r WHERE r.stops.size = (SELECT MAX(r2.stops.size) FROM Route r2)")
+    @Query("SELECT COUNT(s) FROM Route r JOIN r.stops s GROUP BY r.id ORDER BY COUNT(s) DESC LIMIT 1")
     Long getMaxStopOfRoutes();
 }
