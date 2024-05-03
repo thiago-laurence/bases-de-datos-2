@@ -6,6 +6,5 @@ import unlp.info.bd2.model.ItemService;
 
 @Repository
 public interface ItemServiceRepository extends CrudRepository<ItemService, Long> {
-    ItemService save(ItemService itemService);
-    void delete(ItemService itemService);
+
 }

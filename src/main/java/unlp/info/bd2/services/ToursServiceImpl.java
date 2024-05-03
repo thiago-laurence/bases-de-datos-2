@@ -193,9 +193,8 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public Service addServiceToSupplier(String name, float price, String description, Supplier supplier) throws ToursException {
-        Service service = new Service(name, price, description);
+        Service service = new Service(name, price, description, supplier);
         supplier.addService(service);
-        service.setSupplier(supplier);
         this.toursRepository.save(service);
 
         return service;

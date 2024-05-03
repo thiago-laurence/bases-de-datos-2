@@ -51,7 +51,6 @@ class ToursApplicationTests {
 	
 	@Test
 	void createAndGetUserTest()  throws ToursException {
-		/* 
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		assertNotNull(user1.getId());
 		assertEquals("user1", user1.getUsername());
@@ -79,13 +78,10 @@ class ToursApplicationTests {
 		assertEquals(driverUser.getExpedient(), "exp...");
 
 		assertThrows(ToursException.class, () -> this.toursService.createUser("userD", "1234", "Otro usuario", "otromail@gmail.com", dob1, "000111222999"), "Constraint Violation");
-		*/
 	}
-	
 	
 	@Test
 	void updateUserTest()  throws ToursException {
-		/*
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		DriverUser driverUser = this.toursService.createDriverUser("userD", "1234", "Usuario Driver", "userd@gmail.com", dob2, "000111222444", "exp...");
 		assertEquals("000111222333", user1.getPhoneNumber());
@@ -108,9 +104,7 @@ class ToursApplicationTests {
 		assertTrue(opUnmodifiedUserFromDB.isPresent());
 		User unmodifiedUserFromDB = opUnmodifiedUserFromDB.get();
 		assertEquals(unmodifiedUserFromDB.getId(), user1.getId());
-		*/
 	}
-	 
 
 	@Test
 	void createAndGetRoutesAndStopsTest() throws ToursException {
@@ -227,7 +221,6 @@ class ToursApplicationTests {
 
 	@Test
 	void createAndGetPurchaseTest() throws ToursException {
-		/* 
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -262,12 +255,10 @@ class ToursApplicationTests {
 
 		assertThrows(ToursException.class, () -> this.toursService.createPurchase("200", dyes, route1, user1), "No puede realizarse la compra");
 		assertThrows(ToursException.class, () -> this.toursService.createPurchase("100", route1, user1), "Constraint Violation");
-		*/
 	}
 
 	@Test
 	void removePurchaseAndItems() throws ToursException {
-		/* 
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -285,7 +276,6 @@ class ToursApplicationTests {
 		this.toursService.deletePurchase(purchase1);
 		Optional<Purchase> purchase = this.toursService.getPurchaseByCode("100");
 		assertFalse(purchase.isPresent());
-		*/
 	}
 
 	@Test
@@ -311,7 +301,6 @@ class ToursApplicationTests {
 
 	@Test
 	void deleteUserTest() throws ToursException {
-		/* 
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		assertTrue(user1.isActive());
 		this.toursService.deleteUser(user1);
@@ -338,7 +327,6 @@ class ToursApplicationTests {
 		this.toursService.assignTourGuideByUsername(tourGuideUser.getUsername(), route1.getId());
 		assertTrue(tourGuideUser.isActive());
 		assertThrows(ToursException.class, () -> this.toursService.deleteUser(tourGuideUser), "El usuario no puede ser desactivado");
-		*/
 	}
 
 }

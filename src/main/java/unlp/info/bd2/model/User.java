@@ -32,7 +32,7 @@ public class User {
 
     private boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.MERGE })
     private List<Purchase> purchaseList;
 
     public User(){ }
@@ -129,6 +129,12 @@ public class User {
     }
 
     public void addPurchase(Purchase purchase){
-        this.getPurchaseList().add(purchase);
+        if (!this.getPurchaseList().contains(purchase)) {
+            this.getPurchaseList().add(purchase);
+        }
+    }
+
+    public void removePurchase(Purchase purchase){
+        this.getPurchaseList().remove(purchase);
     }
 }

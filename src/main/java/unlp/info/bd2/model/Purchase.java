@@ -21,18 +21,18 @@ public class Purchase {
 
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { })
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { })
     @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
     private Route route;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE })
     private Review review;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE })
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }

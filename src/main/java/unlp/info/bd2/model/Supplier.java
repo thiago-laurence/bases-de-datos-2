@@ -20,6 +20,12 @@ public class Supplier {
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<Service> services;
 
+    public Supplier(String businessName, String authorizationNumber) {
+        this.setBusinessName(businessName);
+        this.setAuthorizationNumber(authorizationNumber);
+        this.setServices(new ArrayList<Service>());
+    }
+
     public Long getId() {
         return id;
     }
@@ -52,18 +58,14 @@ public class Supplier {
         this.services = services;
     }
 
-    public Supplier(String businessName, String authorizationNumber) {
-        this.setBusinessName(businessName);
-        this.setAuthorizationNumber(authorizationNumber);
-        this.setServices(new ArrayList<Service>());
-    }
-
     public Supplier(){
         this.services = new ArrayList<Service>();
     }
 
     public void addService(Service service) {
-        this.getServices().add(service);
+        if (!this.services.contains(service)) {
+            this.getServices().add(service);
+        }
     }
 
 }

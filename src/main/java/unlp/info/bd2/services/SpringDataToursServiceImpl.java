@@ -210,9 +210,8 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Service addServiceToSupplier(String name, float price, String description, Supplier supplier) throws ToursException {
-        Service service = new Service(name, price, description);
+        Service service = new Service(name, price, description, supplier);
         supplier.addService(service);
-        service.setSupplier(supplier);
         this.serviceRepository.save(service);
 
         return service;
@@ -241,10 +240,10 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        Purchase purchase = new Purchase(code, route, user);
         if (this.purchaseRepository.countUsersRouteInDate(new Date(), route) == route.getMaxNumberUsers()){
             throw new ToursException("No puede realizarse la compra");
         }
+        Purchase purchase = new Purchase(code, route, user);
         user.addPurchase(purchase);
         try{
             this.purchaseRepository.save(purchase);
@@ -271,7 +270,6 @@ public class SpringDataToursServiceImpl implements ToursService {
 
         return purchase;
     }
-
 
     @Override
     @Transactional

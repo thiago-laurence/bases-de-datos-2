@@ -6,5 +6,5 @@ import unlp.info.bd2.model.Review;
 
 @Repository
 public interface ReviewRepository extends CrudRepository<Review, Integer> {
-    void delete(Review review);
+
 }
