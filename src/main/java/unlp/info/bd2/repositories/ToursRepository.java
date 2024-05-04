@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ToursRepository {
     void remove(Object object);
-    Object merge(Object object);
+    Object merge(Object object) throws ToursException;
     void save(Object object) throws ToursException;
 
     Optional<User> getUserById(Long id);
@@ -20,6 +20,8 @@ public interface ToursRepository {
 
     Optional<Route> getRouteByName(String name);
     Optional<Route> getRouteById(Long id);
+
+    Optional<Service> getServiceById(Long id);
 
     List<TourGuideUser> getTourGuidesWithRating1();
     Long getMaxStopOfRoutes();
@@ -33,7 +35,6 @@ public interface ToursRepository {
     Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber);
     List<Supplier> getTopNSuppliersInPurchases(int n);
     Optional<Service> getServiceByNameAndSupplierId(String name, Long supplier);
-    Service updateServicePriceById(Long id, float newPrice) throws ToursException;
     Service getMostDemandedService();
     List<Service> getServiceNoAddedToPurchases();
     List<User> findTop5UsersByNumberOfPurchases();

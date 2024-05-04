@@ -17,6 +17,7 @@ public class Purchase {
     @Column(unique = true, nullable = false, length = 12)
     private String code;
 
+    @Column(name = "total_price")
     private float totalPrice;
 
     private Date date;

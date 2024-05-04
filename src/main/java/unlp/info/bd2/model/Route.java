@@ -17,9 +17,10 @@ public class Route {
 
     private float price;
 
+    @Column(name = "total_km")
     private float totalKm;
 
-    @Column(nullable = false)
+    @Column(name= "max_number_user", nullable = false)
     private int maxNumberUsers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

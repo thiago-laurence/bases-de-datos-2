@@ -28,6 +28,7 @@ public class User {
 
     private Date birthdate;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     private boolean active;

@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = { @UniqueConstraint(name = "UniqueServicePerSupplier", columnNames = { "name", "description", "supplier_id" }) })
 public class Service {
 
     @Id

@@ -3,7 +3,6 @@ package unlp.info.bd2.services;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.ToursRepository;
-import unlp.info.bd2.repositories.ToursRepositoryImpl;
 import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
@@ -12,6 +11,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+@org.springframework.stereotype.Service
 public class ToursServiceImpl implements ToursService{
 
     @Autowired
@@ -19,10 +19,6 @@ public class ToursServiceImpl implements ToursService{
 
     public ToursServiceImpl(ToursRepository repository) throws ToursException {
         this.toursRepository = repository;
-    }
-
-    public ToursServiceImpl() {
-        this.toursRepository = new ToursRepositoryImpl();
     }
 
     @Override
@@ -154,7 +150,7 @@ public class ToursServiceImpl implements ToursService{
         Route route = opRoute.get();
         route.addDriver(driver);
         driver.addRoute(route);
-//        this.toursRepository.merge(driver);
+
         this.toursRepository.merge(route);
     }
 
@@ -174,7 +170,7 @@ public class ToursServiceImpl implements ToursService{
         Route route = opRoute.get();
         tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
-//        this.toursRepository.merge(tourGuide);
+
         this.toursRepository.merge(route);
     }
 
@@ -204,7 +200,13 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
-        return this.toursRepository.updateServicePriceById(id, newPrice);
+        Optional<Service> service = this.toursRepository.getServiceById(id);
+        if (service.isEmpty()){
+            throw new ToursException("No existe el Servicio buscado");
+        }
+
+        service.get().setPrice(newPrice);
+        return (Service) this.toursRepository.merge(service.get());
     }
 
     @Override
@@ -317,7 +319,7 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional(readOnly = true)
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
-        return toursRepository.countPurchasesBetweenDates(start,end);
+        return toursRepository.countPurchasesBetweenDates(start, end);
     }
 
     @Override
