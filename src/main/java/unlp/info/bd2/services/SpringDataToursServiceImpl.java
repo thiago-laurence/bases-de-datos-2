@@ -303,7 +303,11 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
-        return null;
+        Review review = new Review(rating, comment, purchase);
+        purchase.setReview(review);
+        purchaseRepository.save(purchase);
+
+        return review;
     }
 
     @Override

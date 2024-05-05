@@ -280,7 +280,7 @@ class ToursApplicationTests {
 
 	@Test
 	void addReviewToPurchaseTest() throws ToursException {
-		/* 
+
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -296,7 +296,7 @@ class ToursApplicationTests {
 		assertNotNull(review.getId());
 		assertNotNull(purchase.getReview());
 		assertEquals(purchase.getId(), review.getPurchase().getId());
-		*/
+
 	}
 
 	@Test
