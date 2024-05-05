@@ -54,7 +54,7 @@ public class ToursQuerysTests {
 
     @Test
     void getAllPurchasesOfUsernameTest() throws ToursException {
-        /*
+
         List<Purchase> purchases1 = this.service.getAllPurchasesOfUsername("user1");
         assertEquals(6, purchases1.size());
         this.assertListEquality(purchases1.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P001", "P005","P009", "P011", "P015", "P019"));

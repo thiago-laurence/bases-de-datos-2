@@ -10,6 +10,7 @@ import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.*;
 import unlp.info.bd2.utils.ToursException;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -301,8 +302,15 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Purchase> getAllPurchasesOfUsername(String username) {
-        return List.of();
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        User user = userOptional.get();
+        return purchaseRepository.findByUser_Username(username);
     }
+
 
     @Override
     public List<User> getUserSpendingMoreThan(float mount) {

@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,4 +16,7 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
 
     @Query("SELECT COUNT(p) FROM Purchase p JOIN p.route r WHERE p.date = ?1 AND r = ?2")
     long countUsersRouteInDate(Date date, Route route);
+
+    List<Purchase> findByUser_Username(String username);
+
 }
