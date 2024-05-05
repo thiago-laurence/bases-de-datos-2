@@ -32,7 +32,7 @@ public class Purchase {
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE })
     private Review review;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE })
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }

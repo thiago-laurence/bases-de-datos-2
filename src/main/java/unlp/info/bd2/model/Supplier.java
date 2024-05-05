@@ -17,7 +17,7 @@ public class Supplier {
     @Column(unique = true)
     private String authorizationNumber;
 
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
     private List<Service> services;
 
     public Supplier(String businessName, String authorizationNumber) {
