@@ -28,4 +28,13 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
 
     @Query("SELECT COUNT(p) FROM Purchase p WHERE p.date BETWEEN :start AND :end")
     long getCountOfPurchasesBetweenDates(Date start, Date end);
+
+    @Query("SELECT DISTINCT p.user " +
+            "FROM Purchase p " +
+            "GROUP BY p.user " +
+            "ORDER BY COUNT(p) DESC " +
+            "LIMIT 5")
+    List<User> findTop5UsersMorePurchases();
+
+
 }
