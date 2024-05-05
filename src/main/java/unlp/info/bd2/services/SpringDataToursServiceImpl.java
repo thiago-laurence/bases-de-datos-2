@@ -219,8 +219,14 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Override
+    @Transactional
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
-        return null;
+        Service service = serviceRepository.findById(id)
+                .orElseThrow(() -> new ToursException("Service not found"));
+
+        service.setPrice(newPrice);
+        serviceRepository.save(service);
+        return service;
     }
 
     @Override
@@ -334,7 +340,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
-        return 0;
+        return purchaseRepository.getCountOfPurchasesBetweenDates(start, end);
     }
 
     @Override

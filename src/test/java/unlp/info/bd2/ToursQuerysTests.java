@@ -63,7 +63,7 @@ public class ToursQuerysTests {
         this.assertListEquality(purchases2.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P003"));
         List<Purchase> purchases3 = this.service.getAllPurchasesOfUsername("user5");
         assertEquals(0, purchases3.size());
-         */
+
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ToursQuerysTests {
 
     @Test
     void getCountOfPurchasesBetweenDatesTest() throws ToursException {
-        /*
+
         LocalDate today = LocalDate.now();
         long countOfPurchasesBetweenDates1 = this.service.getCountOfPurchasesBetweenDates(Date.valueOf(today.minusDays(25)), Date.valueOf(today.minusDays(15)));
         assertEquals(7, countOfPurchasesBetweenDates1);
@@ -114,7 +114,7 @@ public class ToursQuerysTests {
         assertEquals(7, countOfPurchasesBetweenDates2);
         long countOfPurchasesBetweenDates3 = this.service.getCountOfPurchasesBetweenDates(Date.valueOf(today.minusDays(26)), Date.valueOf(today.minusDays(22)));
         assertEquals(0, countOfPurchasesBetweenDates3);
-		*/
+
     }
 
     @Test
