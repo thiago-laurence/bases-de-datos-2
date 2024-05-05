@@ -10,9 +10,11 @@ import unlp.info.bd2.model.Service;
 
 @Repository
 public interface ServiceRepository extends CrudRepository<Service, Long> {
-    Service save(Service service);
-    void delete(Service service);
     Optional<Service> findByNameAndSupplierId(String name, Long id);
+
     @Query("SELECT s FROM Service s WHERE s NOT IN (SELECT i.service FROM ItemService i)")
     List<Service> findServiceNoAddedToPurchases();
+
+    @Query("SELECT s FROM Service s JOIN s.items i GROUP BY s ORDER BY SUM(i.quantity) DESC FETCH FIRST 1 ROWS ONLY")
+    Service getMostDemandedService();
 }

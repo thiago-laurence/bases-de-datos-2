@@ -314,7 +314,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<User> getUserSpendingMoreThan(float mount) {
-        return List.of();
+        return this.userRepository.getUserSpendingMoreThan(mount);
     }
 
     @Override
@@ -324,12 +324,12 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return List.of();
+        return this.purchaseRepository.getTop10MoreExpensivePurchasesInServices();
     }
 
     @Override
     public List<User> getTop5UsersMorePurchases() {
-        return List.of();
+        return this.userRepository.getTop5UsersMorePurchasesTest();
     }
 
     @Override
@@ -360,7 +360,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Service getMostDemandedService() {
-        return null;
+        return this.serviceRepository.getMostDemandedService();
     }
 
     @Override
