@@ -23,7 +23,7 @@ public class Service {
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = { })
     private List<ItemService> items;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinColumn(name = "supplier_id", nullable = false, updatable = false)
     private Supplier supplier;
 
