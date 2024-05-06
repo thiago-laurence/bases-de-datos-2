@@ -28,7 +28,7 @@ public class Purchase {
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE })
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
     private Review review;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
