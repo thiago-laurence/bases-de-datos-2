@@ -19,17 +19,17 @@ public class User {
 
     @Column(unique = true, nullable = false, updatable = false)
     private String username;
-
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     private String name;
-
+    
     private String email;
-
+    @Column(nullable = false)
     private Date birthdate;
-
+    
     private String phoneNumber;
-
+    @Column(nullable = false)
     private boolean active;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
