@@ -8,10 +8,9 @@ public class Stop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column
     private String description;
 
     public Stop(){ }

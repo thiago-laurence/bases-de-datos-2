@@ -16,8 +16,10 @@ public class Purchase {
     @Column(unique = true, nullable = false, length = 12)
     private String code;
 
+    @Column(nullable = false)
     private float totalPrice;
 
+    @Column(nullable = false)
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { })

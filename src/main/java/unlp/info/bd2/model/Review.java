@@ -12,7 +12,6 @@ public class Review {
     @Column(nullable = false)
     private int rating;
 
-    @Column
     private String comment;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = { })

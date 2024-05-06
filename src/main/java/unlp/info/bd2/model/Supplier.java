@@ -11,10 +11,10 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String businessName;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String authorizationNumber;
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
