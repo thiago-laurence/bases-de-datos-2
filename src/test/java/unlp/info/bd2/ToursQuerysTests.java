@@ -80,14 +80,14 @@ public class ToursQuerysTests {
 
     @Test
     void getTopNSuppliersInPurchasesTest() throws ToursException {
-        /*
+
         List<Supplier> suppliers1 = this.service.getTopNSuppliersInPurchases(3);
         assertEquals(3, suppliers1.size());
         this.assertListEquality(suppliers1.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345", "54321", "67890"));
         List<Supplier> suppliers2 = this.service.getTopNSuppliersInPurchases(1);
         assertEquals(1, suppliers2.size());
         this.assertListEquality(suppliers2.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345"));
-		*/
+
     }
 
     @Test

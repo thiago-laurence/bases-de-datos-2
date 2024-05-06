@@ -1,8 +1,7 @@
 package unlp.info.bd2.repositories;
-import unlp.info.bd2.model.Purchase;
-import unlp.info.bd2.model.Review;
-import unlp.info.bd2.model.Route;
-import unlp.info.bd2.model.User;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
+import unlp.info.bd2.model.*;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -37,6 +36,19 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
             "ORDER BY COUNT(p) DESC " +
             "LIMIT 5")
     List<User> findTop5UsersMorePurchases();
+
+
+
+    @Query("SELECT DISTINCT s " +
+            "FROM Supplier s " +
+            "JOIN s.services ser " +
+            "JOIN ser.items isv " +
+            "JOIN isv.purchase p " +
+            "GROUP BY s.id " +
+            "ORDER BY COUNT(p.id) DESC")
+    List<Supplier> findTopNSuppliersInPurchases(Pageable pageable);
+
+
 
 
 }

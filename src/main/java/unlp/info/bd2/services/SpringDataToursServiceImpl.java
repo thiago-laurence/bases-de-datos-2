@@ -328,10 +328,10 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Override
-    public List<Supplier> getTopNSuppliersInPurchases(int n) {
-        return List.of();
+    public List<Supplier> getTopNSuppliersInPurchases(int topN) {
+        PageRequest pageable = PageRequest.of(0, topN);
+        return purchaseRepository.findTopNSuppliersInPurchases(pageable);
     }
-
     @Override
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
         return this.purchaseRepository.getTop10MoreExpensivePurchasesInServices();
