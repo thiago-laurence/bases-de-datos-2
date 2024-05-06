@@ -20,10 +20,10 @@ public class Service {
     @Column
     private String description;
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = { })
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER)
     private List<ItemService> items;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "supplier_id", nullable = false, updatable = false)
     private Supplier supplier;
 

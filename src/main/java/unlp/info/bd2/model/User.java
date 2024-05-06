@@ -32,7 +32,7 @@ public class User {
 
     private boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.MERGE })
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Purchase> purchaseList;
 
     public User(){ }

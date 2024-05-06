@@ -1,8 +1,6 @@
 package unlp.info.bd2.model;
 
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
@@ -16,7 +14,7 @@ public class TourGuideUser extends User {
 
     private String education;
 
-    @ManyToMany(mappedBy = "tourGuideList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tourGuideList", fetch = FetchType.LAZY)
     private List<Route> routes;
 
     public TourGuideUser() {}
