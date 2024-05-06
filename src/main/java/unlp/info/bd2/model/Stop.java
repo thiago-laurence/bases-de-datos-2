@@ -1,5 +1,7 @@
 package unlp.info.bd2.model;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,11 +10,13 @@ public class Stop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column
     private String description;
+
+    @ManyToMany(mappedBy = "stops", fetch = FetchType.LAZY)
+    private List<Route> routes;
 
     public Stop(){ }
 

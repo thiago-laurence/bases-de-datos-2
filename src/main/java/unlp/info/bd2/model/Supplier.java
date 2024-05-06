@@ -11,13 +11,13 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "business_name")
+    @Column(name = "business_name", nullable = false)
     private String businessName;
 
-    @Column(name = "authorization_number",unique = true)
+    @Column(name = "authorization_number", nullable = false, unique = true)
     private String authorizationNumber;
 
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
     private List<Service> services;
 
     public Long getId() {

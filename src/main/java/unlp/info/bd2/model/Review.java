@@ -12,11 +12,10 @@ public class Review {
     @Column(nullable = false)
     private int rating;
 
-    @Column
     private String comment;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-    @JoinColumn(name= "purchase_id", referencedColumnName = "id", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "purchase_id", nullable = false)
     private Purchase purchase;
 
     public Review() { }

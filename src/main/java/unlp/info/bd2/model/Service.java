@@ -18,14 +18,13 @@ public class Service {
     @Column(nullable = false)
     private float price;
 
-    @Column
     private String description;
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER)
     private List<ItemService> items;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-    @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "supplier_id", nullable = false, updatable = false)
     private Supplier supplier;
 
     public Service(){ }

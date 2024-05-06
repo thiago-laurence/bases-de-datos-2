@@ -15,7 +15,7 @@ public class TourGuideUser extends User {
 
     private String education;
 
-    @ManyToMany(mappedBy = "tourGuideList", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tourGuideList", fetch = FetchType.LAZY)
     private List<Route> routes;
 
     public TourGuideUser() {}

@@ -19,21 +19,21 @@ public class User {
 
     @Column(unique = true, nullable = false, updatable = false)
     private String username;
-
+    @Column(nullable = false)
     private String password;
-
+    @Column(nullable = false)
     private String name;
 
     private String email;
-
+    @Column(nullable = false)
     private Date birthdate;
 
     @Column(name = "phone_number")
     private String phoneNumber;
-
+    @Column(nullable = false)
     private boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Purchase> purchaseList;
 
     public User(){ }

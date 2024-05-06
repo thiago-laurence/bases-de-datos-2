@@ -15,15 +15,16 @@ public class Route {
     @Column(unique = true, nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private float price;
 
-    @Column(name = "total_km")
+    @Column(name = "total_km", nullable = false)
     private float totalKm;
 
     @Column(name= "max_number_user", nullable = false)
     private int maxNumberUsers;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "route_stop",
             joinColumns = @JoinColumn(name = "route_id"),
