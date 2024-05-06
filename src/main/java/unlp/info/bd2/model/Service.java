@@ -17,7 +17,6 @@ public class Service {
     @Column(nullable = false)
     private float price;
 
-    @Column
     private String description;
 
     @OneToMany(mappedBy = "service", fetch = FetchType.EAGER)

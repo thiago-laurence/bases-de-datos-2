@@ -32,7 +32,7 @@ public class User {
     @Column(nullable = false)
     private boolean active;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Purchase> purchaseList;
 
     public User(){ }
