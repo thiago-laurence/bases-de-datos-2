@@ -1,6 +1,5 @@
 package unlp.info.bd2.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;

@@ -1,5 +1,5 @@
 package unlp.info.bd2.model;
-
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,6 +12,9 @@ public class Stop {
     private String name;
 
     private String description;
+
+    @ManyToMany(mappedBy = "stops", fetch = FetchType.LAZY)
+    private List<Route> routes;
 
     public Stop(){ }
 
