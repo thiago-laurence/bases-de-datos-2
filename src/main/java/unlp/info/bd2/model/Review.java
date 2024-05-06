@@ -16,7 +16,7 @@ public class Review {
     private String comment;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = { })
-    @JoinColumn(name= "purchase_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name= "purchase_id", nullable = false)
     private Purchase purchase;
 
     public Review() { }

@@ -2,7 +2,6 @@ package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +21,11 @@ public class Purchase {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { })
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { })
-    @JoinColumn(name = "route_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE })

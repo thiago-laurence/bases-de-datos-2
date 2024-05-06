@@ -24,7 +24,7 @@ public class Service {
     private List<ItemService> items;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
-    @JoinColumn(name = "supplier_id", referencedColumnName = "id", nullable = false, updatable = false)
+    @JoinColumn(name = "supplier_id", nullable = false, updatable = false)
     private Supplier supplier;
 
     public Service(){ }

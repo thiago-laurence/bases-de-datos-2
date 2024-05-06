@@ -13,11 +13,11 @@ public class ItemService {
     private int quantity;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
-    @JoinColumn(name = "purchase_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "purchase_id", nullable = false)
     private Purchase purchase;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
-    @JoinColumn(name = "service_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
     public ItemService() {}
