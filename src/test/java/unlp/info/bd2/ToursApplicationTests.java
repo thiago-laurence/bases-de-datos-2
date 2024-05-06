@@ -207,7 +207,7 @@ class ToursApplicationTests {
 
 	@Test
 	void updateServicePriceTest() throws ToursException {
-		/* 
+
 		Supplier supplier1 = this.toursService.createSupplier("Supplier1", "000111");
 		Service service1 = this.toursService.addServiceToSupplier("Servicio1", 500f, "primer servicio", supplier1);
 		assertEquals(500f, service1.getPrice());
@@ -216,7 +216,7 @@ class ToursApplicationTests {
 		assertEquals(600f, service2.getPrice());
 
 		assertThrows(ToursException.class, () -> this.toursService.updateServicePriceById(100000L, 500f), "No existe el producto");
-		*/
+
 	}
 
 	@Test
@@ -280,7 +280,7 @@ class ToursApplicationTests {
 
 	@Test
 	void addReviewToPurchaseTest() throws ToursException {
-		/* 
+
 		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
 		Stop stop1 = this.toursService.createStop("Estadio Monumental", "Estadio de River Plate");
 		Stop stop2 = this.toursService.createStop("Estadio La Bombonera", "Estadio de Boca Junions");
@@ -296,7 +296,7 @@ class ToursApplicationTests {
 		assertNotNull(review.getId());
 		assertNotNull(purchase.getReview());
 		assertEquals(purchase.getId(), review.getPurchase().getId());
-		*/
+
 	}
 
 	@Test

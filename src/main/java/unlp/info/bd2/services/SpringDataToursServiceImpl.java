@@ -10,6 +10,7 @@ import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.*;
 import unlp.info.bd2.utils.ToursException;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -218,8 +219,14 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Override
+    @Transactional
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
-        return null;
+        Service service = serviceRepository.findById(id)
+                .orElseThrow(() -> new ToursException("Service not found"));
+
+        service.setPrice(newPrice);
+        serviceRepository.save(service);
+        return service;
     }
 
     @Override
@@ -296,17 +303,28 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
-        return null;
+        Review review = new Review(rating, comment, purchase);
+        purchase.setReview(review);
+        purchaseRepository.save(purchase);
+
+        return review;
     }
 
     @Override
     public List<Purchase> getAllPurchasesOfUsername(String username) {
-        return List.of();
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        User user = userOptional.get();
+        return purchaseRepository.findByUser_Username(username);
     }
+
 
     @Override
     public List<User> getUserSpendingMoreThan(float mount) {
-        return List.of();
+        return this.userRepository.getUserSpendingMoreThan(mount);
     }
 
     @Override
@@ -316,17 +334,17 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return List.of();
+        return this.purchaseRepository.getTop10MoreExpensivePurchasesInServices();
     }
 
     @Override
     public List<User> getTop5UsersMorePurchases() {
-        return List.of();
+        return this.userRepository.getTop5UsersMorePurchasesTest();
     }
 
     @Override
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
-        return 0;
+        return purchaseRepository.getCountOfPurchasesBetweenDates(start, end);
     }
 
     @Override
@@ -352,7 +370,7 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Service getMostDemandedService() {
-        return null;
+        return this.serviceRepository.getMostDemandedService();
     }
 
     @Override
