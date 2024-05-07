@@ -380,6 +380,6 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public List<TourGuideUser> getTourGuidesWithRating1() {
-        return List.of();
+        return this.tourGuideUserRepository.getTourGuidesWithRating1();
     }
 }

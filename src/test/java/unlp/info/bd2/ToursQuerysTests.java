@@ -179,11 +179,11 @@ public class ToursQuerysTests {
 
     @Test
     void getTourGuidesWithRating1Test() throws ToursException {
-        /*
+
         List<TourGuideUser> tourGuidesWithRating1 = this.service.getTourGuidesWithRating1();
         assertEquals(3, tourGuidesWithRating1.size());
         this.assertListEquality(tourGuidesWithRating1.stream().map(TourGuideUser::getUsername).collect(Collectors.toList()), List.of("userG1", "userG3", "userG4"));
-		*/
+
     }
 
     private <T> void assertListEquality(List<T> list1, List<T> list2) {
