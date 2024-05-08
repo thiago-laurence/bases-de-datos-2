@@ -301,6 +301,7 @@ public class SpringDataToursServiceImpl implements ToursService {
         this.purchaseRepository.delete(purchase);
     }
 
+    @Transactional
     @Override
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
         Review review = new Review(rating, comment, purchase);
