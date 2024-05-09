@@ -12,4 +12,6 @@ public interface TourGuideUserRepository extends UserRepository {
 
     @Query ("SELECT t FROM Purchase p JOIN p.review rv JOIN p.route.tourGuideList t WHERE rv.rating = 1")
     List<TourGuideUser> getTourGuidesWithRating1();
+
+
 }

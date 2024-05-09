@@ -19,13 +19,10 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
 
     List<Purchase> findByUser_Username(String username);
 
-    @Query("SELECT p FROM Purchase p WHERE p IN " +
-                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
-                                "ORDER BY p.totalPrice DESC LIMIT 10")
-    List<Purchase> getTop10MoreExpensivePurchasesInServices();
+    List<Purchase> findByItemServiceListIsNotEmptyOrderByTotalPriceDesc(Pageable pageable);
 
-    @Query("SELECT COUNT(p) FROM Purchase p WHERE p.date BETWEEN :start AND :end")
-    long getCountOfPurchasesBetweenDates(Date start, Date end);
+
+    long countByDateBetween(Date start, Date end);
 
     @Query("SELECT s " +
             "FROM Supplier s " +

@@ -352,7 +352,8 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return this.purchaseRepository.getTop10MoreExpensivePurchasesInServices();
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        return purchaseRepository.findByItemServiceListIsNotEmptyOrderByTotalPriceDesc(pageRequest);
     }
 
     @Override
@@ -364,7 +365,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
-        return purchaseRepository.getCountOfPurchasesBetweenDates(start, end);
+        return purchaseRepository.countByDateBetween(start, end);
     }
 
     @Override
