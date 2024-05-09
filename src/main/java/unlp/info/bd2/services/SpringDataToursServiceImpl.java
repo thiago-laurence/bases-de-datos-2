@@ -1,10 +1,8 @@
 package unlp.info.bd2.services;
 
-import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.*;
@@ -317,8 +315,6 @@ public class SpringDataToursServiceImpl implements ToursService {
         if (userOptional.isEmpty()) {
             return Collections.emptyList();
         }
-
-        User user = userOptional.get();
         return purchaseRepository.findByUser_Username(username);
     }
 
@@ -355,7 +351,8 @@ public class SpringDataToursServiceImpl implements ToursService {
 
     @Override
     public Long getMaxStopOfRoutes() {
-        return routeRepository.getMaxStopOfRoutes();
+        PageRequest pageable = PageRequest.of(0, 1);
+        return routeRepository.getMaxStopOfRoutes(pageable);
     }
 
     @Override

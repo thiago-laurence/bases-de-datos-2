@@ -154,11 +154,11 @@ public class ToursQuerysTests {
 
     @Test
     void getTop3RoutesWithMaxRatingTest() throws ToursException {
-        /*
+        
         List<Route> routesWithMaxRating = this.service.getTop3RoutesWithMaxRating();
         assertEquals(3, routesWithMaxRating.size());
         this.assertListEquality(routesWithMaxRating.stream().map(Route::getName).collect(Collectors.toList()), List.of("City Tour", "Historical Adventure", "Architectural Expedition"));
-		*/
+		
     }
 
     @Test

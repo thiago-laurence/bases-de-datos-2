@@ -26,14 +26,14 @@ public class Purchase {
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Review review;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE }, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }

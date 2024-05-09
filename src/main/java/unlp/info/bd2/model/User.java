@@ -1,7 +1,6 @@
 package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,11 +22,11 @@ public class User {
     private String password;
     @Column(nullable = false)
     private String name;
-    
+    @Column(nullable = true)
     private String email;
     @Column(nullable = false)
     private Date birthdate;
-    
+    @Column(nullable = true)
     private String phoneNumber;
     @Column(nullable = false)
     private boolean active;

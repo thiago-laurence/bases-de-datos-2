@@ -12,7 +12,7 @@ public class ItemService {
     @Column(nullable = false)
     private int quantity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "purchase_id", nullable = false)
     private Purchase purchase;
 
