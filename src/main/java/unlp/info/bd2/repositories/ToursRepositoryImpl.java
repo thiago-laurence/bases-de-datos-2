@@ -280,12 +280,9 @@ public class ToursRepositoryImpl implements ToursRepository{
 
     @Override
     public List<Service> getServiceNoAddedToPurchases() {
-        return (
-            this.sessionFactory.getCurrentSession().createQuery(
-                    "SELECT s FROM Service s WHERE NOT EXISTS " +
-                    "(SELECT i FROM ItemService i WHERE i.service = s AND i.purchase IS NOT NULL)", Service.class)
-                    .getResultList()
-        );
+        return this.sessionFactory.getCurrentSession()
+                .createQuery("SELECT s FROM Service s WHERE size(s.items) = 0", Service.class)
+                .getResultList();
     }
 
 }
