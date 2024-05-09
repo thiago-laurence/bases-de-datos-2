@@ -2,7 +2,6 @@ package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,24 +16,26 @@ public class Purchase {
     @Column(unique = true, nullable = false, length = 12)
     private String code;
 
-    @Column(name = "total_price")
+    @Column(nullable = false, length = 20)
     private float totalPrice;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH })
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", 
+        cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Review review;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", 
+        cascade = { CascadeType.REMOVE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }

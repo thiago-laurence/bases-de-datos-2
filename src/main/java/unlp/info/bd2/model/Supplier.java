@@ -11,10 +11,9 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "business_name", nullable = false)
+    @Column(name = "business_name", nullable = false, unique = true, length = 30)
     private String businessName;
-
-    @Column(name = "authorization_number", nullable = false, unique = true)
+    @Column(name = "authorization_number", nullable = false, unique = true, length = 10)
     private String authorizationNumber;
 
     @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)

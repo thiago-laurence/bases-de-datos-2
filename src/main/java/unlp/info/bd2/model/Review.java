@@ -9,12 +9,12 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5)
     private int rating;
-
+    @Column(nullable = false, length = 200)
     private String comment;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "purchase_id", nullable = false)
     private Purchase purchase;
 

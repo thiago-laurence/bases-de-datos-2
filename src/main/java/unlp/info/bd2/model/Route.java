@@ -12,18 +12,15 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 30)
     private String name;
-
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private float price;
-
-    @Column(name = "total_km", nullable = false)
+    @Column(nullable = false, length = 6)
     private float totalKm;
-
-    @Column(name= "max_number_user", nullable = false)
+    @Column(nullable = false, length = 3)
     private int maxNumberUsers;
-
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "route_stop",
@@ -33,7 +30,7 @@ public class Route {
     )
     private List<Stop> stops;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "route_driver",
             joinColumns = @JoinColumn(name = "route_id"),
@@ -42,7 +39,7 @@ public class Route {
     )
     private List<DriverUser> driverList;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "route_guideTour",
             joinColumns = @JoinColumn(name = "route_id"),

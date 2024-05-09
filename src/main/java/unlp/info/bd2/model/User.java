@@ -17,18 +17,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, updatable = false)
+    @Column(unique = true, nullable = false, updatable = false, length = 30)
     private String username;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String name;
-
+    @Column(nullable = true, length = 50)
     private String email;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 10)
     private Date birthdate;
-
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = true, length = 20)
     private String phoneNumber;
     @Column(nullable = false)
     private boolean active;

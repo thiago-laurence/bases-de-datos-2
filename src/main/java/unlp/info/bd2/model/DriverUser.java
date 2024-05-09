@@ -9,9 +9,10 @@ import java.util.List;
 @Entity
 public class DriverUser extends User {
 
+    @Column(nullable = true, length = 50)
     private String expedient;
 
-    @ManyToMany(mappedBy = "driverList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "driverList", fetch = FetchType.EAGER)
     private List<Route> routes;
 
     public DriverUser() {}

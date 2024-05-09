@@ -10,9 +10,9 @@ public class Stop {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, length = 50)
     private String name;
-
+    @Column(nullable = true, length = 500)
     private String description;
 
     @ManyToMany(mappedBy = "stops", fetch = FetchType.LAZY)
