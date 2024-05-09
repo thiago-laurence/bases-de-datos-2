@@ -91,7 +91,11 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public User updateUser(User user) throws ToursException {
-        return this.userRepository.save(user);
+        try{
+            return this.userRepository.save(user);
+        }catch (DataIntegrityViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
     }
 
     @Override
@@ -128,6 +132,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Stop> getStopByNameStart(String name) {
         return stopRepository.findByNameStartsWith(name);
     }
@@ -152,11 +157,13 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Route> getRoutesBelowPrice(float price) {
         return this.routeRepository.findByPriceLessThan(price);
     }
 
     @Override
+    @Transactional
     public void assignDriverByUsername(String username, Long idRoute) throws ToursException {
         Optional<User> opUser = this.userRepository.findByUsername(username);
         Optional<Route> opRoute = this.routeRepository.findById(idRoute);
@@ -219,25 +226,35 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
-        Service service = serviceRepository.findById(id)
-                .orElseThrow(() -> new ToursException("Service not found"));
+        Optional<Service> service = serviceRepository.findById(id);
+        if (service.isEmpty()){
+            throw new ToursException("El servicio no existe");
+        }
 
-        service.setPrice(newPrice);
-        serviceRepository.save(service);
-        return service;
+        service.get().setPrice(newPrice);
+        try{
+            serviceRepository.save(service.get());
+        }catch (DataIntegrityViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
+
+        return service.get();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Supplier> getSupplierById(Long id) {
         return this.supplierRepository.findById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Supplier> getSupplierByAuthorizationNumber(String authorizationNumber) {
         return this.supplierRepository.findByAuthorizationNumber(authorizationNumber);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Service> getServiceByNameAndSupplierId(String name, Long id) throws ToursException {
         return this.serviceRepository.findByNameAndSupplierId(name, id);
     }
@@ -299,8 +316,8 @@ public class SpringDataToursServiceImpl implements ToursService {
         this.purchaseRepository.delete(purchase);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
         Review review = new Review(rating, comment, purchase);
         purchase.setReview(review);
@@ -310,6 +327,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Purchase> getAllPurchasesOfUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
         if (userOptional.isEmpty()) {
@@ -318,65 +336,77 @@ public class SpringDataToursServiceImpl implements ToursService {
         return purchaseRepository.findByUser_Username(username);
     }
 
-
     @Override
+    @Transactional(readOnly = true)
     public List<User> getUserSpendingMoreThan(float mount) {
         return this.userRepository.getUserSpendingMoreThan(mount);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Supplier> getTopNSuppliersInPurchases(int topN) {
         PageRequest pageable = PageRequest.of(0, topN);
         return purchaseRepository.findTopNSuppliersInPurchases(pageable);
     }
+
     @Override
+    @Transactional(readOnly = true)
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
         return this.purchaseRepository.getTop10MoreExpensivePurchasesInServices();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getTop5UsersMorePurchases() {
         return this.userRepository.getTop5UsersMorePurchasesTest();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
         return purchaseRepository.getCountOfPurchasesBetweenDates(start, end);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Route> getRoutesWithStop(Stop stop) {
         return routeRepository.findByStops(stop);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getMaxStopOfRoutes() {
         PageRequest pageable = PageRequest.of(0, 1);
         return routeRepository.getMaxStopOfRoutes(pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Route> getRoutsNotSell() {
         return routeRepository.findRoutsNotSell();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Route> getTop3RoutesWithMaxRating() {
         PageRequest pageable = PageRequest.of(0, 3);
         return this.routeRepository.findTop3RoutesWithMaxRating(pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Service getMostDemandedService() {
         return this.serviceRepository.getMostDemandedService();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Service> getServiceNoAddedToPurchases() {
         return this.serviceRepository.findServiceNoAddedToPurchases();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TourGuideUser> getTourGuidesWithRating1() {
         return this.tourGuideUserRepository.getTourGuidesWithRating1();
     }

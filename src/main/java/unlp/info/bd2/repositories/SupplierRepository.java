@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface SupplierRepository extends CrudRepository<Supplier, Long> {
-    Optional<Supplier> findById(Long id);
     Optional<Supplier> findByAuthorizationNumber(String authorizationNumber);
 }
