@@ -16,13 +16,13 @@ public class Purchase {
     @Column(unique = true, nullable = false, length = 12)
     private String code;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "total_price", nullable = false, length = 20)
     private float totalPrice;
 
     @Column(nullable = false, length = 10)
     private Date date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     private User user;
 
@@ -31,11 +31,11 @@ public class Purchase {
     private Route route;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", 
-        cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+        cascade = { CascadeType.REMOVE, CascadeType.MERGE, CascadeType.REFRESH }, orphanRemoval = true)
     private Review review;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", 
-        cascade = { CascadeType.REMOVE, CascadeType.REFRESH }, orphanRemoval = true)
+        cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }

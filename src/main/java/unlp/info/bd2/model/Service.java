@@ -19,7 +19,7 @@ public class Service {
     @Column(nullable = false, length = 200)
     private String description;
 
-    @OneToMany(mappedBy = "service", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "service", fetch = FetchType.LAZY)
     private List<ItemService> items;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -12,7 +12,7 @@ public class DriverUser extends User {
     @Column(nullable = true, length = 50)
     private String expedient;
 
-    @ManyToMany(mappedBy = "driverList", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "driverList", fetch = FetchType.LAZY)
     private List<Route> routes;
 
     public DriverUser() {}

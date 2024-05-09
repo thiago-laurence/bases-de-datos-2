@@ -23,11 +23,11 @@ public class User {
     private String password;
     @Column(nullable = false, length = 50)
     private String name;
-    @Column(nullable = true, length = 50)
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
     @Column(nullable = false, length = 10)
     private Date birthdate;
-    @Column(name = "phone_number", nullable = true, length = 20)
+    @Column(name = "phone_number", nullable = false, length = 20)
     private String phoneNumber;
     @Column(nullable = false)
     private boolean active;
@@ -129,6 +129,8 @@ public class User {
     }
 
     public void addPurchase(Purchase purchase){
-        this.getPurchaseList().add(purchase);
+        if(!this.getPurchaseList().contains(purchase)){
+            this.getPurchaseList().add(purchase);
+        }
     }
 }

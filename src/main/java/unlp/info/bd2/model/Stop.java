@@ -1,5 +1,6 @@
 package unlp.info.bd2.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -12,7 +13,7 @@ public class Stop {
 
     @Column(nullable = false, unique = true, length = 50)
     private String name;
-    @Column(nullable = true, length = 500)
+    @Column(nullable = false, length = 500)
     private String description;
 
     @ManyToMany(mappedBy = "stops", fetch = FetchType.LAZY)
@@ -23,6 +24,7 @@ public class Stop {
     public Stop(String name, String description) {
         this.setName(name);
         this.setDescription(description);
+        this.setRoutes(new ArrayList<Route>());
     }
 
     public Long getId() {
@@ -47,5 +49,17 @@ public class Stop {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Route> getRoutes() { return this.routes; }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
+    public void addRoute(Route route) {
+        if (!this.routes.contains(route)) {
+            this.routes.add(route);
+        }
     }
 }

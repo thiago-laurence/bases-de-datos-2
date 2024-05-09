@@ -16,7 +16,7 @@ public class Supplier {
     @Column(name = "authorization_number", nullable = false, unique = true, length = 10)
     private String authorizationNumber;
 
-    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE })
     private List<Service> services;
 
     public Long getId() {
@@ -62,7 +62,9 @@ public class Supplier {
     }
 
     public void addService(Service service) {
-        this.getServices().add(service);
+        if (!this.getServices().contains(service)){
+            this.getServices().add(service);
+        }
     }
 
 }
