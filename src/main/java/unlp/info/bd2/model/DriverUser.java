@@ -11,7 +11,7 @@ public class DriverUser extends User {
 
     private String expedient;
 
-    @ManyToMany(mappedBy = "driverList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "driverList", fetch = FetchType.EAGER)
     private List<Route> routes;
 
     public DriverUser() {}

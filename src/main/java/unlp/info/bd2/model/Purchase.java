@@ -30,10 +30,12 @@ public class Purchase {
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase", 
+        cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.REFRESH }, orphanRemoval = true)
     private Review review;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", cascade = { CascadeType.REMOVE, CascadeType.REFRESH }, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", 
+        cascade = { CascadeType.REMOVE, CascadeType.REFRESH }, orphanRemoval = true)
     private List<ItemService> itemServiceList;
 
     public Purchase(){ }

@@ -11,10 +11,10 @@ public class Review {
 
     @Column(nullable = false)
     private int rating;
-
+    @Column(nullable = false)
     private String comment;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "purchase_id", nullable = false)
     private Purchase purchase;
 

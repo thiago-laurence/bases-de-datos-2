@@ -14,13 +14,10 @@ public class Route {
 
     @Column(unique = true, nullable = false)
     private String name;
-
     @Column(nullable = false)
     private float price;
-
     @Column(nullable = false)
     private float totalKm;
-
     @Column(nullable = false)
     private int maxNumberUsers;
 
