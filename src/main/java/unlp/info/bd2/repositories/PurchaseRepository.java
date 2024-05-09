@@ -1,6 +1,5 @@
 package unlp.info.bd2.repositories;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.query.Param;
 import unlp.info.bd2.model.*;
 
 import org.springframework.data.jpa.repository.Query;
@@ -15,16 +14,14 @@ import java.util.Optional;
 public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
     Optional<Purchase> findByCode(String code);
 
-
     @Query("SELECT COUNT(p) FROM Purchase p JOIN p.route r WHERE p.date = ?1 AND r = ?2")
     long countUsersRouteInDate(Date date, Route route);
 
     List<Purchase> findByUser_Username(String username);
 
-
     @Query("SELECT p FROM Purchase p WHERE p IN " +
                                 "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
-                                "ORDER BY p.totalPrice DESC LIMIT 10")
+                                "ORDER BY p.totalPrice DESC LIMIT 10")//TODO hacer con querymethod
     List<Purchase> getTop10MoreExpensivePurchasesInServices();
 
     @Query("SELECT COUNT(p) FROM Purchase p WHERE p.date BETWEEN :start AND :end")
@@ -37,18 +34,12 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
             "LIMIT 5")
     List<User> findTop5UsersMorePurchases();
 
-
-
-    @Query("SELECT DISTINCT s " +
+    @Query("SELECT s " +
             "FROM Supplier s " +
             "JOIN s.services ser " +
             "JOIN ser.items isv " +
-            "JOIN isv.purchase p " +
             "GROUP BY s.id " +
-            "ORDER BY COUNT(p.id) DESC")
+            "ORDER BY COUNT(isv.id) DESC")
     List<Supplier> findTopNSuppliersInPurchases(Pageable pageable);
-
-
-
 
 }

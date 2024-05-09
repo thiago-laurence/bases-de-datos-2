@@ -26,7 +26,7 @@ public class DBInitializer {
         LocalDate today = LocalDate.now();
 
         // Suppliers
-        Supplier supplier1 = this.toursService.createSupplier("ABC Tours", "123t 45");
+        Supplier supplier1 = this.toursService.createSupplier("ABC Tours", "12345");
         Supplier supplier2 = this.toursService.createSupplier("XYZ Travel Agency", "67890");
         Supplier supplier3 = this.toursService.createSupplier("Adventure Explorers", "54321");
         Supplier supplier4 = this.toursService.createSupplier("Sunset Adventures", "98765");
