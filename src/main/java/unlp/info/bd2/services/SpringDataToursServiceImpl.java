@@ -359,7 +359,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getTop5UsersMorePurchases() {
-        return this.userRepository.getTop5UsersMorePurchasesTest();
+        return this.userRepository.findTop5ByPurchaseListIsNotNullOrderByPurchaseListDesc();
     }
 
     @Override
