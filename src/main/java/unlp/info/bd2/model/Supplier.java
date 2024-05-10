@@ -57,9 +57,7 @@ public class Supplier {
         this.setServices(new ArrayList<Service>());
     }
 
-    public Supplier(){
-        this.services = new ArrayList<Service>();
-    }
+    public Supplier(){ }
 
     public void addService(Service service) {
         if (!this.getServices().contains(service)){

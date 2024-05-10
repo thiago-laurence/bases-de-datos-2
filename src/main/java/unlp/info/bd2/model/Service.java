@@ -28,10 +28,11 @@ public class Service {
 
     public Service(){ }
 
-    public Service(String name, float price, String description) {
+    public Service(String name, float price, String description, Supplier supplier) {
         this.setName(name);
         this.setPrice(price);
         this.setDescription(description);
+        this.setSupplier(supplier);
         this.setItems(new ArrayList<ItemService>());
     }
 
@@ -76,8 +77,9 @@ public class Service {
     }
 
     public void addItemService(ItemService itemService) {
-        if (!this.items.contains(itemService))
-            this.items.add(itemService);
+        if (!this.getItems().contains(itemService)) {
+            this.getItems().add(itemService);
+        }
     }
 
     public Supplier getSupplier() {

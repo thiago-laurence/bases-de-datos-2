@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.config.AppConfig;
-import unlp.info.bd2.config.HibernateConfiguration;
+import unlp.info.bd2.config.SpringDataConfiguration;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.services.ToursService;
 import unlp.info.bd2.utils.DBInitializer;
@@ -28,7 +28,7 @@ import org.junit.Assert;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class, DBInitializer.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {SpringDataConfiguration.class, AppConfig.class, DBInitializer.class}, loader = AnnotationConfigContextLoader.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 @Rollback(true)
@@ -54,6 +54,7 @@ public class ToursQuerysTests {
 
     @Test
     void getAllPurchasesOfUsernameTest() throws ToursException {
+
         List<Purchase> purchases1 = this.service.getAllPurchasesOfUsername("user1");
         assertEquals(6, purchases1.size());
         this.assertListEquality(purchases1.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P001", "P005","P009", "P011", "P015", "P019"));
@@ -62,6 +63,7 @@ public class ToursQuerysTests {
         this.assertListEquality(purchases2.stream().map(Purchase::getCode).collect(Collectors.toList()), Arrays.asList("P003"));
         List<Purchase> purchases3 = this.service.getAllPurchasesOfUsername("user5");
         assertEquals(0, purchases3.size());
+
     }
 
     @Test
@@ -78,12 +80,14 @@ public class ToursQuerysTests {
 
     @Test
     void getTopNSuppliersInPurchasesTest() throws ToursException {
+
         List<Supplier> suppliers1 = this.service.getTopNSuppliersInPurchases(3);
         assertEquals(3, suppliers1.size());
         this.assertListEquality(suppliers1.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345", "54321", "67890"));
         List<Supplier> suppliers2 = this.service.getTopNSuppliersInPurchases(1);
         assertEquals(1, suppliers2.size());
         this.assertListEquality(suppliers2.stream().map(Supplier::getAuthorizationNumber).collect(Collectors.toList()), Arrays.asList("12345"));
+
     }
 
     @Test
@@ -102,6 +106,7 @@ public class ToursQuerysTests {
 
     @Test
     void getCountOfPurchasesBetweenDatesTest() throws ToursException {
+
         LocalDate today = LocalDate.now();
         long countOfPurchasesBetweenDates1 = this.service.getCountOfPurchasesBetweenDates(Date.valueOf(today.minusDays(25)), Date.valueOf(today.minusDays(15)));
         assertEquals(7, countOfPurchasesBetweenDates1);
@@ -109,10 +114,12 @@ public class ToursQuerysTests {
         assertEquals(7, countOfPurchasesBetweenDates2);
         long countOfPurchasesBetweenDates3 = this.service.getCountOfPurchasesBetweenDates(Date.valueOf(today.minusDays(26)), Date.valueOf(today.minusDays(22)));
         assertEquals(0, countOfPurchasesBetweenDates3);
+
     }
 
     @Test
     void getRoutesWithStopTest() throws ToursException {
+        
         Stop stop1 = this.service.getStopByNameStart("Diagonal Norte").get(0);
         Stop stop2 = this.service.getStopByNameStart("Teatro Colón").get(0);
         Stop stop3 = this.service.getStopByNameStart("La Boca").get(0);
@@ -125,26 +132,33 @@ public class ToursQuerysTests {
         this.assertListEquality(routes2.stream().map(Route::getName).collect(Collectors.toList()), List.of("Historical Adventure", "Architectural Expedition"));
         List<Route> routes3 = this.service.getRoutesWithStop(stop3);
         assertEquals(0, routes3.size());
+		
     }
 
     @Test
     void getMaxStopOfRoutesTest() throws ToursException {
+        
         Long maxStopOfRoutes = this.service.getMaxStopOfRoutes();
         assertEquals(9, maxStopOfRoutes);
+		
     }
 
     @Test
     void getRoutsNotSellTest() throws ToursException {
+        
         List<Route> routsNotSell = this.service.getRoutsNotSell();
         assertEquals(1, routsNotSell.size());
         this.assertListEquality(routsNotSell.stream().map(Route::getName).collect(Collectors.toList()), List.of("Ruta vacia"));
+		
     }
 
     @Test
     void getTop3RoutesWithMaxRatingTest() throws ToursException {
+        
         List<Route> routesWithMaxRating = this.service.getTop3RoutesWithMaxRating();
         assertEquals(3, routesWithMaxRating.size());
         this.assertListEquality(routesWithMaxRating.stream().map(Route::getName).collect(Collectors.toList()), List.of("City Tour", "Historical Adventure", "Architectural Expedition"));
+		
     }
 
     @Test
@@ -156,16 +170,20 @@ public class ToursQuerysTests {
 
     @Test
     void getServiceNoAddedToPurchasesTest() throws ToursException {
+        
         List<Service> serviceNoAddedToPurchases = this.service.getServiceNoAddedToPurchases();
         assertEquals(2, serviceNoAddedToPurchases.size());
         this.assertListEquality(serviceNoAddedToPurchases.stream().map(Service::getName).collect(Collectors.toList()), List.of("Architectural Expedition Book", "souvenir retrato"));
+		
     }
 
     @Test
     void getTourGuidesWithRating1Test() throws ToursException {
+
         List<TourGuideUser> tourGuidesWithRating1 = this.service.getTourGuidesWithRating1();
         assertEquals(3, tourGuidesWithRating1.size());
         this.assertListEquality(tourGuidesWithRating1.stream().map(TourGuideUser::getUsername).collect(Collectors.toList()), List.of("userG1", "userG3", "userG4"));
+
     }
 
     private <T> void assertListEquality(List<T> list1, List<T> list2) {
