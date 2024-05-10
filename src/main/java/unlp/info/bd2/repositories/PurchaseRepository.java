@@ -14,18 +14,13 @@ import java.util.Optional;
 public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
     Optional<Purchase> findByCode(String code);
 
-    @Query("SELECT COUNT(p) FROM Purchase p JOIN p.route r WHERE p.date = ?1 AND r = ?2")
-    long countUsersRouteInDate(Date date, Route route);
+    long countFindByRouteEqualsAndDateEquals(Route route, Date date);
 
     List<Purchase> findByUser_Username(String username);
 
-    @Query("SELECT p FROM Purchase p WHERE p IN " +
-                                "(SELECT i.purchase FROM ItemService i WHERE i.purchase IS NOT NULL) " +
-                                "ORDER BY p.totalPrice DESC LIMIT 10")
-    List<Purchase> getTop10MoreExpensivePurchasesInServices();
+    List<Purchase> findFirst10ByItemsIsNotEmptyOrderByTotalPriceDesc();
 
-    @Query("SELECT COUNT(p) FROM Purchase p WHERE p.date BETWEEN :start AND :end")
-    long getCountOfPurchasesBetweenDates(Date start, Date end);
+    long countByDateBetween(Date start, Date end);
 
     @Query("SELECT s " +
             "FROM Supplier s " +

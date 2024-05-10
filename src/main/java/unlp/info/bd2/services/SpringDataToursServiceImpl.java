@@ -262,7 +262,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        if (this.purchaseRepository.countUsersRouteInDate(new Date(), route) == route.getMaxNumberUsers()){
+        if (this.purchaseRepository.countFindByRouteEqualsAndDateEquals(route, new Date()) == route.getMaxNumberUsers()){
             throw new ToursException("No puede realizarse la compra");
         }
         Purchase purchase = new Purchase(code, route, user);
@@ -279,7 +279,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Purchase createPurchase(String code, Date date, Route route, User user) throws ToursException {
-        if (this.purchaseRepository.countUsersRouteInDate(date, route) == route.getMaxNumberUsers()){
+        if (this.purchaseRepository.countFindByRouteEqualsAndDateEquals(route, date) == route.getMaxNumberUsers()){
             throw new ToursException("No puede realizarse la compra");
         }
         Purchase purchase = new Purchase(code, date, route, user);
@@ -339,7 +339,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getUserSpendingMoreThan(float mount) {
-        return this.userRepository.getUserSpendingMoreThan(mount);
+        return this.userRepository.findByPurchases_TotalPriceGreaterThanEqual(mount);
     }
 
     @Override
@@ -352,19 +352,19 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<Purchase> getTop10MoreExpensivePurchasesInServices() {
-        return this.purchaseRepository.getTop10MoreExpensivePurchasesInServices();
+        return this.purchaseRepository.findFirst10ByItemsIsNotEmptyOrderByTotalPriceDesc();
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> getTop5UsersMorePurchases() {
-        return this.userRepository.getTop5UsersMorePurchasesTest();
+        return this.userRepository.getTop5UsersMorePurchases();
     }
 
     @Override
     @Transactional(readOnly = true)
     public long getCountOfPurchasesBetweenDates(Date start, Date end) {
-        return purchaseRepository.getCountOfPurchasesBetweenDates(start, end);
+        return purchaseRepository.countByDateBetween(start, end);
     }
 
     @Override

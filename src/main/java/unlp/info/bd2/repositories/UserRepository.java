@@ -12,11 +12,10 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-    @Query("SELECT u FROM User u JOIN u.purchaseList p " +
+    @Query("SELECT u FROM User u JOIN u.purchases p " +
             "GROUP BY u " +
             "ORDER BY SIZE(p) DESC LIMIT 5")
-    List<User> getTop5UsersMorePurchasesTest();
+    List<User> getTop5UsersMorePurchases();
 
-    @Query("FROM User u JOIN u.purchaseList p WHERE p.totalPrice >= ?1")
-    List<User> getUserSpendingMoreThan(float mount);
+    List<User> findByPurchases_TotalPriceGreaterThanEqual(float mount);
 }

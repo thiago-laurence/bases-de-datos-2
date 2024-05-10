@@ -1,7 +1,6 @@
 package unlp.info.bd2.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +32,7 @@ public class User {
     private boolean active;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
-    private List<Purchase> purchaseList;
+    private List<Purchase> purchases;
 
     public User(){ }
 
@@ -45,7 +44,7 @@ public class User {
         this.setEmail(email);
         this.setBirthdate(birthdate);
         this.setPhoneNumber(phoneNumber);
-        this.setPurchaseList(new ArrayList<Purchase>());
+        this.setPurchases(new ArrayList<Purchase>());
     }
 
     public Long getId() {
@@ -104,12 +103,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Purchase> getPurchaseList() {
-        return purchaseList;
+    public List<Purchase> getPurchases() {
+        return purchases;
     }
 
-    public void setPurchaseList(List<Purchase> purchaseList) {
-        this.purchaseList = purchaseList;
+    public void setPurchases(List<Purchase> purchaseList) {
+        this.purchases = purchaseList;
     }
 
     public boolean isActive() {
@@ -121,16 +120,16 @@ public class User {
     }
 
     public boolean isDeleteable(){
-        return (this.getPurchaseList().isEmpty() && this.isActive());
+        return (this.getPurchases().isEmpty() && this.isActive());
     }
 
     public boolean isBaneable(){
-        return (!this.getPurchaseList().isEmpty());
+        return (!this.getPurchases().isEmpty());
     }
 
     public void addPurchase(Purchase purchase){
-        if(!this.getPurchaseList().contains(purchase)){
-            this.getPurchaseList().add(purchase);
+        if(!this.getPurchases().contains(purchase)){
+            this.getPurchases().add(purchase);
         }
     }
 }

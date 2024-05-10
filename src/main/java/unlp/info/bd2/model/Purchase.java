@@ -36,7 +36,7 @@ public class Purchase {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "purchase", 
         cascade = { CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE }, orphanRemoval = true)
-    private List<ItemService> itemServiceList;
+    private List<ItemService> items;
 
     public Purchase(){ }
 
@@ -46,7 +46,7 @@ public class Purchase {
         this.setRoute(route);
         this.setUser(user);
         this.setTotalPrice(route.getPrice());
-        this.setItemServiceList(new ArrayList<ItemService>());
+        this.setItems(new ArrayList<ItemService>());
         this.setReview(null);
     }
 
@@ -56,7 +56,7 @@ public class Purchase {
         this.setUser(user);
         this.setDate(new Date());
         this.setTotalPrice(route.getPrice());
-        this.setItemServiceList(new ArrayList<ItemService>());
+        this.setItems(new ArrayList<ItemService>());
         this.setReview(null);
     }       
 
@@ -106,17 +106,17 @@ public class Purchase {
         this.route = route;
     }
 
-    public List<ItemService> getItemServiceList() {
-        return itemServiceList;
+    public List<ItemService> getItems() {
+        return items;
     }
 
-    public void setItemServiceList(List<ItemService> itemServiceList) {
-        this.itemServiceList = itemServiceList;
+    public void setItems(List<ItemService> itemServiceList) {
+        this.items = itemServiceList;
     }
 
     public void addItemService(ItemService itemService) {
-        if (!this.getItemServiceList().contains(itemService)) {
-            this.getItemServiceList().add(itemService);
+        if (!this.getItems().contains(itemService)) {
+            this.getItems().add(itemService);
             this.setTotalPrice(this.getTotalPrice() + itemService.getTotalPrice());
         }
     }

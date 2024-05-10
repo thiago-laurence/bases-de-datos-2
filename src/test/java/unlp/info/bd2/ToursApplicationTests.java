@@ -70,7 +70,7 @@ class ToursApplicationTests {
 		assertEquals("user1", user.getUsername());
 		assertEquals("Usuario Uno", user.getName());
 		assertEquals("user1@gmail.com", user.getEmail());
-		assertTrue(user.getPurchaseList().isEmpty());
+		assertTrue(user.getPurchases().isEmpty());
 		Optional<User> opUserFromDB2 = this.toursService.getUserByUsername("userD");
 		assertTrue(opUserFromDB2.isPresent());
 		DriverUser driverUser = (DriverUser) opUserFromDB2.get();
@@ -235,7 +235,7 @@ class ToursApplicationTests {
 		Purchase purchase1 = this.toursService.createPurchase("100", dyes, route1, user1);
 		assertNotNull(purchase1.getId());
 		assertEquals(route1.getPrice(), purchase1.getTotalPrice());
-		assertEquals(1, user1.getPurchaseList().size());
+		assertEquals(1, user1.getPurchases().size());
 
 		ItemService itemService1 = this.toursService.addItemToPurchase(service1, 1, purchase1);
 		assertNotNull(itemService1.getId());
@@ -247,8 +247,8 @@ class ToursApplicationTests {
 		assertTrue(optionalPurchase1.isPresent());
 		Purchase purchase3 = optionalPurchase1.get();
 		assertEquals(purchase1.getId(), purchase3.getId());
-		assertDoesNotThrow(() -> purchase3.getItemServiceList().size());
-		assertEquals(2, purchase3.getItemServiceList().size());
+		assertDoesNotThrow(() -> purchase3.getItems().size());
+		assertEquals(2, purchase3.getItems().size());
 		assertEquals(22500, purchase3.getTotalPrice());
 
 		this.toursService.createPurchase("101", dyes, route1, user1);
