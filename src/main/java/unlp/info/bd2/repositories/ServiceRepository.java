@@ -12,8 +12,7 @@ import unlp.info.bd2.model.Service;
 public interface ServiceRepository extends CrudRepository<Service, Long> {
     Optional<Service> findByNameAndSupplierId(String name, Long id);
 
-    @Query("SELECT s FROM Service s WHERE SIZE(s.items) = 0")
-    List<Service> findServiceNoAddedToPurchases();
+    List<Service> findByItemsIsEmpty();
 
     @Query("SELECT s FROM Service s JOIN s.items i GROUP BY s ORDER BY SUM(i.quantity) DESC FETCH FIRST 1 ROWS ONLY")
     Service getMostDemandedService();
