@@ -402,7 +402,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<Service> getServiceNoAddedToPurchases() {
-        return this.serviceRepository.findServiceNoAddedToPurchases();
+        return this.serviceRepository.findByItemsIsEmpty();
     }
 
     @Override
