@@ -11,12 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-<<<<<<< HEAD
-    List<User> findTop5ByPurchaseListIsNotNullOrderByPurchaseListDesc();
-
-=======
     List<User> findFirst5ByOrderByPurchasesDesc();
->>>>>>> 3f4cad182446414c3a77b6852d4c82309763c547
 
     List<User> findByPurchases_TotalPriceGreaterThanEqual(float mount);
 }
