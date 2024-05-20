@@ -346,7 +346,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Transactional(readOnly = true)
     public List<Supplier> getTopNSuppliersInPurchases(int topN) {
         PageRequest pageable = PageRequest.of(0, topN);
-        return purchaseRepository.findTopNSuppliersInPurchases(pageable);
+        return supplierRepository.findTopNSuppliersInPurchases(pageable);
     }
 
     @Override
