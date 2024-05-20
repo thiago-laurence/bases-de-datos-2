@@ -3,7 +3,6 @@ import unlp.info.bd2.model.User;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-    @Query("SELECT u FROM User u JOIN u.purchases p " +
-            "GROUP BY u " +
-            "ORDER BY SIZE(p) DESC LIMIT 5")
-    List<User> getTop5UsersMorePurchases();
+    List<User> findFirst5ByOrderByPurchasesDesc();
 
     List<User> findByPurchases_TotalPriceGreaterThanEqual(float mount);
 }

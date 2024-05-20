@@ -55,7 +55,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     public DriverUser createDriverUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String expedient) throws ToursException {
         DriverUser newDriverUser = new DriverUser(username, password, fullName, email, birthdate, phoneNumber, expedient);
         try{
-            this.userRepository.save(newDriverUser);
+            this.driverUserRepository.save(newDriverUser);
         }catch (DataIntegrityViolationException e){
             throw new ToursException("Constraint Violation");
         }
@@ -68,7 +68,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     public TourGuideUser createTourGuideUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String education) throws ToursException {
         TourGuideUser newTourGuide = new TourGuideUser(username, password, fullName, email, birthdate, phoneNumber, education);
         try{
-            this.userRepository.save(newTourGuide);
+            this.tourGuideUserRepository.save(newTourGuide);
         }catch (DataIntegrityViolationException e){
             throw new ToursException("Constraint Violation");
         }
@@ -165,7 +165,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public void assignDriverByUsername(String username, Long idRoute) throws ToursException {
-        Optional<User> opUser = this.userRepository.findByUsername(username);
+        Optional<DriverUser> opUser = this.driverUserRepository.findByUsername(username);
         Optional<Route> opRoute = this.routeRepository.findById(idRoute);
         if (opUser.isEmpty()){
             throw new ToursException("El 'Usuario' no existe");
@@ -174,7 +174,7 @@ public class SpringDataToursServiceImpl implements ToursService {
             throw new ToursException("La 'Ruta' no existe");
         }
 
-        DriverUser driver = (DriverUser) opUser.get();
+        DriverUser driver = opUser.get();
         Route route = opRoute.get();
         driver.addRoute(route);
         route.addDriver(driver);
@@ -183,7 +183,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public void assignTourGuideByUsername(String username, Long idRoute) throws ToursException {
-        Optional<User> opUser = this.userRepository.findByUsername(username);
+        Optional<TourGuideUser> opUser = this.tourGuideUserRepository.findByUsername(username);
         Optional<Route> opRoute = this.routeRepository.findById(idRoute);
         if (opUser.isEmpty()){
             throw new ToursException("El 'Usuario' no existe");
@@ -192,7 +192,7 @@ public class SpringDataToursServiceImpl implements ToursService {
             throw new ToursException("La 'Ruta' no existe");
         }
 
-        TourGuideUser tourGuide = (TourGuideUser) opUser.get();
+        TourGuideUser tourGuide = opUser.get();
         Route route = opRoute.get();
         tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
@@ -358,7 +358,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getTop5UsersMorePurchases() {
-        return this.userRepository.getTop5UsersMorePurchases();
+        return this.userRepository.findFirst5ByOrderByPurchasesDesc();
     }
 
     @Override
