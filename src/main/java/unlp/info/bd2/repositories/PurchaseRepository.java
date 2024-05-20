@@ -24,12 +24,6 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
 
     long countByDateBetween(Date start, Date end);
 
-    @Query("SELECT s " +
-            "FROM Supplier s " +
-            "JOIN s.services ser " +
-            "JOIN ser.items isv " +
-            "GROUP BY s.id " +
-            "ORDER BY COUNT(isv.id) DESC")
-    List<Supplier> findTopNSuppliersInPurchases(Pageable pageable);
+
 
 }
