@@ -60,6 +60,24 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     @Override
+    public Optional<TourGuideUser> getTourGuideUserByUsername(String username) {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                                "FROM TourGuideUser WHERE username = :username", TourGuideUser.class).setParameter("username", username)
+                        .uniqueResultOptional()
+        );
+    }
+
+    @Override
+    public Optional<DriverUser> getDriverUserByUsername(String username) {
+        return (
+                this.sessionFactory.getCurrentSession().createQuery(
+                                "FROM DriverUser WHERE username = :username", DriverUser.class).setParameter("username", username)
+                        .uniqueResultOptional()
+        );
+    }
+
+    @Override
     public List<User> getUserSpendingMoreThan(float mount){
         return (
             this.sessionFactory.getCurrentSession().createQuery(
@@ -102,15 +120,6 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     @Override
-    public Optional<Stop> getStopByName(String name){
-        return (
-                this.sessionFactory.getCurrentSession().createQuery(
-                    "FROM Stop WHERE name = :stop", Stop.class).setParameter("stop", name)
-                    .uniqueResultOptional()
-        );
-    }
-
-    @Override
     public Long getMaxStopOfRoutes() {
         return
                 sessionFactory.getCurrentSession().createQuery(
@@ -120,15 +129,6 @@ public class ToursRepositoryImpl implements ToursRepository{
     }
 
     // ************* ROUTE *************
-    @Override
-    public Optional<Route> getRouteByName(String name){
-        return (
-                this.sessionFactory.getCurrentSession().createQuery(
-                                "FROM Route WHERE name = :route", Route.class)
-                                   .setParameter("route", name)
-                                   .uniqueResultOptional()
-        );
-    }
 
     @Override
     public Optional<Route> getRouteById(Long id){

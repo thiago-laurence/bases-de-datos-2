@@ -95,9 +95,6 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public Stop createStop(String name, String description) throws ToursException {
-        if (this.toursRepository.getStopByName(name).isPresent()){
-            throw new ToursException("El 'nombre de la parada' ya se encuentra registrado");
-        }
         Stop stop = new Stop(name, description);
         this.toursRepository.save(stop);
 
@@ -113,9 +110,6 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public Route createRoute(String name, float price, float totalKm, int maxNumberOfUsers, List<Stop> stops) throws ToursException {
-        if (this.toursRepository.getRouteByName(name).isPresent()){
-            throw new ToursException("El 'nombre de la ruta' ya se encuentra registrado");
-        }
         Route route = new Route(name, price, totalKm, maxNumberOfUsers, stops);
         this.toursRepository.save(route);
 
@@ -137,7 +131,7 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public void assignDriverByUsername(String username, Long idRoute) throws ToursException {
-        Optional<User> opUser = this.toursRepository.getUserByUsername(username);
+        Optional<DriverUser> opUser = this.toursRepository.getDriverUserByUsername(username);
         Optional<Route> opRoute = this.toursRepository.getRouteById(idRoute);
         if (opUser.isEmpty()){
             throw new ToursException("El 'Usuario' no existe");
@@ -146,7 +140,7 @@ public class ToursServiceImpl implements ToursService{
             throw new ToursException("La 'Ruta' no existe");
         }
 
-        DriverUser driver = (DriverUser) opUser.get();
+        DriverUser driver = opUser.get();
         Route route = opRoute.get();
         route.addDriver(driver);
         driver.addRoute(route);
@@ -157,7 +151,7 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public void assignTourGuideByUsername(String username, Long idRoute) throws ToursException {
-        Optional<User> opUser = this.toursRepository.getUserByUsername(username);
+        Optional<TourGuideUser> opUser = this.toursRepository.getTourGuideUserByUsername(username);
         Optional<Route> opRoute = this.toursRepository.getRouteById(idRoute);
         if (opUser.isEmpty()){
             throw new ToursException("El 'Usuario' no existe");
@@ -166,7 +160,7 @@ public class ToursServiceImpl implements ToursService{
             throw new ToursException("La 'Ruta' no existe");
         }
 
-        TourGuideUser tourGuide = (TourGuideUser) opUser.get();
+        TourGuideUser tourGuide = opUser.get();
         Route route = opRoute.get();
         tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
@@ -177,9 +171,6 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public Supplier createSupplier(String businessName, String authorizationNumber) throws ToursException {
-        if (this.toursRepository.getSupplierByAuthorizationNumber(authorizationNumber).isPresent()){
-            throw new ToursException("El 'numero de autorizacion' ya se encuentra registrado");
-        }
         Supplier supplier = new Supplier(businessName, authorizationNumber);
         this.toursRepository.save(supplier);
 
@@ -230,14 +221,7 @@ public class ToursServiceImpl implements ToursService{
     @Override
     @Transactional
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        Purchase purchase = new Purchase(code, route, user);
-        if (this.toursRepository.countUsersRouteInDate(new Date(), route) == route.getMaxNumberUsers()){
-            throw new ToursException("No puede realizarse la compra");
-        }
-        user.addPurchase(purchase);
-        this.toursRepository.save(purchase);
-
-        return purchase;
+        return this.createPurchase(code, new Date(), route, user);
     }
 
     @Override

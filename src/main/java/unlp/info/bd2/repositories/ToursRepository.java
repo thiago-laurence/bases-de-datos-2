@@ -14,11 +14,11 @@ public interface ToursRepository {
 
     Optional<User> getUserById(Long id);
     Optional<User> getUserByUsername(String username);
+    Optional<TourGuideUser> getTourGuideUserByUsername(String username);
+    Optional<DriverUser> getDriverUserByUsername(String username);
 
-    Optional<Stop> getStopByName(String name);
     List<Stop> getStopByNameStart(String name);
 
-    Optional<Route> getRouteByName(String name);
     Optional<Route> getRouteById(Long id);
 
     Optional<Service> getServiceById(Long id);
