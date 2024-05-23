@@ -3,18 +3,16 @@ package unlp.info.bd2.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.*;
 import unlp.info.bd2.utils.ToursException;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class SpringDataToursServiceImpl implements ToursService {
@@ -44,11 +42,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Transactional
     public User createUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber) throws ToursException {
         User newUser = new User(username, password, fullName, email, birthdate, phoneNumber);
-        try{
-            this.userRepository.save(newUser);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
+        this.exceptionHandler(this.userRepository, newUser);
 
         return newUser;
     }
@@ -57,11 +51,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Transactional
     public DriverUser createDriverUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String expedient) throws ToursException {
         DriverUser newDriverUser = new DriverUser(username, password, fullName, email, birthdate, phoneNumber, expedient);
-        try{
-            this.driverUserRepository.save(newDriverUser);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
+        this.exceptionHandler(this.driverUserRepository, newDriverUser);
 
         return newDriverUser;
     }
@@ -70,13 +60,8 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Transactional
     public TourGuideUser createTourGuideUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String education) throws ToursException {
         TourGuideUser newTourGuide = new TourGuideUser(username, password, fullName, email, birthdate, phoneNumber, education);
-        try{
-            this.tourGuideUserRepository.save(newTourGuide);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
 
-        return newTourGuide;
+        return this.exceptionHandler(this.tourGuideUserRepository, newTourGuide);
     }
 
     @Override
@@ -94,11 +79,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public User updateUser(User user) throws ToursException {
-        try{
-            return this.userRepository.save(user);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
+        return this.exceptionHandler(this.userRepository, user);
     }
 
     @Override
@@ -118,20 +99,15 @@ public class SpringDataToursServiceImpl implements ToursService {
         }
 
         user.setActive(false);
-        this.userRepository.save(user);
+        this.exceptionHandler(this.userRepository, user);
     }
 
     @Override
     @Transactional
     public Stop createStop(String name, String description) throws ToursException {
         Stop newStop = new Stop(name, description);
-        try{
-            this.stopRepository.save(newStop);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
 
-        return newStop;
+        return this.exceptionHandler(this.stopRepository, newStop);
     }
 
     @Override
@@ -144,13 +120,8 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Transactional
     public Route createRoute(String name, float price, float totalKm, int maxNumberOfUsers, List<Stop> stops) throws ToursException {
         Route newRoute = new Route(name, price, totalKm, maxNumberOfUsers, stops);
-        try{
-            this.routeRepository.save(newRoute);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
 
-        return newRoute;
+        return this.exceptionHandler(this.routeRepository, newRoute);
     }
 
     @Override
@@ -181,6 +152,8 @@ public class SpringDataToursServiceImpl implements ToursService {
         Route route = opRoute.get();
         driver.addRoute(route);
         route.addDriver(driver);
+
+        this.exceptionHandler(this.driverUserRepository, opUser.get());
     }
 
     @Override
@@ -200,48 +173,35 @@ public class SpringDataToursServiceImpl implements ToursService {
         tourGuide.addRoute(route);
         route.addTourGuide(tourGuide);
 
-        this.routeRepository.save(route);
+        this.exceptionHandler(this.tourGuideUserRepository, opUser.get());
     }
 
     @Override
     @Transactional
     public Supplier createSupplier(String businessName, String authorizationNumber) throws ToursException {
         Supplier newSupplier = new Supplier(businessName, authorizationNumber);
-        try{
-            this.supplierRepository.save(newSupplier);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
 
-        return newSupplier;
+        return this.exceptionHandler(this.supplierRepository, newSupplier);
     }
 
     @Override
     @Transactional
     public Service addServiceToSupplier(String name, float price, String description, Supplier supplier) throws ToursException {
-        Service service = new Service(name, price, description, supplier);
-        supplier.addService(service);
-        this.serviceRepository.save(service);
-
-        return service;
+        Service newService = new Service(name, price, description, supplier);
+        supplier.addService(newService);
+        return this.exceptionHandler(this.serviceRepository, newService);
     }
 
     @Override
     @Transactional
     public Service updateServicePriceById(Long id, float newPrice) throws ToursException {
-        Optional<Service> service = serviceRepository.findById(id);
-        if (service.isEmpty()){
+        Optional<Service> newService = this.serviceRepository.findById(id);
+        if (newService.isEmpty()){
             throw new ToursException("El servicio no existe");
         }
 
-        service.get().setPrice(newPrice);
-        try{
-            serviceRepository.save(service.get());
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
-
-        return service.get();
+        newService.get().setPrice(newPrice);
+        return this.exceptionHandler(this.serviceRepository, newService.get());
     }
 
     @Override
@@ -265,18 +225,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Purchase createPurchase(String code, Route route, User user) throws ToursException {
-        if (this.purchaseRepository.countFindByRouteEqualsAndDateEquals(route, new Date()) == route.getMaxNumberUsers()){
-            throw new ToursException("No puede realizarse la compra");
-        }
-        Purchase purchase = new Purchase(code, route, user);
-        user.addPurchase(purchase);
-        try{
-            this.purchaseRepository.save(purchase);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
-
-        return purchase;
+        return this.createPurchase(code, new Date(), route, user);
     }
 
     @Override
@@ -285,15 +234,10 @@ public class SpringDataToursServiceImpl implements ToursService {
         if (this.purchaseRepository.countFindByRouteEqualsAndDateEquals(route, date) == route.getMaxNumberUsers()){
             throw new ToursException("No puede realizarse la compra");
         }
-        Purchase purchase = new Purchase(code, date, route, user);
-        user.addPurchase(purchase);
-        try{
-            this.purchaseRepository.save(purchase);
-        }catch (DataIntegrityViolationException e){
-            throw new ToursException("Constraint Violation");
-        }
+        Purchase newPurchase = new Purchase(code, date, route, user);
+        user.addPurchase(newPurchase);
 
-        return purchase;
+        return this.exceptionHandler(this.purchaseRepository, newPurchase);
     }
 
     @Override
@@ -302,9 +246,8 @@ public class SpringDataToursServiceImpl implements ToursService {
         ItemService newItemService = new ItemService(quantity, purchase, service);
         purchase.addItemService(newItemService);
         service.addItemService(newItemService);
-        this.itemServiceRepository.save(newItemService);
 
-        return newItemService;
+        return this.exceptionHandler(this.itemServiceRepository, newItemService);
     }
 
     @Override
@@ -322,11 +265,10 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional
     public Review addReviewToPurchase(int rating, String comment, Purchase purchase) throws ToursException {
-        Review review = new Review(rating, comment, purchase);
-        purchase.setReview(review);
-        reviewRepository.save(review);
+        Review newReview = new Review(rating, comment, purchase);
+        purchase.setReview(newReview);
 
-        return review;
+        return this.exceptionHandler(reviewRepository, newReview);
     }
 
     @Override
@@ -386,12 +328,9 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<Route> getRoutsNotSell() {
-        List<Purchase> purchases = (List<Purchase>)purchaseRepository.findAll();
-        List<Route> purchasesRoutes = purchases.stream()
-                                        .map(Purchase::getRoute)
-                                        .collect(Collectors.toList());
-        List<Route> routesNotIn = routeRepository.findNotIn(purchasesRoutes);
-        return routesNotIn;
+        List<Long> routesIdsSell = this.purchaseRepository.findAllRoutesIds();
+
+        return this.routeRepository.findByIdNotIn(routesIdsSell);
     }
 
     @Override
@@ -417,5 +356,14 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Transactional(readOnly = true)
     public List<TourGuideUser> getTourGuidesWithRating1() {
         return this.tourGuideUserRepository.getTourGuidesWithRating1();
+    }
+
+    @Transactional
+    protected <T> T exceptionHandler(CrudRepository<T, Long> repository, T object) throws ToursException{
+        try{
+            return repository.save(object);
+        }catch (DataIntegrityViolationException e){
+            throw new ToursException("Constraint Violation");
+        }
     }
 }

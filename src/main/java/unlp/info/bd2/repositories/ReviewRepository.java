@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import unlp.info.bd2.model.Review;
 
 @Repository
-public interface ReviewRepository extends CrudRepository<Review, Integer> {
+public interface ReviewRepository extends CrudRepository<Review, Long> {
 
 }

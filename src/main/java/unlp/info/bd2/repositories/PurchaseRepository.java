@@ -1,5 +1,4 @@
 package unlp.info.bd2.repositories;
-import org.springframework.data.domain.Pageable;
 import unlp.info.bd2.model.*;
 
 import org.springframework.data.jpa.repository.Query;
@@ -22,5 +21,6 @@ public interface PurchaseRepository extends CrudRepository<Purchase, Long> {
 
     long countByDateBetween(Date start, Date end);
 
-
+    @Query("SELECT DISTINCT p.route.id FROM Purchase p")
+    List<Long> findAllRoutesIds();
 }

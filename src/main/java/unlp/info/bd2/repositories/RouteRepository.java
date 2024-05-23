@@ -1,5 +1,4 @@
 package unlp.info.bd2.repositories;
-import unlp.info.bd2.model.Purchase;
 import unlp.info.bd2.model.Route;
 import unlp.info.bd2.model.Stop;
 
@@ -15,7 +14,7 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
     List<Route> findByPriceLessThan(float price);
     List<Route> findByStops(Stop stop);
 
-    List<Route> findNotIn(List<Route> routes);
+    List<Route> findByIdNotIn(List<Long> routes_ids);
 
     @Query("SELECT SIZE(s) FROM Route r JOIN r.stops s GROUP BY r.id ORDER BY SIZE(s) DESC")
     Long getMaxStopOfRoutes(PageRequest Pageable);
