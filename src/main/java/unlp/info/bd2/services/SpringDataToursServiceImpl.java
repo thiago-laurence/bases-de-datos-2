@@ -8,10 +8,13 @@ import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.*;
 import unlp.info.bd2.utils.ToursException;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
 public class SpringDataToursServiceImpl implements ToursService {
@@ -383,7 +386,12 @@ public class SpringDataToursServiceImpl implements ToursService {
     @Override
     @Transactional(readOnly = true)
     public List<Route> getRoutsNotSell() {
-        return routeRepository.findRoutsNotSell();
+        List<Purchase> purchases = (List<Purchase>)purchaseRepository.findAll();
+        List<Route> purchasesRoutes = purchases.stream()
+                                        .map(Purchase::getRoute)
+                                        .collect(Collectors.toList());
+        List<Route> routesNotIn = routeRepository.findNotIn(purchasesRoutes);
+        return routesNotIn;
     }
 
     @Override
