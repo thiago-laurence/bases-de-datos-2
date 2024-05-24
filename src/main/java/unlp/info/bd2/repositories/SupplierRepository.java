@@ -4,13 +4,12 @@ import org.springframework.data.jpa.repository.Query;
 import unlp.info.bd2.model.Supplier;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SupplierRepository extends CrudRepository<Supplier, Long> {
+public interface SupplierRepository extends Store<Supplier> {
     Optional<Supplier> findByAuthorizationNumber(String authorizationNumber);
 
     @Query("SELECT s " +

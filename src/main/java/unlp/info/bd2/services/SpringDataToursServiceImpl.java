@@ -3,7 +3,6 @@ package unlp.info.bd2.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.model.*;
 import unlp.info.bd2.repositories.*;
@@ -359,7 +358,7 @@ public class SpringDataToursServiceImpl implements ToursService {
     }
 
     @Transactional
-    protected <T> T exceptionHandler(CrudRepository<T, Long> repository, T object) throws ToursException{
+    protected <T> T exceptionHandler(Store<T> repository, T object) throws ToursException{
         try{
             return repository.save(object);
         }catch (DataIntegrityViolationException e){
