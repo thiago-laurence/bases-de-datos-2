@@ -1,4 +1,4 @@
-package unlp.info.bd2.repositories;
+package unlp.info.bd2.repositories.hibernate;
 
 import java.util.Date;
 import java.util.List;
@@ -9,11 +9,11 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import unlp.info.bd2.model.*;
+import unlp.info.bd2.models.*;
 import unlp.info.bd2.utils.ToursException;
 
 @Repository
-public class ToursRepositoryImpl implements ToursRepository{
+public class HibernateToursRepositoryImpl implements HibernateToursRepository {
 
     @Autowired
     private SessionFactory sessionFactory;

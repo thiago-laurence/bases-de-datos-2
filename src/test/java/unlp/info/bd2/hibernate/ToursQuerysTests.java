@@ -1,4 +1,4 @@
-package unlp.info.bd2;
+package unlp.info.bd2.hibernate;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,10 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.config.AppConfig;
 import unlp.info.bd2.config.HibernateConfiguration;
-import unlp.info.bd2.model.*;
-import unlp.info.bd2.services.ToursService;
+import unlp.info.bd2.services.hibernate.HibernateToursService;
 import unlp.info.bd2.utils.DBInitializer;
 import unlp.info.bd2.utils.ToursException;
+import unlp.info.bd2.models.*;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -38,7 +38,7 @@ public class ToursQuerysTests {
     DBInitializer initializer;
 
     @Autowired
-    ToursService service;
+    HibernateToursService service;
 
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 

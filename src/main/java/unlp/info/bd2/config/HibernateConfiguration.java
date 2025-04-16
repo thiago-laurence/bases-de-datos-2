@@ -22,7 +22,7 @@ public class HibernateConfiguration {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(this.dataSource());
-        sessionFactory.setPackagesToScan(new String[]{"unlp.info.bd2.model"});
+        sessionFactory.setPackagesToScan(new String[]{"unlp.info.bd2.models"});
         sessionFactory.setHibernateProperties(this.hibernateProperties());
         return sessionFactory;
     }

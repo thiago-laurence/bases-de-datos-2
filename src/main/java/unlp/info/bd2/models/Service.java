@@ -1,4 +1,4 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.models;
 
 import java.util.ArrayList;
 import java.util.List;

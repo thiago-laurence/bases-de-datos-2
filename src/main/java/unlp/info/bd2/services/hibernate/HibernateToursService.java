@@ -1,12 +1,12 @@
-package unlp.info.bd2.services;
-import unlp.info.bd2.model.*;
+package unlp.info.bd2.services.hibernate;
+import unlp.info.bd2.models.*;
 import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface ToursService {
+public interface HibernateToursService {
 
     User createUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber) throws ToursException;
     DriverUser createDriverUser(String username, String password, String fullName, String email, Date birthdate, String phoneNumber, String expedient) throws ToursException;

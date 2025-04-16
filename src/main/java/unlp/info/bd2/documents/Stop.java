@@ -1,22 +1,25 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.documents;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.*;
+import org.springframework.data.mongodb.core.mapping.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
-
-@Entity
+@Document(collection = "stops")
 public class Stop {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    private String id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Indexed(unique = true)
     private String name;
-    @Column(nullable = false, length = 500)
+
+    @Field
     private String description;
 
-    @ManyToMany(mappedBy = "stops", fetch = FetchType.LAZY)
+    @DBRef(lazy = true)
     private List<Route> routes;
 
     public Stop(){ }
@@ -27,11 +30,11 @@ public class Stop {
         this.setRoutes(new ArrayList<Route>());
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

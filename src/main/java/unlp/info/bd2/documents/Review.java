@@ -1,21 +1,21 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.documents;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.*;
 
-@Entity
+@Document(collection = "reviews")
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(nullable = false, length = 5)
+    @Field
     private int rating;
-    @Column(nullable = false, length = 200)
+
+    @Field
     private String comment;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name= "purchase_id", nullable = false)
+    @DBRef(lazy = false)
     private Purchase purchase;
 
     public Review() { }
@@ -26,11 +26,11 @@ public class Review {
         this.setPurchase(purchase);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -12,9 +12,24 @@ services:
       - "3306:3306"
     networks:
       - app_network
+  mongo:
+    image: mongo
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: bd2_tours_5
+    volumes:
+      - ./resources/user-script.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongo_data:/data/db
+    networks:
+      - app_network
 
 volumes:
   mysql_data:
+  mongo_data:
 
 networks:
   app_network:

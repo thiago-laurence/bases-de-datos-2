@@ -1,18 +1,17 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.documents;
 
-import jakarta.persistence.*;
+import org.springframework.data.mongodb.core.mapping.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-public class DriverUser extends User {
+public class DriverUser extends User{
 
-    @Column(nullable = true, length = 50)
+    @Field
     private String expedient;
 
-    @ManyToMany(mappedBy = "driverList", fetch = FetchType.LAZY)
+    @DBRef(lazy = true)
     private List<Route> routes;
 
     public DriverUser() {}

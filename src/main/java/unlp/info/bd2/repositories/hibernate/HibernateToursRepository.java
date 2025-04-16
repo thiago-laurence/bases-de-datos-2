@@ -1,13 +1,13 @@
-package unlp.info.bd2.repositories;
+package unlp.info.bd2.repositories.hibernate;
 
-import unlp.info.bd2.model.*;
+import unlp.info.bd2.models.*;
 import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
 import java.util.Optional;
 import java.util.List;
 
-public interface ToursRepository {
+public interface HibernateToursRepository {
     void remove(Object object);
     Object merge(Object object) throws ToursException;
     void save(Object object) throws ToursException;

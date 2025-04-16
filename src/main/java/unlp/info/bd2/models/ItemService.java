@@ -1,4 +1,4 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.models;
 
 import jakarta.persistence.*;
 

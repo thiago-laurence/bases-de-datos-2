@@ -1,34 +1,35 @@
-package unlp.info.bd2;
+package unlp.info.bd2.mongo;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.config.AppConfig;
-import unlp.info.bd2.config.HibernateConfiguration;
-import unlp.info.bd2.services.ToursService;
+import unlp.info.bd2.config.MongoConfiguration;
+import unlp.info.bd2.documents.*;
+import unlp.info.bd2.services.mongo.MongoToursService;
 import unlp.info.bd2.utils.ToursException;
-import unlp.info.bd2.model.*;
+
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
-@ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {MongoConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
 @ExtendWith(SpringExtension.class)
-@Transactional
-@Rollback(true)
 class ToursApplicationTests {
 
 	@Autowired
-	private ToursService toursService;
+	private MongoToursService toursService;
+
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	private Date dob1;
 	private Date dob2;
@@ -37,6 +38,12 @@ class ToursApplicationTests {
 
 	@BeforeEach
 	public void setUp(){
+		for (String collectionName : mongoTemplate.getCollectionNames()) {
+			if (!collectionName.startsWith("system.")) {
+				mongoTemplate.remove(new Query(), collectionName);
+			}
+		}
+
 		Calendar cal1 = Calendar.getInstance();
 		cal1.set(1980, Calendar.APRIL, 5);
 		this.dob1 = cal1.getTime();
@@ -162,8 +169,8 @@ class ToursApplicationTests {
 		assertEquals(1, route.getTourGuideList().size());
 		assertEquals("userG1", route.getTourGuideList().get(0).getUsername());
 
-		assertThrows(ToursException.class, () -> this.toursService.assignTourGuideByUsername("user_no_existente", tourGuideUser1.getId()) , "No pudo realizarse la asignación");
-		assertThrows(ToursException.class, () -> this.toursService.assignDriverByUsername(driverUser1.getUsername(), 1000000L) , "No pudo realizarse la asignación");
+		assertThrows(ToursException.class, () -> this.toursService.assignTourGuideByUsername("user_no_existente", route1.getId()) , "No pudo realizarse la asignación");
+		assertThrows(ToursException.class, () -> this.toursService.assignDriverByUsername(driverUser1.getUsername(), "101010L") , "No pudo realizarse la asignación");
 	}
 
 	@Test
@@ -209,7 +216,7 @@ class ToursApplicationTests {
 		Service service2 = this.toursService.updateServicePriceById(service1.getId(), 600f);
 		assertEquals(600f, service2.getPrice());
 
-		assertThrows(ToursException.class, () -> this.toursService.updateServicePriceById(100000L, 500f), "No existe el producto");
+		assertThrows(ToursException.class, () -> this.toursService.updateServicePriceById("10101L", 500f), "No existe el producto");
 	}
 
 	@Test
@@ -232,7 +239,7 @@ class ToursApplicationTests {
 
 		ItemService itemService1 = this.toursService.addItemToPurchase(service1, 1, purchase1);
 		assertNotNull(itemService1.getId());
-		assertEquals(supplier1.getId(), itemService1.getService().getId());
+		assertEquals(supplier1.getId(), itemService1.getService().getSupplier().getId());
 		assertEquals(purchase1.getId(), itemService1.getPurchase().getId());
 		ItemService itemService2 = this.toursService.addItemToPurchase(service2, 2, purchase1);
 
@@ -317,7 +324,9 @@ class ToursApplicationTests {
 		TourGuideUser tourGuideUser = this.toursService.createTourGuideUser("userG", "1234|", "Usuario TourGuide", "userg@gmail.com", dob2, "000111222555", "edu...");
 		this.toursService.assignTourGuideByUsername(tourGuideUser.getUsername(), route1.getId());
 		assertTrue(tourGuideUser.isActive());
-		assertThrows(ToursException.class, () -> this.toursService.deleteUser(tourGuideUser), "El usuario no puede ser desactivado");
+		Optional<User> opTourGuideUser = this.toursService.getUserById(tourGuideUser.getId());
+		assertTrue(opTourGuideUser.isPresent());
+		assertThrows(ToursException.class, () -> this.toursService.deleteUser(opTourGuideUser.get()), "El usuario no puede ser desactivado");
 	}
 
 }

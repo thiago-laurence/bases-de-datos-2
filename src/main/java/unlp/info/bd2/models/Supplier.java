@@ -1,8 +1,9 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.models;
+
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.*;
 
 @Entity
 public class Supplier {
@@ -13,6 +14,7 @@ public class Supplier {
 
     @Column(name = "business_name", nullable = false, unique = true, length = 30)
     private String businessName;
+
     @Column(name = "authorization_number", nullable = false, unique = true, length = 10)
     private String authorizationNumber;
 
@@ -66,5 +68,4 @@ public class Supplier {
             this.getServices().add(service);
         }
     }
-
 }

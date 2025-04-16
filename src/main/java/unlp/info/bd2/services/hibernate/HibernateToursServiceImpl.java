@@ -1,8 +1,8 @@
-package unlp.info.bd2.services;
+package unlp.info.bd2.services.hibernate;
 
 import org.springframework.transaction.annotation.Transactional;
-import unlp.info.bd2.model.*;
-import unlp.info.bd2.repositories.ToursRepository;
+import unlp.info.bd2.models.*;
+import unlp.info.bd2.repositories.hibernate.HibernateToursRepository;
 import unlp.info.bd2.utils.ToursException;
 
 import java.util.Date;
@@ -12,12 +12,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @org.springframework.stereotype.Service
-public class ToursServiceImpl implements ToursService{
+public class HibernateToursServiceImpl implements HibernateToursService {
 
     @Autowired
-    private final ToursRepository toursRepository;
+    private final HibernateToursRepository toursRepository;
 
-    public ToursServiceImpl(ToursRepository repository) throws ToursException {
+    public HibernateToursServiceImpl(HibernateToursRepository repository) throws ToursException {
         this.toursRepository = repository;
     }
 

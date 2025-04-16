@@ -1,7 +1,6 @@
-package unlp.info.bd2.model;
+package unlp.info.bd2.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.SQLRestriction;
 
 import java.util.ArrayList;
 import java.util.Date;
