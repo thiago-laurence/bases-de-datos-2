@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
         "unlp.info.bd2.documents"
 })
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
+
     @Override
     protected String getDatabaseName() {
         return "bd2_tours_" + getGroupNumber();
@@ -23,7 +24,7 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
     @Override
     @Bean
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb://AdminGrupo5:AdminGrupo5Password@localhost:27017/bd2_tours_" + getDatabaseName() + "?authSource=bd2_tours_5");
+        return MongoClients.create("mongodb://AdminGrupo5:AdminGrupo5Password@localhost:27017/" + getDatabaseName() + "?authSource=bd2_tours_5");
     }
 
     @Override

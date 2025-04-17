@@ -6,19 +6,19 @@ import org.springframework.transaction.annotation.Transactional;
 import unlp.info.bd2.services.hibernate.HibernateToursService;
 import unlp.info.bd2.services.mongo.MongoToursService;
 
-import unlp.info.bd2.documents.*;
-//import unlp.info.bd2.models.*;
+//import unlp.info.bd2.documents.*;
+import unlp.info.bd2.models.*;
 
 import java.time.LocalDate;
 import java.util.*;
 
 public class DBInitializer {
 
-    @Autowired
-    MongoToursService toursService;
-
 //    @Autowired
-//    HibernateToursService toursService;
+//    MongoToursService toursService;
+
+    @Autowired
+    HibernateToursService toursService;
 
     @Transactional
     public void prepareDB() throws ToursException {

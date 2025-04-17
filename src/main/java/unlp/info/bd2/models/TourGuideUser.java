@@ -49,7 +49,7 @@ public class TourGuideUser extends User {
     }
 
     @Override
-    public boolean isDeleteable(){
-        return (super.isDeleteable() && this.getRoutes().isEmpty());
+    public boolean isDeletable(){
+        return (super.isDeletable() && this.getRoutes().isEmpty());
     }
 }

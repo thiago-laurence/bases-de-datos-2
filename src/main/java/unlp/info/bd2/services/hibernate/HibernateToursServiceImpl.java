@@ -1,6 +1,10 @@
 package unlp.info.bd2.services.hibernate;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
+
 import unlp.info.bd2.models.*;
 import unlp.info.bd2.repositories.hibernate.HibernateToursRepository;
 import unlp.info.bd2.utils.ToursException;
@@ -49,8 +53,10 @@ public class HibernateToursServiceImpl implements HibernateToursService {
     }
 
     @Override
+    @Cacheable(value = "user", key = "#id")
     @Transactional(readOnly = true)
     public Optional<User> getUserById(Long id) throws ToursException {
+        System.out.println("Access to DB");
         return (
                 this.toursRepository.getUserById(id)
         );
@@ -65,6 +71,7 @@ public class HibernateToursServiceImpl implements HibernateToursService {
     }
 
     @Override
+    @CachePut(value = "user", key = "#user.id")
     @Transactional
     public User updateUser(User user) throws ToursException {
         return (
@@ -73,13 +80,14 @@ public class HibernateToursServiceImpl implements HibernateToursService {
     }
 
     @Override
+    @CacheEvict(value = "user", key = "#user.id")
     @Transactional
     public void deleteUser(User user) throws ToursException {
         if (!user.isActive()){
             throw new ToursException("El usuario se encuentra desactivado");
         }
 
-        if (user.isDeleteable()){
+        if (user.isDeletable()){
             this.toursRepository.remove(user);
             return;
         }

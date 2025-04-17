@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import unlp.info.bd2.config.AppConfig;
+import unlp.info.bd2.config.AppConfigMongo;
 import unlp.info.bd2.config.MongoConfiguration;
 import unlp.info.bd2.documents.*;
 import unlp.info.bd2.services.mongo.MongoToursService;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = {MongoConfiguration.class, AppConfig.class, DBInitializer.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {MongoConfiguration.class, AppConfigMongo.class, DBInitializer.class}, loader = AnnotationConfigContextLoader.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ToursQuerysTests {
 

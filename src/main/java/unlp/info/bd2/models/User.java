@@ -1,7 +1,9 @@
 package unlp.info.bd2.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE")
 @Table(indexes = @Index(name = "user_type_index", columnList = "USER_TYPE"))
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -119,10 +121,12 @@ public class User {
         this.active = active;
     }
 
-    public boolean isDeleteable(){
+    @JsonIgnore
+    public boolean isDeletable(){
         return (this.getPurchaseList().isEmpty() && this.isActive());
     }
 
+    @JsonIgnore
     public boolean isBaneable(){
         return (!this.getPurchaseList().isEmpty());
     }

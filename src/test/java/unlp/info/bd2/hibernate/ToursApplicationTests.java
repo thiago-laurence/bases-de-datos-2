@@ -11,8 +11,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
-import unlp.info.bd2.config.AppConfig;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+
+import unlp.info.bd2.config.AppConfigHibernate;
 import unlp.info.bd2.config.HibernateConfiguration;
+import unlp.info.bd2.config.RedisConfig;
 import unlp.info.bd2.services.hibernate.HibernateToursService;
 import unlp.info.bd2.utils.ToursException;
 import unlp.info.bd2.models.*;
@@ -23,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
-@ContextConfiguration(classes = {HibernateConfiguration.class, AppConfig.class}, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = {HibernateConfiguration.class, RedisConfig.class, AppConfigHibernate.class}, loader = AnnotationConfigContextLoader.class)
 @ExtendWith(SpringExtension.class)
 @Transactional
 @Rollback(true)
@@ -31,6 +35,9 @@ class ToursApplicationTests {
 
 	@Autowired
 	private HibernateToursService toursService;
+
+	@Autowired
+	private CacheManager cacheManager;
 
 	private Date dob1;
 	private Date dob2;
@@ -50,6 +57,56 @@ class ToursApplicationTests {
 		this.dyes = cal1.getTime();
 	}
 
+	@Test
+	void testGetUserAndCheckCacheIt() throws ToursException {
+		User user1 = this.toursService.createUser("user1", "1234", "Usuario Uno", "user1@gmail.com", dob1, "000111222333");
+		assertNotNull(user1.getId());
+		Optional<User> opUserFromDB = this.toursService.getUserById(user1.getId());
+		assertTrue(opUserFromDB.isPresent());
+		User user = opUserFromDB.get();
+
+		Cache cache = cacheManager.getCache("user");
+		assertNotNull(cache);
+		User userCached = cache.get(user.getId(), User.class);
+		assertNotNull(userCached);
+		assertEquals(user.getUsername(), userCached.getUsername());
+	}
+
+	@Test
+	void testUpdateUserAndCheckCacheRefreshes() throws ToursException {
+		User user1 = this.toursService.createUser("user2", "1234", "Usuario Dos", "user2@gmail.com", dob1, "000111222334");
+		assertNotNull(user1.getId());
+
+		Optional<User> opUserFromDB = this.toursService.getUserById(user1.getId());
+		assertTrue(opUserFromDB.isPresent());
+		User userFromDB = opUserFromDB.get();
+		assertEquals("000111222334", userFromDB.getPhoneNumber());
+
+		userFromDB.setPhoneNumber("999888777");
+		User updatedUser = this.toursService.updateUser(userFromDB);
+
+		Cache cache = cacheManager.getCache("user");
+		assertNotNull(cache);
+		User cachedUser = cache.get(updatedUser.getId(), User.class);
+		assertNotNull(cachedUser);
+		assertEquals("999888777", cachedUser.getPhoneNumber());
+	}
+
+	@Test
+	void testDeleteUserAndCheckCacheEvicted() throws ToursException {
+		User user1 = this.toursService.createUser("user3", "1234", "Usuario Tres", "user3@gmail.com", dob1, "000111222335");
+		Long id = user1.getId();
+
+		this.toursService.getUserById(id);
+
+		Cache cache = cacheManager.getCache("user");
+		assertNotNull(cache);
+		assertNotNull(cache.get(id, User.class));
+
+		this.toursService.deleteUser(user1);
+
+		assertNull(cache.get(id, User.class));
+	}
 
 	@Test
 	void createAndGetUserTest()  throws ToursException {
@@ -64,7 +121,6 @@ class ToursApplicationTests {
 		assertNotNull(driverUser1.getId());
 		TourGuideUser tourGuideUser1 = this.toursService.createTourGuideUser("userG", "1234", "Usuario TourGuide", "userg@gmail.com", dob2, "000111222555", "edu...");
 		assertNotNull(tourGuideUser1.getId());
-
 
 		Optional<User> opUserFromDB = this.toursService.getUserById(user1.getId());
 		assertTrue(opUserFromDB.isPresent());
